@@ -11,4 +11,5 @@
  npm install
  ```
  under the project root directory.
+ 
  Now, you can use truffle to develop and test this project.

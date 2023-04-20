@@ -65,6 +65,11 @@ contract The_Ohara_Protocol is Initializable, ERC1155Upgradeable, AccessControlU
      * @dev See the comment of grantPublisher() above for more info about the string publisher and the bytes32 role.
      * This function should be invoked after a publisher has registered (the default roleAdmin for any role is DEFAULT_ADMIN_ROLE),
      * indicating that from this point on, only the publisher can manage which accounts can act on its behalf.
+     * 
+     * The current function doesn't require any modifier yet,
+     * for that it simply sets the admin role for the role represented by the magic string to itself.
+     * Even if someone naughty enters others' magic string to this function,
+     * the worst he can do is setting the victims' admin role to the victims themselves, which isn't a significant concern.
      */
     function setRoleAdminAsPublisherItself(string memory publisher) public virtual {
         bytes32 role = keccak256(abi.encode(publisher));
