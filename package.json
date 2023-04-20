@@ -1,0 +1,20 @@
+{
+  "name": "the_ohara_protocol",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@openzeppelin/truffle-upgrades": "^1.17.1",
+    "chai": "^4.3.7",
+    "truffle": "^5.1.65"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts-upgradeable": "^4.8.3"
+  }
+}
