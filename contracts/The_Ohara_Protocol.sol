@@ -40,7 +40,7 @@ contract The_Ohara_Protocol is Initializable, ERC1155Upgradeable, AccessControlU
     }
 
     /**
-     * @dev The publisher who wants to claims an account belongs to them must use this function
+     * @dev The publisher who wants to claim an account belongs to them must use this function
      * with the magic string that represents themselves.
      * The magic string should conform to the following format:
      * it must be in English,
