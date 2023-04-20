@@ -63,7 +63,7 @@ contract The_Ohara_Protocol is Initializable, ERC1155Upgradeable, AccessControlU
 
     /**
      * @dev See the comment of grantPublisher() above for more info about the string publisher and the bytes32 role.
-     * This function should be invoked after a publisher has registered (the default roleAdmin for any role is DEFAULT_ADMIN_ROLE),
+     * This function should be invoked after a publisher has registered (the default admin role for any role is DEFAULT_ADMIN_ROLE),
      * indicating that from this point on, only the publisher can manage which accounts can act on its behalf.
      * 
      * The current function doesn't require any modifier yet,
