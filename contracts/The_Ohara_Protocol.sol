@@ -50,7 +50,7 @@ contract The_Ohara_Protocol is Initializable, ERC1155Upgradeable, AccessControlU
      * For instance, the magic string for 誠品書店 would be ESLITE_BOOKSTORE.
      * 
      * The function will uses keccak256 solidity function to hash this string, but before that, it must be represented as bytes32.
-     * The type conversionfrom "string memory" to "bytes32" isn't allowed, so we uses abi.encode() here.
+     * The type conversion from "string memory" to "bytes32" isn't allowed, so we uses abi.encode() here.
      * See https://ethereum.stackexchange.com/questions/119583/when-to-use-abi-encode-abi-encodepacked-or-abi-encodewithsignature-in-solidity
      * for the reason of this selection.
      * After that, we use grantRole() function from AccessControl,
