@@ -53,8 +53,10 @@ contract The_Ohara_Protocol is Initializable, ERC1155Upgradeable, AccessControlU
      * The type conversion from "string memory" to "bytes32" isn't allowed, so we uses abi.encode() here.
      * See https://ethereum.stackexchange.com/questions/119583/when-to-use-abi-encode-abi-encodepacked-or-abi-encodewithsignature-in-solidity
      * for the reason of this selection.
+     * 
      * After that, we use grantRole() function from AccessControl,
-     * the reason we don't directly use _grantRole() here is because the onlyRole(getRoleAdmin(role)) should also be passed in this operation.
+     * the reason we don't directly use _grantRole() here is because the onlyRole(getRoleAdmin(role)) should also be passed in this operation,
+     * and since grantRole() has that modifier originally, the current function doesn't require any modifier yet.
      */
     function grantPublisher(string memory publisher, address account) public virtual {
         bytes32 role = keccak256(abi.encode(publisher));
@@ -76,6 +78,20 @@ contract The_Ohara_Protocol is Initializable, ERC1155Upgradeable, AccessControlU
         _setRoleAdmin(role, role);
     }
 
+    /**
+     * @dev See the comment of grantPublisher() above for more info about the string publisher and the bytes32 role.
+     * Only the old publisher could set the publisher of an id to a new one.
+     * Since the default publisher of the id is 0x00, the first publisher of the id must be set by the DEFAULT_ADMIN_ROLE.
+     */
+    function setIdToPublisher(uint256 id, string memory publisher)
+        public
+        onlyRole(_idToPublisher[id])
+    {
+        bytes32 role = keccak256(abi.encode(publisher));
+        _idToPublisher[id] = role;
+    }
+
+
     function pause() public onlyRole(DEFAULT_ADMIN_ROLE) {
         _pause();
     }
@@ -84,6 +100,7 @@ contract The_Ohara_Protocol is Initializable, ERC1155Upgradeable, AccessControlU
         _unpause();
     }
 
+    // The publisher of the id would have power to mint the id to whoever they want.
     function mint(address account, uint256 id, uint256 amount, bytes memory data)
         public
         onlyRole(_idToPublisher[id])
