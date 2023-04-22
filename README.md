@@ -32,4 +32,4 @@
 
  If you don't have docker & docker-compose, go get them.
 
- Then, you can use url like "https://localhost:8000/balanceOf/?account=<account>&id=<id>" to interact with the contract.
+ Then, you can use url like "https://localhost:8000/balanceOf/?account=YOUR_ACCOUNT&id=ID" to interact with the contract.
