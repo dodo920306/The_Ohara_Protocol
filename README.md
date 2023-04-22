@@ -8,7 +8,7 @@
 ## Installation
  Please clone this repository and run
  ```bash
- npm install
+ $ npm install
  ```
  under the project root directory.
  
@@ -17,7 +17,7 @@
  Use
 
  ```bash
- truffle migrate --network goerli
+ $ truffle migrate --network goerli
  ```
  
  to upload the contract and proxy on chain.
@@ -25,7 +25,7 @@
  Finally, use
 
  ```bash
- cd django-on-docker && docker-compose up -d --build
+ $ cd django-on-docker && docker-compose up -d --build
  ```
 
  to run the server.
