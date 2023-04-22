@@ -13,3 +13,23 @@
  under the project root directory.
  
  Now, you can use truffle to develop and test this project.
+
+ Use
+
+ ```bash
+ truffle migrate --network goerli
+ ```
+ 
+ to upload the contract and proxy on chain.
+
+ Finally, use
+
+ ```bash
+ cd django-on-docker && docker-compose up -d --build
+ ```
+
+ to run the server.
+
+ If you don't have docker & docker-compose, go get them.
+
+ Then, you can use url like "https://localhost:8000/balanceOf/?account=<account>&id=<id>" to interact with the contract.
