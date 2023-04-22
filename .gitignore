@@ -1,1 +1,5 @@
 node_modules
+django-on-docker/.env.prod
+django-on-docker/.env.prod.db
+django-on-docker/app/env
+.env
