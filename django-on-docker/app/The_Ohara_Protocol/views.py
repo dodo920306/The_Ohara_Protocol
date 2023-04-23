@@ -1,15 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from web3 import Web3
-import json
-from hexbytes import HexBytes
 import os
-
-class HexJsonEncoder(json.JSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, HexBytes):
-            return obj.hex()
-        return super().default(obj)
 
 def sendTx(function_name, *args):
     w3 = Web3(Web3.HTTPProvider("https://goerli-rollup.arbitrum.io/rpc"))
