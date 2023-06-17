@@ -16,12 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from The_Ohara_Protocol.views import grantPublisher, setIdToPublisher, mint, balanceOf
+from The_Ohara_Protocol.views import grantPublisher, setIdToPublisher, grantPublisherByDefaultAdmin, setIdToPublisherByDefaultAdmin, mint, balanceOf
 
 urlpatterns = [
+    path("grantPublisherByDefaultAdmin/", grantPublisherByDefaultAdmin),
+    path("setIdToPublisherByDefaultAdmin/", setIdToPublisherByDefaultAdmin),
     path("grantPublisher/", grantPublisher),
     path("setIdToPublisher/", setIdToPublisher),
     path("mint/", mint),
-    path("balanceOf/", balanceOf),
+    path("balanceOf/", balanceOf, name="balanceOf"),
     path("admin/", admin.site.urls),
 ]

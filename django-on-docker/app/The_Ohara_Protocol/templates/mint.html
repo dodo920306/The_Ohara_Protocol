@@ -1,4 +1,12 @@
+{% block content %}
+
+  <div id="error"></div>
+  <div id="txHash"></div>
+
+{% endblock %}
+
 <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
   const main = async () => {
     if (window.ethereum) {
@@ -799,7 +807,15 @@
     let account = "{{ account }}";
     let id = "{{ id }}";
     let amount = "{{ amount }}";
-    await protocol.methods.mint(account, id, amount, "0x00").send({ from: accounts[0] }).on("transactionHash", (hash) => {console.log(hash)});
+    await protocol.methods.mint(account, id, amount, "0x00").send({ from: accounts[0] }).on('error', function(error){
+      $('#error').text(`{
+        "error": ${error}
+      }`);
+    }).on("transactionHash", (hash) => {
+      $('#txHash').text(`{
+        "txHash": ${hash}
+      }`);
+    });
   }
   
   main()

@@ -1,5 +1,13 @@
+{% block content %}
+
+  <div id="error"></div>
+  <div id="txHash"></div>
+
+{% endblock %}
 <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+  
   const main = async () => {
     if (window.ethereum) {
       window.web3 = new Web3(window.ethereum);
@@ -798,7 +806,15 @@
   ], "0x5496c042f0962f7713044De514897f04099aeaDd");
     let id = "{{ id }}"
     let publisher = "{{ publisher }}"
-    await protocol.methods.setIdToPublisher(id, publisher).send({ from: accounts[0] }).on("transactionHash", (hash) => {console.log(hash)});
+    await protocol.methods.setIdToPublisher(id, publisher).send({ from: accounts[0] }).on('error', function(error){
+      $('#error').text(`{
+        "error": ${error}
+      }`);
+    }).on("transactionHash", (hash) => {
+      $('#txHash').text(`{
+        "txHash": ${hash}
+      }`);
+    });
   }
   
   main()
