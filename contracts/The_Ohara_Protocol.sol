@@ -8,15 +8,58 @@ import "../node_modules/@openzeppelin/contracts-upgradeable/token/ERC1155/extens
 import "../node_modules/@openzeppelin/contracts-upgradeable/token/ERC1155/extensions/ERC1155SupplyUpgradeable.sol";
 import "../node_modules/@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "../node_modules/@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol";
-import { SeaportInterface } from "./SeaportInterface.sol";
-import "./ConsiderationStructs.sol";
+import "./Market.sol";
 
 /// @custom:security-contact dodo920306@gmail.com
 contract The_Ohara_Protocol is Initializable, ERC1155Upgradeable, AccessControlUpgradeable, PausableUpgradeable, ERC1155BurnableUpgradeable, ERC1155SupplyUpgradeable {
     
     mapping (uint256 => bytes32) idToPublisher; // Anyone can check which publisher an id belongs to.
     mapping (string => bool) publisherHasMember;
-    SeaportInterface seaport;
+
+    struct Listing {
+        uint256 price; // 賣價掛單價格
+        uint256 listedBalance; // 賣家上架的數量
+        uint256 buyerCounts; // 當前已匹配，且還未購買的買家
+        address[] buyers; // 已匹配的買家
+    }
+    
+    mapping (uint256 => mapping (address => Listing)) listings; // id => seller => Listing
+
+    //event EBookListed(uint256 indexed id, address indexed seller, uint256 indexed price, uint256 amount);
+    //event PriceModified(uint256 indexed id, address priceModifier, uint256 indexed originalPrice, uint256 indexed currentPrice);
+    //event ListingCancelled(uint256 indexed id, address indexed seller, address indexed canceller);
+    //event BuyerDetermined(uint256 indexed id, address indexed seller, address indexed buyer);
+    //event TransactionMade(address indexed seller, address indexed buyer, uint256 indexed id);
+
+    modifier isIdExisted(uint256 id) {
+        require(super.exists(id), "Invalid ID");
+        _;
+    }
+
+    modifier IsPriceOrAmountValid(uint256 priceOrAmount) {
+        require(priceOrAmount > 0, "Invalid price/amount");
+        _;
+    }
+
+    modifier isApproved(address seller) {
+        require(super.isApprovedForAll(msg.sender, seller), "Unauthorized");
+        _;
+    }
+
+    modifier isAddressValid(address addr) {
+        require(addr != address(0), "Invalid address");
+        _;
+    }
+
+    modifier IsEBookAvailableOnOrder(uint256 id, address seller) {  // 只能修改/下架已上架的電子書的價格
+        require(listings[id][seller].listedBalance > 0, "not listed or sold out");
+        _;
+    }
+
+    modifier IsBuyerDetermined(uint256 id, address seller) {  // 後端已匹配其中一位買家且已呼叫 determineBuyer，則不能再修改價格或是下架
+        require(listings[id][seller].buyerCounts == 0, "Buyer has determined");
+        _;
+    }
 
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
@@ -31,7 +74,7 @@ contract The_Ohara_Protocol is Initializable, ERC1155Upgradeable, AccessControlU
         _;
     }
 
-    function initialize(address seaportAddr) initializer public {
+    function initialize() initializer public {
         __ERC1155_init("");
         __AccessControl_init();
         __Pausable_init();
@@ -39,8 +82,6 @@ contract The_Ohara_Protocol is Initializable, ERC1155Upgradeable, AccessControlU
         __ERC1155Supply_init();
 
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
-        // Tim: create SeaportInterface instance
-        seaport = SeaportInterface(seaportAddr);
     }
 
     function setURI(string memory newuri) public whenNotPaused onlyRole(DEFAULT_ADMIN_ROLE) { // Tim: added whenNotPaused
@@ -138,11 +179,11 @@ contract The_Ohara_Protocol is Initializable, ERC1155Upgradeable, AccessControlU
     }
 
     // The publisher of the id would have power to mint the id to whoever they want.
-    function mint(address account, uint256 id, uint256 amount, bytes memory data)
+    function mint(address to, uint256 id, uint256 amount, bytes memory data)
         public
         onlyRole(idToPublisher[id])
     {
-        _mint(account, id, amount, data);
+        _mint(to, id, amount, data);
     }
 
     function mintBatch(address to, uint256[] memory ids, uint256[] memory amounts, bytes memory data)
@@ -154,11 +195,19 @@ contract The_Ohara_Protocol is Initializable, ERC1155Upgradeable, AccessControlU
 
     // Tim: added burn() & burnBatch()
     function burn(address from, uint256 id, uint256 amount) public override(ERC1155BurnableUpgradeable) {
+
+        require(balanceOf(from, id) - listedBalanceOf(from, id) >= amount, "burn amount exceeds unlisted balance"); // 只能銷毀未上架的數量
+
         super.burn(from, id, amount);
     }
 
-    function burnBatch(address account, uint256[] memory ids, uint256[] memory amounts) public override(ERC1155BurnableUpgradeable) {
-        super.burnBatch(account, ids, amounts);
+    function burnBatch(address from, uint256[] memory ids, uint256[] memory amounts) public override(ERC1155BurnableUpgradeable) {
+
+        for (uint256 i = 0 ; i < ids.length ; ++i) { // 只能銷毀未上架的數量
+            require(balanceOf(from, ids[i]) - listedBalanceOf(from, ids[i]) >= amounts[i], "burn amount exceeds unlisted balance");
+        }
+
+        super.burnBatch(from, ids, amounts);
     }
 
     function _beforeTokenTransfer(address operator, address from, address to, uint256[] memory ids, uint256[] memory amounts, bytes memory data)
@@ -166,6 +215,9 @@ contract The_Ohara_Protocol is Initializable, ERC1155Upgradeable, AccessControlU
         whenNotPaused
         override(ERC1155Upgradeable, ERC1155SupplyUpgradeable)
     {
+        for (uint256 i = 0 ; i < ids.length ; ++i) { // 只能轉移未上架的數量
+            require(balanceOf(from, ids[i]) - listedBalanceOf(from, ids[i]) >= amounts[i], "Insufficient balance to transfer");
+        }
         super._beforeTokenTransfer(operator, from, to, ids, amounts, data);
     }
 
@@ -184,7 +236,7 @@ contract The_Ohara_Protocol is Initializable, ERC1155Upgradeable, AccessControlU
         view
         virtual
         override(ERC1155Upgradeable)
-        returns(uint256 balance)
+        returns(uint256)
     {
         return super.balanceOf(account, id);
     }
@@ -213,86 +265,111 @@ contract The_Ohara_Protocol is Initializable, ERC1155Upgradeable, AccessControlU
         return super.totalSupply(id);
     }
 
-    // Tim: added functions in SeaportInterface.sol, except fulfillBasicOrder(for ERC721), information, & name
-    function fulfillOrder(Order memory order, bytes32 fulfillerConduitKey) public payable returns (bool fulfilled) {
-        fulfilled = seaport.fulfillOrder(order, fulfillerConduitKey);
+    // Tim: 在買家確認後，授權給合約轉移電子書給買家的權限(在 determineBuyer 中呼叫)
+    function _grantApprovalToContract(address seller) private {
+        super._setApprovalForAll(seller, address(this), true);
     }
 
-    function callFulfillAdvancedOrder(AdvancedOrder calldata advancedOrder, CriteriaResolver[] calldata criteriaResolvers, bytes32 fulfillerConduitKey, address recipient)
-        public
-        payable
-        returns (bool fulfilled)
-    {
-        fulfilled = seaport.fulfillAdvancedOrder(advancedOrder, criteriaResolvers, fulfillerConduitKey, recipient);
+    // Tim: 在買家完成交易後，取消合約的權限(在 purchaseEBook 中呼叫)
+    function _revokeApprovalFromContract(address seller) private {
+        super._setApprovalForAll(seller, address(this), false);
     }
 
-    function callFulfillAvailableOrders(
-            Order[] calldata orders,
-            FulfillmentComponent[][] calldata offerFulfillments,
-            FulfillmentComponent[][] calldata considerationFulfillments,
-            bytes32 fulfillerConduitKey,
-            uint256 maximumFulfilled
-        ) 
-        public
-        payable
-        returns (bool[] memory availableOrders, Execution[] memory executions)
-    {
-        (availableOrders, executions) = seaport.fulfillAvailableOrders(orders, offerFulfillments, considerationFulfillments, fulfillerConduitKey, maximumFulfilled);
+    function checkIsBuyer(uint256 id, address seller, address buyer) public view returns (int256) {
+        uint256 length = listings[id][seller].buyers.length;
+        address[] memory buyers = listings[id][seller].buyers;
+        
+        for (uint256 i = 0 ; i < length ; ++i) {
+            if (buyers[i] == buyer) {
+                return int256(i);
+            }
+        }
+
+        return -1;
     }
 
-    function callFulfillAvailableAdvancedOrders(
-            AdvancedOrder[] calldata advancedOrders,
-            CriteriaResolver[] calldata criteriaResolvers,
-            FulfillmentComponent[][] calldata offerFulfillments,
-            FulfillmentComponent[][] calldata considerationFulfillments,
-            bytes32 fulfillerConduitKey,
-            address recipient,
-            uint256 maximumFulfilled
-        )
-        public
-        payable
-        returns (bool[] memory availableOrders, Execution[] memory executions)
-    {
-        (availableOrders, executions) = seaport.fulfillAvailableAdvancedOrders(advancedOrders, criteriaResolvers, offerFulfillments, considerationFulfillments, fulfillerConduitKey, recipient, maximumFulfilled);
+    // Tim: 查看賣家某 ID 的已上架的數量
+    function listedBalanceOf(address account, uint256 id) public view virtual returns(uint256) {
+        return listings[id][account].listedBalance;
     }
 
-    function callMatchOrders(Order[] calldata orders, Fulfillment[] calldata fulfillments) external payable returns (Execution[] memory executions) {
-        executions = seaport.matchOrders(orders, fulfillments);
+    // Tim: 上架電子書
+    function listEBook(uint256 id, address seller, uint256 price, uint256 amount) public virtual isIdExisted(id) IsPriceOrAmountValid(price) IsPriceOrAmountValid(amount) isAddressValid(seller) isApproved(seller) {
+        require(balanceOf(seller, id) - listings[id][seller].listedBalance >= amount, "Insefficient balance to list"); // 總餘額 - 已上架的數量 >= 欲上架的數量
+
+        listings[id][seller].price = price;
+        listings[id][seller].listedBalance += amount;
+
+        //emit EBookListed(id, seller, price, amount);
     }
 
-    function callMatchAdvancedOrders(AdvancedOrder[] calldata orders, CriteriaResolver[] calldata criteriaResolvers, Fulfillment[] calldata fulfillments, address recipient)
-        public
-        payable
-        returns (Execution[] memory executions)
-    {
-        executions = seaport.matchAdvancedOrders(orders, criteriaResolvers, fulfillments, recipient);
+    // Tim: 修改已上架的電子書的價格
+    function modifyPrice(uint256 id, address seller, uint256 price) public virtual isIdExisted(id) IsPriceOrAmountValid(price) isAddressValid(seller) isApproved(seller) IsEBookAvailableOnOrder(id, seller) IsBuyerDetermined(id, seller) {
+
+        //uint256 originalPrice = listings[id][seller].price;
+        listings[id][seller].price = price;
+
+        //emit PriceModified (id, msg.sender, originalPrice, price);
     }
 
-    function allCancel(OrderComponents[] calldata orders) public returns (bool cancelled) {
-        cancelled = seaport.cancel(orders);
+    // Tim: 下架電子書
+    function cancelListing(uint256 id, address seller, uint256 amount) public virtual isIdExisted(id) IsPriceOrAmountValid(amount) isAddressValid(seller) isApproved(seller) IsEBookAvailableOnOrder(id, seller) IsBuyerDetermined(id, seller) {
+        require(listings[id][seller].listedBalance >= amount, "Exceeded amount to unlist"); // 上架數量 >= 欲下架數量
+
+        unchecked {
+            listings[id][seller].listedBalance -= amount;
+        }
+
+        if (listings[id][seller].listedBalance == 0) {
+            delete listings[id][seller];
+        }
+
+        //emit ListingCancelled(id, seller, msg.sender);
     }
 
-    function callValidate(Order[] calldata orders) public returns (bool validated) {
-        validated = seaport.validate(orders);
+    // Tim: 決定最終買家，限定後端呼叫
+    function determineBuyer(address seller, address buyer, uint256 id) public virtual onlyRole(DEFAULT_ADMIN_ROLE) isIdExisted(id) isAddressValid(seller) isAddressValid(buyer) {
+        require(listings[id][seller].listedBalance > listings[id][seller].buyerCounts, "Order all fulfilled"); // 已匹配所有買家
+
+        listings[id][seller].buyers.push(buyer);
+        listings[id][seller].buyerCounts ++;
+        
+        _grantApprovalToContract(seller);
+
+        //emit BuyerDetermined(id, seller, buyer);
     }
 
-    function callIncrementCounter() public returns (uint256 newCounter) {
-        newCounter = seaport.incrementCounter();
-    }
+    // Tim: 購買電子書，限定 buyers 內的買家呼叫
+    function purchaseEBook(uint256 id, address seller) public virtual isIdExisted(id) isAddressValid(seller) IsEBookAvailableOnOrder(id, seller) {
 
-    function callGetOrderHash(OrderComponents calldata order) public view returns (bytes32 orderHash) {
-        orderHash = seaport.getOrderHash(order);
-    }
+        address buyer = msg.sender;
+        int256 index = checkIsBuyer(id, seller, buyer);
+        require(index != -1, "not buyer");
 
-    function callGetOrderStatus(bytes32 orderHash) public view returns (bool isValidated, bool isCancelled, uint256 totalFilled, uint256 totalSize) {
-        (isValidated, isCancelled, totalFilled, totalSize) = seaport.getOrderStatus(orderHash);
-    }
+        uint256 price = listings[id][seller].price;
+        
+        //uint256 fee = price * 25 / 1000;
 
-    function callGetCounter(address offerer) public view returns (uint256 counter) {
-        counter = seaport.getCounter(offerer);
-    }
+        super.safeTransferFrom(seller, buyer, id, 0, ""); // transfer ebook to buyer
 
-    // The following functions are overrides required by Solidity.
+        (bool success, ) = seller.call{ value: price }(""); // transfer ether to seller
+        require(success, "Buying failed");
+
+        //(bool suucess, ) = multiSigWallet.call{ value: fee}("");
+        //require(success, "Buying failed");
+
+        _revokeApprovalFromContract(seller);
+
+        listings[id][seller].listedBalance --;
+        listings[id][seller].buyerCounts --;
+        listings[id][seller].buyers[uint256(index)] = address(0);
+
+        if (listings[id][seller].listedBalance == 0) {
+            delete listings[id][seller];
+        }
+
+        //emit TransactionMade(seller, buyer, id);
+    }
 
     function supportsInterface(bytes4 interfaceId)
         public

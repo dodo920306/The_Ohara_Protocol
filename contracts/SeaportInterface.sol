@@ -23,12 +23,12 @@ interface SeaportInterface {
         bytes32 fulfillerConduitKey
     ) external payable returns (bool fulfilled);
 
-    function fulfillAdvancedOrder(
+    /*function fulfillAdvancedOrder(
         AdvancedOrder calldata advancedOrder,
         CriteriaResolver[] calldata criteriaResolvers,
         bytes32 fulfillerConduitKey,
         address recipient
-    ) external payable returns (bool fulfilled);
+    ) external payable returns (bool fulfilled);*/
 
     function fulfillAvailableOrders(
         Order[] calldata orders,
@@ -41,7 +41,7 @@ interface SeaportInterface {
         payable
         returns (bool[] memory availableOrders, Execution[] memory executions);
 
-    function fulfillAvailableAdvancedOrders(
+    /*function fulfillAvailableAdvancedOrders(
         AdvancedOrder[] calldata advancedOrders,
         CriteriaResolver[] calldata criteriaResolvers,
         FulfillmentComponent[][] calldata offerFulfillments,
@@ -52,19 +52,19 @@ interface SeaportInterface {
     )
         external
         payable
-        returns (bool[] memory availableOrders, Execution[] memory executions);
+        returns (bool[] memory availableOrders, Execution[] memory executions);*/
 
-    function matchOrders(
+    /*function matchOrders(
         Order[] calldata orders,
         Fulfillment[] calldata fulfillments
-    ) external payable returns (Execution[] memory executions);
+    ) external payable returns (Execution[] memory executions);*/
 
-    function matchAdvancedOrders(
+    /*function matchAdvancedOrders(
         AdvancedOrder[] calldata orders,
         CriteriaResolver[] calldata criteriaResolvers,
         Fulfillment[] calldata fulfillments,
         address recipient
-    ) external payable returns (Execution[] memory executions);
+    ) external payable returns (Execution[] memory executions);*/
 
     function cancel(
         OrderComponents[] calldata orders

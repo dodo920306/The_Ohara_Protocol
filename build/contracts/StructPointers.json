@@ -27,7 +27,7 @@
         32
       ],
       "CalldataPointer": [
-        755
+        1480
       ],
       "ConsiderationItem": [
         113
@@ -48,7 +48,7 @@
         46
       ],
       "MemoryPointer": [
-        757
+        1482
       ],
       "OfferItem": [
         99
@@ -170,7 +170,7 @@
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
         "scope": 752,
-        "sourceUnit": 3394,
+        "sourceUnit": 4119,
         "src": "171:83:1",
         "symbolAliases": [
           {
@@ -179,7 +179,7 @@
               "name": "CalldataPointer",
               "nodeType": "Identifier",
               "overloadedDeclarations": [],
-              "referencedDeclaration": 755,
+              "referencedDeclaration": 1480,
               "src": "185:15:1",
               "typeDescriptions": {}
             },
@@ -191,7 +191,7 @@
               "name": "MemoryPointer",
               "nodeType": "Identifier",
               "overloadedDeclarations": [],
-              "referencedDeclaration": 757,
+              "referencedDeclaration": 1482,
               "src": "207:13:1",
               "typeDescriptions": {}
             },
@@ -4062,7 +4062,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$757",
+                    "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$1482",
                     "typeString": "MemoryPointer"
                   },
                   "typeName": {
@@ -4075,13 +4075,13 @@
                         "10741:13:1"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 757,
+                      "referencedDeclaration": 1482,
                       "src": "10741:13:1"
                     },
-                    "referencedDeclaration": 757,
+                    "referencedDeclaration": 1482,
                     "src": "10741:13:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$757",
+                      "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$1482",
                       "typeString": "MemoryPointer"
                     }
                   },
@@ -4221,7 +4221,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$755",
+                    "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$1480",
                     "typeString": "CalldataPointer"
                   },
                   "typeName": {
@@ -4234,13 +4234,13 @@
                         "11106:15:1"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 755,
+                      "referencedDeclaration": 1480,
                       "src": "11106:15:1"
                     },
-                    "referencedDeclaration": 755,
+                    "referencedDeclaration": 1480,
                     "src": "11106:15:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$755",
+                      "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$1480",
                       "typeString": "CalldataPointer"
                     }
                   },
@@ -4380,7 +4380,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$757",
+                    "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$1482",
                     "typeString": "MemoryPointer"
                   },
                   "typeName": {
@@ -4393,13 +4393,13 @@
                         "11447:13:1"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 757,
+                      "referencedDeclaration": 1482,
                       "src": "11447:13:1"
                     },
-                    "referencedDeclaration": 757,
+                    "referencedDeclaration": 1482,
                     "src": "11447:13:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$757",
+                      "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$1482",
                       "typeString": "MemoryPointer"
                     }
                   },
@@ -4539,7 +4539,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$755",
+                    "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$1480",
                     "typeString": "CalldataPointer"
                   },
                   "typeName": {
@@ -4552,13 +4552,13 @@
                         "11794:15:1"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 755,
+                      "referencedDeclaration": 1480,
                       "src": "11794:15:1"
                     },
-                    "referencedDeclaration": 755,
+                    "referencedDeclaration": 1480,
                     "src": "11794:15:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$755",
+                      "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$1480",
                       "typeString": "CalldataPointer"
                     }
                   },
@@ -4698,7 +4698,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$757",
+                    "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$1482",
                     "typeString": "MemoryPointer"
                   },
                   "typeName": {
@@ -4711,13 +4711,13 @@
                         "12159:13:1"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 757,
+                      "referencedDeclaration": 1482,
                       "src": "12159:13:1"
                     },
-                    "referencedDeclaration": 757,
+                    "referencedDeclaration": 1482,
                     "src": "12159:13:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$757",
+                      "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$1482",
                       "typeString": "MemoryPointer"
                     }
                   },
@@ -4857,7 +4857,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$755",
+                    "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$1480",
                     "typeString": "CalldataPointer"
                   },
                   "typeName": {
@@ -4870,13 +4870,13 @@
                         "12530:15:1"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 755,
+                      "referencedDeclaration": 1480,
                       "src": "12530:15:1"
                     },
-                    "referencedDeclaration": 755,
+                    "referencedDeclaration": 1480,
                     "src": "12530:15:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$755",
+                      "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$1480",
                       "typeString": "CalldataPointer"
                     }
                   },
@@ -5016,7 +5016,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$757",
+                    "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$1482",
                     "typeString": "MemoryPointer"
                   },
                   "typeName": {
@@ -5029,13 +5029,13 @@
                         "12871:13:1"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 757,
+                      "referencedDeclaration": 1482,
                       "src": "12871:13:1"
                     },
-                    "referencedDeclaration": 757,
+                    "referencedDeclaration": 1482,
                     "src": "12871:13:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$757",
+                      "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$1482",
                       "typeString": "MemoryPointer"
                     }
                   },
@@ -5175,7 +5175,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$755",
+                    "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$1480",
                     "typeString": "CalldataPointer"
                   },
                   "typeName": {
@@ -5188,13 +5188,13 @@
                         "13218:15:1"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 755,
+                      "referencedDeclaration": 1480,
                       "src": "13218:15:1"
                     },
-                    "referencedDeclaration": 755,
+                    "referencedDeclaration": 1480,
                     "src": "13218:15:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$755",
+                      "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$1480",
                       "typeString": "CalldataPointer"
                     }
                   },
@@ -5334,7 +5334,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$757",
+                    "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$1482",
                     "typeString": "MemoryPointer"
                   },
                   "typeName": {
@@ -5347,13 +5347,13 @@
                         "13568:13:1"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 757,
+                      "referencedDeclaration": 1482,
                       "src": "13568:13:1"
                     },
-                    "referencedDeclaration": 757,
+                    "referencedDeclaration": 1482,
                     "src": "13568:13:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$757",
+                      "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$1482",
                       "typeString": "MemoryPointer"
                     }
                   },
@@ -5493,7 +5493,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$755",
+                    "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$1480",
                     "typeString": "CalldataPointer"
                   },
                   "typeName": {
@@ -5506,13 +5506,13 @@
                         "13924:15:1"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 755,
+                      "referencedDeclaration": 1480,
                       "src": "13924:15:1"
                     },
-                    "referencedDeclaration": 755,
+                    "referencedDeclaration": 1480,
                     "src": "13924:15:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$755",
+                      "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$1480",
                       "typeString": "CalldataPointer"
                     }
                   },
@@ -5652,7 +5652,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$757",
+                    "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$1482",
                     "typeString": "MemoryPointer"
                   },
                   "typeName": {
@@ -5665,13 +5665,13 @@
                         "14298:13:1"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 757,
+                      "referencedDeclaration": 1482,
                       "src": "14298:13:1"
                     },
-                    "referencedDeclaration": 757,
+                    "referencedDeclaration": 1482,
                     "src": "14298:13:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$757",
+                      "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$1482",
                       "typeString": "MemoryPointer"
                     }
                   },
@@ -5811,7 +5811,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$755",
+                    "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$1480",
                     "typeString": "CalldataPointer"
                   },
                   "typeName": {
@@ -5824,13 +5824,13 @@
                         "14678:15:1"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 755,
+                      "referencedDeclaration": 1480,
                       "src": "14678:15:1"
                     },
-                    "referencedDeclaration": 755,
+                    "referencedDeclaration": 1480,
                     "src": "14678:15:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$755",
+                      "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$1480",
                       "typeString": "CalldataPointer"
                     }
                   },
@@ -5970,7 +5970,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$757",
+                    "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$1482",
                     "typeString": "MemoryPointer"
                   },
                   "typeName": {
@@ -5983,13 +5983,13 @@
                         "15049:13:1"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 757,
+                      "referencedDeclaration": 1482,
                       "src": "15049:13:1"
                     },
-                    "referencedDeclaration": 757,
+                    "referencedDeclaration": 1482,
                     "src": "15049:13:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$757",
+                      "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$1482",
                       "typeString": "MemoryPointer"
                     }
                   },
@@ -6129,7 +6129,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$755",
+                    "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$1480",
                     "typeString": "CalldataPointer"
                   },
                   "typeName": {
@@ -6142,13 +6142,13 @@
                         "15426:15:1"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 755,
+                      "referencedDeclaration": 1480,
                       "src": "15426:15:1"
                     },
-                    "referencedDeclaration": 755,
+                    "referencedDeclaration": 1480,
                     "src": "15426:15:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$755",
+                      "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$1480",
                       "typeString": "CalldataPointer"
                     }
                   },
@@ -6288,7 +6288,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$757",
+                    "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$1482",
                     "typeString": "MemoryPointer"
                   },
                   "typeName": {
@@ -6301,13 +6301,13 @@
                         "15785:13:1"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 757,
+                      "referencedDeclaration": 1482,
                       "src": "15785:13:1"
                     },
-                    "referencedDeclaration": 757,
+                    "referencedDeclaration": 1482,
                     "src": "15785:13:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$757",
+                      "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$1482",
                       "typeString": "MemoryPointer"
                     }
                   },
@@ -6447,7 +6447,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$755",
+                    "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$1480",
                     "typeString": "CalldataPointer"
                   },
                   "typeName": {
@@ -6460,13 +6460,13 @@
                         "16150:15:1"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 755,
+                      "referencedDeclaration": 1480,
                       "src": "16150:15:1"
                     },
-                    "referencedDeclaration": 755,
+                    "referencedDeclaration": 1480,
                     "src": "16150:15:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$755",
+                      "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$1480",
                       "typeString": "CalldataPointer"
                     }
                   },
@@ -6606,7 +6606,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$757",
+                    "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$1482",
                     "typeString": "MemoryPointer"
                   },
                   "typeName": {
@@ -6619,13 +6619,13 @@
                         "16479:13:1"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 757,
+                      "referencedDeclaration": 1482,
                       "src": "16479:13:1"
                     },
-                    "referencedDeclaration": 757,
+                    "referencedDeclaration": 1482,
                     "src": "16479:13:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$757",
+                      "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$1482",
                       "typeString": "MemoryPointer"
                     }
                   },
@@ -6765,7 +6765,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$755",
+                    "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$1480",
                     "typeString": "CalldataPointer"
                   },
                   "typeName": {
@@ -6778,13 +6778,13 @@
                         "16814:15:1"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 755,
+                      "referencedDeclaration": 1480,
                       "src": "16814:15:1"
                     },
-                    "referencedDeclaration": 755,
+                    "referencedDeclaration": 1480,
                     "src": "16814:15:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$755",
+                      "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$1480",
                       "typeString": "CalldataPointer"
                     }
                   },
@@ -6924,7 +6924,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$757",
+                    "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$1482",
                     "typeString": "MemoryPointer"
                   },
                   "typeName": {
@@ -6937,13 +6937,13 @@
                         "17167:13:1"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 757,
+                      "referencedDeclaration": 1482,
                       "src": "17167:13:1"
                     },
-                    "referencedDeclaration": 757,
+                    "referencedDeclaration": 1482,
                     "src": "17167:13:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$757",
+                      "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$1482",
                       "typeString": "MemoryPointer"
                     }
                   },
@@ -7083,7 +7083,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$755",
+                    "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$1480",
                     "typeString": "CalldataPointer"
                   },
                   "typeName": {
@@ -7096,13 +7096,13 @@
                         "17526:15:1"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 755,
+                      "referencedDeclaration": 1480,
                       "src": "17526:15:1"
                     },
-                    "referencedDeclaration": 755,
+                    "referencedDeclaration": 1480,
                     "src": "17526:15:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$755",
+                      "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$1480",
                       "typeString": "CalldataPointer"
                     }
                   },
@@ -7242,7 +7242,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$757",
+                    "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$1482",
                     "typeString": "MemoryPointer"
                   },
                   "typeName": {
@@ -7255,13 +7255,13 @@
                         "17873:13:1"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 757,
+                      "referencedDeclaration": 1482,
                       "src": "17873:13:1"
                     },
-                    "referencedDeclaration": 757,
+                    "referencedDeclaration": 1482,
                     "src": "17873:13:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$757",
+                      "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$1482",
                       "typeString": "MemoryPointer"
                     }
                   },
@@ -7401,7 +7401,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$755",
+                    "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$1480",
                     "typeString": "CalldataPointer"
                   },
                   "typeName": {
@@ -7414,13 +7414,13 @@
                         "18226:15:1"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 755,
+                      "referencedDeclaration": 1480,
                       "src": "18226:15:1"
                     },
-                    "referencedDeclaration": 755,
+                    "referencedDeclaration": 1480,
                     "src": "18226:15:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$755",
+                      "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$1480",
                       "typeString": "CalldataPointer"
                     }
                   },
@@ -7560,7 +7560,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$757",
+                    "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$1482",
                     "typeString": "MemoryPointer"
                   },
                   "typeName": {
@@ -7573,13 +7573,13 @@
                         "18588:13:1"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 757,
+                      "referencedDeclaration": 1482,
                       "src": "18588:13:1"
                     },
-                    "referencedDeclaration": 757,
+                    "referencedDeclaration": 1482,
                     "src": "18588:13:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$757",
+                      "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$1482",
                       "typeString": "MemoryPointer"
                     }
                   },
@@ -7719,7 +7719,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$755",
+                    "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$1480",
                     "typeString": "CalldataPointer"
                   },
                   "typeName": {
@@ -7732,13 +7732,13 @@
                         "18956:15:1"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 755,
+                      "referencedDeclaration": 1480,
                       "src": "18956:15:1"
                     },
-                    "referencedDeclaration": 755,
+                    "referencedDeclaration": 1480,
                     "src": "18956:15:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$755",
+                      "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$1480",
                       "typeString": "CalldataPointer"
                     }
                   },
@@ -7878,7 +7878,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$757",
+                    "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$1482",
                     "typeString": "MemoryPointer"
                   },
                   "typeName": {
@@ -7891,13 +7891,13 @@
                         "19303:13:1"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 757,
+                      "referencedDeclaration": 1482,
                       "src": "19303:13:1"
                     },
-                    "referencedDeclaration": 757,
+                    "referencedDeclaration": 1482,
                     "src": "19303:13:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$757",
+                      "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$1482",
                       "typeString": "MemoryPointer"
                     }
                   },
@@ -8037,7 +8037,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$755",
+                    "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$1480",
                     "typeString": "CalldataPointer"
                   },
                   "typeName": {
@@ -8050,13 +8050,13 @@
                         "19656:15:1"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 755,
+                      "referencedDeclaration": 1480,
                       "src": "19656:15:1"
                     },
-                    "referencedDeclaration": 755,
+                    "referencedDeclaration": 1480,
                     "src": "19656:15:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$755",
+                      "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$1480",
                       "typeString": "CalldataPointer"
                     }
                   },
@@ -8196,7 +8196,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$757",
+                    "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$1482",
                     "typeString": "MemoryPointer"
                   },
                   "typeName": {
@@ -8209,13 +8209,13 @@
                         "20030:13:1"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 757,
+                      "referencedDeclaration": 1482,
                       "src": "20030:13:1"
                     },
-                    "referencedDeclaration": 757,
+                    "referencedDeclaration": 1482,
                     "src": "20030:13:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$757",
+                      "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$1482",
                       "typeString": "MemoryPointer"
                     }
                   },
@@ -8355,7 +8355,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$755",
+                    "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$1480",
                     "typeString": "CalldataPointer"
                   },
                   "typeName": {
@@ -8368,13 +8368,13 @@
                         "20410:15:1"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 755,
+                      "referencedDeclaration": 1480,
                       "src": "20410:15:1"
                     },
-                    "referencedDeclaration": 755,
+                    "referencedDeclaration": 1480,
                     "src": "20410:15:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$755",
+                      "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$1480",
                       "typeString": "CalldataPointer"
                     }
                   },
@@ -8514,7 +8514,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$757",
+                    "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$1482",
                     "typeString": "MemoryPointer"
                   },
                   "typeName": {
@@ -8527,13 +8527,13 @@
                         "20751:13:1"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 757,
+                      "referencedDeclaration": 1482,
                       "src": "20751:13:1"
                     },
-                    "referencedDeclaration": 757,
+                    "referencedDeclaration": 1482,
                     "src": "20751:13:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$757",
+                      "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$1482",
                       "typeString": "MemoryPointer"
                     }
                   },
@@ -8673,7 +8673,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$755",
+                    "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$1480",
                     "typeString": "CalldataPointer"
                   },
                   "typeName": {
@@ -8686,13 +8686,13 @@
                         "21098:15:1"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 755,
+                      "referencedDeclaration": 1480,
                       "src": "21098:15:1"
                     },
-                    "referencedDeclaration": 755,
+                    "referencedDeclaration": 1480,
                     "src": "21098:15:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$755",
+                      "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$1480",
                       "typeString": "CalldataPointer"
                     }
                   },
@@ -8832,7 +8832,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$757",
+                    "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$1482",
                     "typeString": "MemoryPointer"
                   },
                   "typeName": {
@@ -8845,13 +8845,13 @@
                         "21454:13:1"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 757,
+                      "referencedDeclaration": 1482,
                       "src": "21454:13:1"
                     },
-                    "referencedDeclaration": 757,
+                    "referencedDeclaration": 1482,
                     "src": "21454:13:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$757",
+                      "typeIdentifier": "t_userDefinedValueType$_MemoryPointer_$1482",
                       "typeString": "MemoryPointer"
                     }
                   },
@@ -8991,7 +8991,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$755",
+                    "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$1480",
                     "typeString": "CalldataPointer"
                   },
                   "typeName": {
@@ -9004,13 +9004,13 @@
                         "21816:15:1"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 755,
+                      "referencedDeclaration": 1480,
                       "src": "21816:15:1"
                     },
-                    "referencedDeclaration": 755,
+                    "referencedDeclaration": 1480,
                     "src": "21816:15:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$755",
+                      "typeIdentifier": "t_userDefinedValueType$_CalldataPointer_$1480",
                       "typeString": "CalldataPointer"
                     }
                   },
@@ -9039,7 +9039,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.13",
-  "updatedAt": "2023-06-17T05:48:44.747Z",
+  "updatedAt": "2023-06-24T14:54:15.192Z",
   "devdoc": {
     "details": "This library provides a set of functions for converting structs to      pointers.",
     "kind": "dev",
