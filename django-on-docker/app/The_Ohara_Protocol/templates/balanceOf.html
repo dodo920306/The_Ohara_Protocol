@@ -1,4 +1,11 @@
+{% block content %}
+
+  <div id="res"></div>
+
+{% endblock %}
+
 <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
   const main = async () => {
     if (window.ethereum) {
@@ -798,9 +805,10 @@
   ], "0x5496c042f0962f7713044De514897f04099aeaDd");
     let account = "{{ account }}"
     let id = "{{ id }}"
-    //console.log(publisher, account)
-    let a = await protocol.methods.balanceOf(account, id).call({ from: accounts[0] });
-    console.log(a);
+    let bal = await protocol.methods.balanceOf(account, id).call({ from: accounts[0] });
+    $('#res').text(`{
+      "balalce": ${bal}
+    }`);
   }
   
   main()
