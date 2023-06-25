@@ -1,17 +1,23 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.7;
 
-import "../node_modules/@openzeppelin/contracts-upgradeable/token/ERC1155/ERC1155Upgradeable.sol";
+/*import "../node_modules/@openzeppelin/contracts-upgradeable/token/ERC1155/ERC1155Upgradeable.sol";
 import "../node_modules/@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
 import "../node_modules/@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 import "../node_modules/@openzeppelin/contracts-upgradeable/token/ERC1155/extensions/ERC1155BurnableUpgradeable.sol";
 import "../node_modules/@openzeppelin/contracts-upgradeable/token/ERC1155/extensions/ERC1155SupplyUpgradeable.sol";
 import "../node_modules/@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
-import "../node_modules/@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol";
+import "../node_modules/@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol";*/
+import "../node_modules/@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
+import "../node_modules/@openzeppelin/contracts/access/AccessControl.sol";
+import "../node_modules/@openzeppelin/contracts/security/Pausable.sol";
+import "../node_modules/@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Burnable.sol";
+import "../node_modules/@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Supply.sol";
+import "../node_modules/@openzeppelin/contracts/utils/Strings.sol";
 import "./Market.sol";
 
 /// @custom:security-contact dodo920306@gmail.com
-contract The_Ohara_Protocol is Initializable, ERC1155Upgradeable, AccessControlUpgradeable, PausableUpgradeable, ERC1155BurnableUpgradeable, ERC1155SupplyUpgradeable {
+contract The_Ohara_Protocol is ERC1155, AccessControl, Pausable, ERC1155Burnable, ERC1155Supply {
     
     mapping (uint256 => bytes32) idToPublisher; // Anyone can check which publisher an id belongs to.
     mapping (string => bool) publisherHasMember;
@@ -25,45 +31,13 @@ contract The_Ohara_Protocol is Initializable, ERC1155Upgradeable, AccessControlU
     
     mapping (uint256 => mapping (address => Listing)) listings; // id => seller => Listing
 
-    //event EBookListed(uint256 indexed id, address indexed seller, uint256 indexed price, uint256 amount);
-    //event PriceModified(uint256 indexed id, address priceModifier, uint256 indexed originalPrice, uint256 indexed currentPrice);
-    //event ListingCancelled(uint256 indexed id, address indexed seller, address indexed canceller);
-    //event BuyerDetermined(uint256 indexed id, address indexed seller, address indexed buyer);
-    //event TransactionMade(address indexed seller, address indexed buyer, uint256 indexed id);
-
-    modifier isIdExisted(uint256 id) {
-        require(super.exists(id), "Invalid ID");
-        _;
-    }
-
-    modifier IsPriceOrAmountValid(uint256 priceOrAmount) {
-        require(priceOrAmount > 0, "Invalid price/amount");
-        _;
-    }
-
-    modifier isApproved(address seller) {
-        require(super.isApprovedForAll(msg.sender, seller), "Unauthorized");
-        _;
-    }
-
-    modifier isAddressValid(address addr) {
-        require(addr != address(0), "Invalid address");
-        _;
-    }
-
-    modifier IsEBookAvailableOnOrder(uint256 id, address seller) {  // 只能修改/下架已上架的電子書的價格
-        require(listings[id][seller].listedBalance > 0, "not listed or sold out");
-        _;
-    }
-
-    modifier IsBuyerDetermined(uint256 id, address seller) {  // 後端已匹配其中一位買家且已呼叫 determineBuyer，則不能再修改價格或是下架
-        require(listings[id][seller].buyerCounts == 0, "Buyer has determined");
-        _;
-    }
+    address market;
 
     /// @custom:oz-upgrades-unsafe-allow constructor
-    constructor() {
-        _disableInitializers();
+    constructor(address addr) ERC1155("") {
+        market = addr;
+        _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
+        //_disableInitializers();
     }
 
     // There's no onlyPublisherSingle, for that it basically equals to onlyRole modifier from AccessControl. 
@@ -74,7 +48,7 @@ contract The_Ohara_Protocol is Initializable, ERC1155Upgradeable, AccessControlU
         _;
     }
 
-    function initialize() initializer public {
+    /*function initialize(address addr) initializer public {
         __ERC1155_init("");
         __AccessControl_init();
         __Pausable_init();
@@ -82,7 +56,8 @@ contract The_Ohara_Protocol is Initializable, ERC1155Upgradeable, AccessControlU
         __ERC1155Supply_init();
 
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
-    }
+        
+    }*/
 
     function setURI(string memory newuri) public whenNotPaused onlyRole(DEFAULT_ADMIN_ROLE) { // Tim: added whenNotPaused
         _setURI(newuri);
@@ -90,7 +65,7 @@ contract The_Ohara_Protocol is Initializable, ERC1155Upgradeable, AccessControlU
 
     // Tim: get the actual e-book uri, may require further modifications
     // Tim: using toString() for getURIOfId()
-    using StringsUpgradeable for uint256;   
+    using Strings for uint256;   
     function getURIOfId(uint256 id) public view returns(string memory) {
         return string.concat(super.uri(id), "/", id.toString());
     }
@@ -162,13 +137,13 @@ contract The_Ohara_Protocol is Initializable, ERC1155Upgradeable, AccessControlU
     }
 
     // Tim: added two functions to call hasRole() & getRoleAdmin(), not sure if thye're needed
-    function hasRole(string memory role, address account) public view returns(bool) {
+    /*function hasRole(string memory role, address account) public view returns(bool) {
         return super.hasRole(keccak256(abi.encode(role)), account);
     }
 
     function getRoleAdmin(string memory role) public view returns(bytes32) {
         return super.getRoleAdmin(keccak256(abi.encode(role)));
-    }
+    }*/
 
     function pause() public onlyRole(DEFAULT_ADMIN_ROLE) {
         _pause();
@@ -181,6 +156,7 @@ contract The_Ohara_Protocol is Initializable, ERC1155Upgradeable, AccessControlU
     // The publisher of the id would have power to mint the id to whoever they want.
     function mint(address to, uint256 id, uint256 amount, bytes memory data)
         public
+        whenNotPaused
         onlyRole(idToPublisher[id])
     {
         _mint(to, id, amount, data);
@@ -188,23 +164,24 @@ contract The_Ohara_Protocol is Initializable, ERC1155Upgradeable, AccessControlU
 
     function mintBatch(address to, uint256[] memory ids, uint256[] memory amounts, bytes memory data)
         public
+        whenNotPaused
         onlyPublisherBatch(ids)
     {
         _mintBatch(to, ids, amounts, data);
     }
 
     // Tim: added burn() & burnBatch()
-    function burn(address from, uint256 id, uint256 amount) public override(ERC1155BurnableUpgradeable) {
+    function burn(address from, uint256 id, uint256 amount) public override(ERC1155Burnable) whenNotPaused {
 
-        require(balanceOf(from, id) - listedBalanceOf(from, id) >= amount, "burn amount exceeds unlisted balance"); // 只能銷毀未上架的數量
+        require(balanceOf(from, id) - listedBalanceOf(from, id) >= amount); // 只能銷毀未上架的數量
 
         super.burn(from, id, amount);
     }
 
-    function burnBatch(address from, uint256[] memory ids, uint256[] memory amounts) public override(ERC1155BurnableUpgradeable) {
+    function burnBatch(address from, uint256[] memory ids, uint256[] memory amounts) public override(ERC1155Burnable) whenNotPaused {
 
         for (uint256 i = 0 ; i < ids.length ; ++i) { // 只能銷毀未上架的數量
-            require(balanceOf(from, ids[i]) - listedBalanceOf(from, ids[i]) >= amounts[i], "burn amount exceeds unlisted balance");
+            require(balanceOf(from, ids[i]) - listedBalanceOf(from, ids[i]) >= amounts[i]);
         }
 
         super.burnBatch(from, ids, amounts);
@@ -213,10 +190,10 @@ contract The_Ohara_Protocol is Initializable, ERC1155Upgradeable, AccessControlU
     function _beforeTokenTransfer(address operator, address from, address to, uint256[] memory ids, uint256[] memory amounts, bytes memory data)
         internal
         whenNotPaused
-        override(ERC1155Upgradeable, ERC1155SupplyUpgradeable)
+        override(ERC1155, ERC1155Supply)
     {
         for (uint256 i = 0 ; i < ids.length ; ++i) { // 只能轉移未上架的數量
-            require(balanceOf(from, ids[i]) - listedBalanceOf(from, ids[i]) >= amounts[i], "Insufficient balance to transfer");
+            require(balanceOf(from, ids[i]) - listedBalanceOf(from, ids[i]) >= amounts[i]);
         }
         super._beforeTokenTransfer(operator, from, to, ids, amounts, data);
     }
@@ -235,7 +212,7 @@ contract The_Ohara_Protocol is Initializable, ERC1155Upgradeable, AccessControlU
         public
         view
         virtual
-        override(ERC1155Upgradeable)
+        override(ERC1155)
         returns(uint256)
     {
         return super.balanceOf(account, id);
@@ -245,18 +222,18 @@ contract The_Ohara_Protocol is Initializable, ERC1155Upgradeable, AccessControlU
         public
         view
         virtual
-        override(ERC1155Upgradeable)
+        override(ERC1155)
         returns (uint256[] memory)
     {
         return super.balanceOfBatch(accounts, ids) ;
     }
 
     // Tim: added setApprovalForAll() & isApprovedForAll()
-    function setApprovalForAll(address operator, bool approved) public override(ERC1155Upgradeable) {
+    function setApprovalForAll(address operator, bool approved) public override(ERC1155) whenNotPaused {
         super.setApprovalForAll(operator, approved);
     }
 
-    function isApprovedForAll(address account, address operator) public view override(ERC1155Upgradeable) returns (bool) {
+    function isApprovedForAll(address account, address operator) public view override(ERC1155) returns (bool) {
         return super.isApprovedForAll(account, operator);
     }
 
@@ -265,116 +242,68 @@ contract The_Ohara_Protocol is Initializable, ERC1155Upgradeable, AccessControlU
         return super.totalSupply(id);
     }
 
-    // Tim: 在買家確認後，授權給合約轉移電子書給買家的權限(在 determineBuyer 中呼叫)
-    function _grantApprovalToContract(address seller) private {
-        super._setApprovalForAll(seller, address(this), true);
+    function changeMarketAddr(address newAddr) public onlyRole(DEFAULT_ADMIN_ROLE) {
+        market = newAddr;
     }
 
-    // Tim: 在買家完成交易後，取消合約的權限(在 purchaseEBook 中呼叫)
-    function _revokeApprovalFromContract(address seller) private {
-        super._setApprovalForAll(seller, address(this), false);
-    }
-
-    function checkIsBuyer(uint256 id, address seller, address buyer) public view returns (int256) {
-        uint256 length = listings[id][seller].buyers.length;
-        address[] memory buyers = listings[id][seller].buyers;
-        
-        for (uint256 i = 0 ; i < length ; ++i) {
-            if (buyers[i] == buyer) {
-                return int256(i);
-            }
-        }
-
-        return -1;
+    function checkIsBuyer(uint256 id, address seller, address buyer) public returns (int256) {
+        (bool ok, bytes memory data) = market.delegatecall(
+            abi.encodeWithSignature("checkIsBuyer(uint256,address,address)", id, seller, buyer)
+        );
+        require(ok);
+        return abi.decode(data, (int256));
     }
 
     // Tim: 查看賣家某 ID 的已上架的數量
-    function listedBalanceOf(address account, uint256 id) public view virtual returns(uint256) {
+    function listedBalanceOf(address account, uint256 id) public view returns(uint256) {
         return listings[id][account].listedBalance;
     }
 
     // Tim: 上架電子書
-    function listEBook(uint256 id, address seller, uint256 price, uint256 amount) public virtual isIdExisted(id) IsPriceOrAmountValid(price) IsPriceOrAmountValid(amount) isAddressValid(seller) isApproved(seller) {
-        require(balanceOf(seller, id) - listings[id][seller].listedBalance >= amount, "Insefficient balance to list"); // 總餘額 - 已上架的數量 >= 欲上架的數量
-
-        listings[id][seller].price = price;
-        listings[id][seller].listedBalance += amount;
-
-        //emit EBookListed(id, seller, price, amount);
+    function listEBook(uint256 id, address seller, uint256 price, uint256 amount) public {
+        (bool ok, ) = market.delegatecall(
+            abi.encodeWithSignature("listEBook(uint256,address,uint256,uint256)", id, seller, price, amount)
+        );
+        require(ok);
     }
 
     // Tim: 修改已上架的電子書的價格
-    function modifyPrice(uint256 id, address seller, uint256 price) public virtual isIdExisted(id) IsPriceOrAmountValid(price) isAddressValid(seller) isApproved(seller) IsEBookAvailableOnOrder(id, seller) IsBuyerDetermined(id, seller) {
-
-        //uint256 originalPrice = listings[id][seller].price;
-        listings[id][seller].price = price;
-
-        //emit PriceModified (id, msg.sender, originalPrice, price);
+    function modifyPrice(uint256 id, address seller, uint256 price) public {
+        (bool ok, ) = market.delegatecall(
+            abi.encodeWithSignature("modifyPrice(uint256,address,uint256)", id, seller, price)
+        );
+        require(ok);
     }
 
     // Tim: 下架電子書
-    function cancelListing(uint256 id, address seller, uint256 amount) public virtual isIdExisted(id) IsPriceOrAmountValid(amount) isAddressValid(seller) isApproved(seller) IsEBookAvailableOnOrder(id, seller) IsBuyerDetermined(id, seller) {
-        require(listings[id][seller].listedBalance >= amount, "Exceeded amount to unlist"); // 上架數量 >= 欲下架數量
-
-        unchecked {
-            listings[id][seller].listedBalance -= amount;
-        }
-
-        if (listings[id][seller].listedBalance == 0) {
-            delete listings[id][seller];
-        }
-
-        //emit ListingCancelled(id, seller, msg.sender);
+    function cancelListing(uint256 id, address seller, uint256 amount) public {
+        (bool ok, ) = market.delegatecall(
+            abi.encodeWithSignature("cancelListing(uint256,address,uint256)", id, seller, amount)
+        );
+        require(ok);
     }
 
     // Tim: 決定最終買家，限定後端呼叫
-    function determineBuyer(address seller, address buyer, uint256 id) public virtual onlyRole(DEFAULT_ADMIN_ROLE) isIdExisted(id) isAddressValid(seller) isAddressValid(buyer) {
-        require(listings[id][seller].listedBalance > listings[id][seller].buyerCounts, "Order all fulfilled"); // 已匹配所有買家
-
-        listings[id][seller].buyers.push(buyer);
-        listings[id][seller].buyerCounts ++;
-        
-        _grantApprovalToContract(seller);
-
-        //emit BuyerDetermined(id, seller, buyer);
+    function determineBuyer(address seller, address buyer, uint256 id) public onlyRole(DEFAULT_ADMIN_ROLE) {
+        (bool ok, ) = market.delegatecall(
+            abi.encodeWithSignature("cancelListing(address,address,uint256)", seller, buyer, id)
+        );
+        require(ok);
     }
 
     // Tim: 購買電子書，限定 buyers 內的買家呼叫
-    function purchaseEBook(uint256 id, address seller) public virtual isIdExisted(id) isAddressValid(seller) IsEBookAvailableOnOrder(id, seller) {
-
-        address buyer = msg.sender;
-        int256 index = checkIsBuyer(id, seller, buyer);
-        require(index != -1, "not buyer");
-
-        uint256 price = listings[id][seller].price;
-        
-        //uint256 fee = price * 25 / 1000;
-
-        super.safeTransferFrom(seller, buyer, id, 0, ""); // transfer ebook to buyer
-
-        (bool success, ) = seller.call{ value: price }(""); // transfer ether to seller
-        require(success, "Buying failed");
-
-        //(bool suucess, ) = multiSigWallet.call{ value: fee}("");
-        //require(success, "Buying failed");
-
-        _revokeApprovalFromContract(seller);
-
-        listings[id][seller].listedBalance --;
-        listings[id][seller].buyerCounts --;
-        listings[id][seller].buyers[uint256(index)] = address(0);
-
-        if (listings[id][seller].listedBalance == 0) {
-            delete listings[id][seller];
-        }
-
-        //emit TransactionMade(seller, buyer, id);
+    function purchaseEBook(uint256 id, address seller) public {
+        int256 index = checkIsBuyer(id, seller, msg.sender);
+        (bool ok, ) = market.delegatecall(
+            abi.encodeWithSignature("purchaseEBook(uint256,address,int256)", id, seller, index)
+        );
+        require(ok);
     }
 
     function supportsInterface(bytes4 interfaceId)
         public
         view
-        override(ERC1155Upgradeable, AccessControlUpgradeable)
+        override(ERC1155, AccessControl)
         returns (bool)
     {
         return super.supportsInterface(interfaceId);
