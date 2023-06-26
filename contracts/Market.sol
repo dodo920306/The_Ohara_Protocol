@@ -47,7 +47,7 @@ contract Market is ERC1155, ERC1155Supply, Pausable, AccessControl {
     }
 
     modifier isApproved(address seller) {
-        require(super.isApprovedForAll(msg.sender, seller), "Unauthorized");
+        require(super.isApprovedForAll(msg.sender, seller), "Unauthorized account");
         _;
     }
 
@@ -57,12 +57,7 @@ contract Market is ERC1155, ERC1155Supply, Pausable, AccessControl {
     }
 
     modifier IsEBookAvailableOnOrder(uint256 id, address seller) {  // 只能修改/下架已上架的電子書的價格
-        require(listings[id][seller].listedBalance > 0, "not listed or sold out");
-        _;
-    }
-
-    modifier IsBuyerDetermined(uint256 id, address seller) {  // 後端已匹配其中一位買家且已呼叫 determineBuyer，則不能再修改價格或是下架
-        require(listings[id][seller].buyerCounts == 0, "Buyer has determined");
+        require(listings[id][seller].listedBalance > 0, "E-Book is not listed or sold out");
         _;
     }
 
@@ -73,6 +68,7 @@ contract Market is ERC1155, ERC1155Supply, Pausable, AccessControl {
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
     }*/
 
+    //  Tim: 在確認買家後，授權合約的權限(在 determineBuyer 中呼叫)
     function _grantApprovalToContract(address seller) private {
         super._setApprovalForAll(seller, address(this), true);
     }
@@ -105,14 +101,18 @@ contract Market is ERC1155, ERC1155Supply, Pausable, AccessControl {
     function listEBook(uint256 id, address seller, uint256 price, uint256 amount) public virtual whenNotPaused isIdExisted(id) IsPriceOrAmountValid(price) IsPriceOrAmountValid(amount) isAddressValid(seller) isApproved(seller) {
         require(balanceOf(seller, id) - listings[id][seller].listedBalance >= amount, "Insefficient balance to list"); // 總餘額 - 已上架的數量 >= 欲上架的數量
 
-        listings[id][seller].price = price;
+        if (listings[id][seller].buyerCounts == 0) {
+            listings[id][seller].price = price;
+        }
+
         listings[id][seller].listedBalance += amount;
 
         emit EBookListed(id, seller, price, amount);
     }
 
     // Tim: 修改已上架的電子書的價格
-    function modifyPrice(uint256 id, address seller, uint256 price) public virtual whenNotPaused isIdExisted(id) IsPriceOrAmountValid(price) isAddressValid(seller) isApproved(seller) IsEBookAvailableOnOrder(id, seller) IsBuyerDetermined(id, seller) {
+    function modifyPrice(uint256 id, address seller, uint256 price) public virtual whenNotPaused isIdExisted(id) IsPriceOrAmountValid(price) isAddressValid(seller) isApproved(seller) IsEBookAvailableOnOrder(id, seller) {
+        require(listings[id][seller].buyerCounts == 0, "Buyer has determined"); // 後端已匹配其中一位買家且已呼叫 determineBuyer，則不能再修改價格
 
         uint256 originalPrice = listings[id][seller].price;
         listings[id][seller].price = price;
@@ -121,8 +121,8 @@ contract Market is ERC1155, ERC1155Supply, Pausable, AccessControl {
     }
 
     // Tim: 下架電子書
-    function cancelListing(uint256 id, address seller, uint256 amount) public virtual whenNotPaused isIdExisted(id) IsPriceOrAmountValid(amount) isAddressValid(seller) isApproved(seller) IsEBookAvailableOnOrder(id, seller) IsBuyerDetermined(id, seller) {
-        require(listings[id][seller].listedBalance >= amount, "Exceeded amount to unlist"); // 上架數量 >= 欲下架數量
+    function cancelListing(uint256 id, address seller, uint256 amount) public virtual whenNotPaused isIdExisted(id) IsPriceOrAmountValid(amount) isAddressValid(seller) isApproved(seller) IsEBookAvailableOnOrder(id, seller) {
+        require(listings[id][seller].listedBalance - listings[id][seller].buyerCounts >= amount, "Exceeded amount to unlist"); // 上架且尚未匹配數量 >= 欲下架數量
 
         unchecked {
             listings[id][seller].listedBalance -= amount;
@@ -137,12 +137,15 @@ contract Market is ERC1155, ERC1155Supply, Pausable, AccessControl {
 
     // Tim: 決定最終買家，限定後端呼叫
     function determineBuyer(address seller, address buyer, uint256 id) public virtual whenNotPaused onlyRole(DEFAULT_ADMIN_ROLE) isIdExisted(id) isAddressValid(seller) isAddressValid(buyer) {
-        require(listings[id][seller].listedBalance > listings[id][seller].buyerCounts, "Order all fulfilled"); // 已匹配所有買家
+        require(listings[id][seller].listedBalance > listings[id][seller].buyerCounts, "Order all fulfilled"); // 上架的每一本都已匹配買家
 
         listings[id][seller].buyers.push(buyer);
-        listings[id][seller].buyerCounts ++;
         
-        _grantApprovalToContract(seller);
+        if (listings[id][seller].buyerCounts == 0) { // 如果是第一個匹配的，才呼叫授權
+            _grantApprovalToContract(seller);
+        }
+
+        listings[id][seller].buyerCounts ++;
 
         emit BuyerDetermined(id, seller, buyer);
     }
@@ -165,11 +168,13 @@ contract Market is ERC1155, ERC1155Supply, Pausable, AccessControl {
         //(bool suucess, ) = multiSigWallet.call{ value: fee}("");
         //require(success, "Buying failed");
 
-        _revokeApprovalFromContract(seller);
-
         listings[id][seller].listedBalance --;
         listings[id][seller].buyerCounts --;
         listings[id][seller].buyers[uint256(index)] = address(0);
+
+        if (listings[id][seller].buyerCounts == 0) {
+            _revokeApprovalFromContract(seller);
+        }
 
         if (listings[id][seller].listedBalance == 0) {
             delete listings[id][seller];
