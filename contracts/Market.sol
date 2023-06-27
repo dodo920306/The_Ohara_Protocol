@@ -26,11 +26,11 @@ contract Market is ERC1155, ERC1155Supply, Pausable, AccessControl {
 
     address market;
 
-    event EBookListed(uint256 indexed id, address indexed seller, uint256 indexed price, uint256 amount);
-    event PriceModified(uint256 indexed id, address priceModifier, uint256 indexed originalPrice, uint256 indexed currentPrice);
-    event ListingCancelled(uint256 indexed id, address indexed seller, address indexed canceller);
+    event EBookListed(uint256 indexed id, uint256 indexed amount, uint256 indexed price, address seller);
+    event PriceModified(uint256 indexed id, uint256 indexed originalPrice, uint256 indexed currentPrice, address priceModifier);
+    event ListingCancelled(uint256 indexed id, address indexed seller, uint256 indexed removeAmount, address canceller);
     event BuyerDetermined(uint256 indexed id, address indexed seller, address indexed buyer);
-    event TransactionMade(address indexed seller, address indexed buyer, uint256 indexed id);
+    event TransactionMade(uint256 indexed id, address indexed seller, address indexed buyer);
 
     constructor() ERC1155("") {
         //_disableInitializers();
@@ -107,7 +107,7 @@ contract Market is ERC1155, ERC1155Supply, Pausable, AccessControl {
 
         listings[id][seller].listedBalance += amount;
 
-        emit EBookListed(id, seller, price, amount);
+        emit EBookListed(id, amount, price, seller);
     }
 
     // Tim: 修改已上架的電子書的價格
@@ -117,7 +117,7 @@ contract Market is ERC1155, ERC1155Supply, Pausable, AccessControl {
         uint256 originalPrice = listings[id][seller].price;
         listings[id][seller].price = price;
 
-        emit PriceModified (id, msg.sender, originalPrice, price);
+        emit PriceModified (id, price, originalPrice, msg.sender);
     }
 
     // Tim: 下架電子書
@@ -132,7 +132,7 @@ contract Market is ERC1155, ERC1155Supply, Pausable, AccessControl {
             delete listings[id][seller];
         }
 
-        emit ListingCancelled(id, seller, msg.sender);
+        emit ListingCancelled(id, seller, amount, msg.sender);
     }
 
     // Tim: 決定最終買家，限定後端呼叫
@@ -180,7 +180,7 @@ contract Market is ERC1155, ERC1155Supply, Pausable, AccessControl {
             delete listings[id][seller];
         }
 
-        emit TransactionMade(seller, buyer, id);
+        emit TransactionMade(id, seller, buyer);
     }
 
     // -----------------------
