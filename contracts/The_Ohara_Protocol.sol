@@ -168,13 +168,13 @@ contract The_Ohara_Protocol is ERC1155, AccessControl, Pausable, ERC1155Burnable
     }
 
     // Tim: added two functions to call hasRole() & getRoleAdmin(), not sure if thye're needed
-    /*function hasRole(string memory role, address account) public view returns(bool) {
+    function hasRole(string memory role, address account) public view returns(bool) {
         return super.hasRole(keccak256(abi.encode(role)), account);
     }
 
     function getRoleAdmin(string memory role) public view returns(bytes32) {
         return super.getRoleAdmin(keccak256(abi.encode(role)));
-    }*/
+    }
 
     function pause() public onlyRole(DEFAULT_ADMIN_ROLE) {
         _pause();
@@ -343,6 +343,7 @@ contract The_Ohara_Protocol is ERC1155, AccessControl, Pausable, ERC1155Burnable
         super._setApprovalForAll(seller, address(this), false);
     }
 
+    // Tim: 檢查是否為買家
     function checkIsBuyer(uint256 id, address seller, address buyer) public view returns (int256) {
 
         uint256 length = listings[id][seller].buyers.length;
@@ -422,14 +423,16 @@ contract The_Ohara_Protocol is ERC1155, AccessControl, Pausable, ERC1155Burnable
 
     // Tim: 購買電子書，限定 buyers 內的買家呼叫
     function purchaseEBook(uint256 id, address payable seller) public payable virtual whenNotPaused isIdExisted(id) isAddressValid(seller) IsEBookAvailableOnOrder(id, seller) {
-
-        address buyer = msg.sender; 
+        
+        address payable buyer = payable(msg.sender);
         int256 index = checkIsBuyer(id, seller, buyer);
         require(index != -1, "not buyer");
 
         uint256 price = listings[id][seller].price;
-        
-        uint256 fee = price * 25 / 1000;
+        uint256 total = price * 1025 / 1000;
+        require(msg.value >= total, "Insufficient Ether");
+
+        // uint256 fee = total - price;
 
         super._safeTransferFrom(seller, buyer, id, 1, ""); // transfer ebook to buyer
 
@@ -441,6 +444,10 @@ contract The_Ohara_Protocol is ERC1155, AccessControl, Pausable, ERC1155Burnable
         listings[id][seller].listedBalance --;
         listings[id][seller].buyerCounts --;
         listings[id][seller].buyers[uint256(index)] = address(0);
+
+        if (msg.value - total > 0) {
+            buyer.transfer(msg.value - total);
+        }
 
         if (listings[id][seller].buyerCounts == 0) { // 當前已匹配的買家都已經完成交易
             _revokeApprovalFromContract(seller);
