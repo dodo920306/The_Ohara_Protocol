@@ -388,7 +388,7 @@ contract The_Ohara_Protocol is ERC1155, AccessControl, Pausable, ERC1155Burnable
         uint256 originalPrice = listings[id][seller].price;
         listings[id][seller].price = price;
 
-        emit PriceModified (id, price, originalPrice, seller, msg.sender);
+        emit PriceModified (id, originalPrice, price, seller, msg.sender);
     }
 
     // Tim: 下架電子書

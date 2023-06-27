@@ -27,7 +27,7 @@ contract Market is ERC1155, ERC1155Supply, Pausable, AccessControl {
     address market;
 
     event EBookListed(uint256 indexed id, uint256 indexed amount, uint256 indexed price, address seller);
-    event PriceModified(uint256 indexed id, uint256 indexed originalPrice, uint256 indexed currentPrice, address priceModifier);
+    event PriceModified(uint256 indexed id, uint256 indexed originalPrice, uint256 indexed currentPrice, address seller, address priceModifier);
     event ListingCancelled(uint256 indexed id, address indexed seller, uint256 indexed removeAmount, address canceller);
     event BuyerDetermined(uint256 indexed id, address indexed seller, address indexed buyer);
     event TransactionMade(uint256 indexed id, address indexed seller, address indexed buyer);
@@ -117,7 +117,7 @@ contract Market is ERC1155, ERC1155Supply, Pausable, AccessControl {
         uint256 originalPrice = listings[id][seller].price;
         listings[id][seller].price = price;
 
-        emit PriceModified (id, price, originalPrice, msg.sender);
+        emit PriceModified(id, originalPrice, price, seller, msg.sender);
     }
 
     // Tim: 下架電子書
