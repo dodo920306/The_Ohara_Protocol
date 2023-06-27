@@ -50,7 +50,7 @@ contract The_Ohara_Protocol is ERC1155, AccessControl, Pausable, ERC1155Burnable
     }
 
     modifier isApproved(address seller) {
-        require(super.isApprovedForAll(msg.sender, seller), "Unauthorized account");
+        require(super.isApprovedForAll(msg.sender, seller) || seller == msg.sender, "Unauthorized account");
         _;
     }
 
@@ -223,18 +223,20 @@ contract The_Ohara_Protocol is ERC1155, AccessControl, Pausable, ERC1155Burnable
         whenNotPaused
         override(ERC1155, ERC1155Supply)
     {
-        for (uint256 i = 0 ; i < ids.length ; ++i) { // 只能轉移未上架的數量
-            require(balanceOf(from, ids[i]) - listedBalanceOf(from, ids[i]) >= amounts[i], "Insufficient balance to transfer");
-        }
+        
         super._beforeTokenTransfer(operator, from, to, ids, amounts, data);
     }
 
     // Tim: added transfer() & transferBatch()
     function transfer(address from, address to, uint256 id, uint256 amount, bytes memory data) public {
+        require(balanceOf(from, id) - listedBalanceOf(from, id) >= amount, "Insufficient balance to transfer");// 只能轉移未上架的數量
         super.safeTransferFrom(from, to, id, amount, data);
     }
 
     function transferBatch(address from, address to, uint256[] memory ids, uint256[] memory amounts, bytes memory data) public {
+        for (uint256 i = 0 ; i < ids.length ; ++i) { // 只能轉移未上架的數量
+            require(balanceOf(from, ids[i]) - listedBalanceOf(from, ids[i]) >= amounts[i], "Insufficient balance to transfer");
+        }
         super.safeBatchTransferFrom(from, to, ids, amounts, data);
     }
 
@@ -323,7 +325,7 @@ contract The_Ohara_Protocol is ERC1155, AccessControl, Pausable, ERC1155Burnable
     }
 
     // Tim: 購買電子書，限定 buyers 內的買家呼叫
-    function purchaseEBook(uint256 id, address seller) public {
+    function purchaseEBook(uint256 id, address seller) public payable {
         int256 index = checkIsBuyer(id, seller, msg.sender);
         (bool ok, ) = market.delegatecall(
             abi.encodeWithSignature("purchaseEBook(uint256,address,int256)", id, seller, index)
@@ -358,6 +360,11 @@ contract The_Ohara_Protocol is ERC1155, AccessControl, Pausable, ERC1155Burnable
     // Tim: 查看賣家某 ID 的已上架的數量
     function listedBalanceOf(address account, uint256 id) public view virtual returns(uint256) {
         return listings[id][account].listedBalance;
+    }
+
+    // Tim: 查看賣家某 ID 的上架價格
+    function getPrice(uint256 id, address seller) public view returns (uint256) {
+        return listings[id][seller].price;
     }
 
     // Tim: 上架電子書
@@ -414,19 +421,19 @@ contract The_Ohara_Protocol is ERC1155, AccessControl, Pausable, ERC1155Burnable
     }
 
     // Tim: 購買電子書，限定 buyers 內的買家呼叫
-    function purchaseEBook(uint256 id, address seller, int256 index) public virtual whenNotPaused isIdExisted(id) isAddressValid(seller) IsEBookAvailableOnOrder(id, seller) {
+    function purchaseEBook(uint256 id, address payable seller) public payable virtual whenNotPaused isIdExisted(id) isAddressValid(seller) IsEBookAvailableOnOrder(id, seller) {
 
-        address buyer = msg.sender;
+        address buyer = msg.sender; 
+        int256 index = checkIsBuyer(id, seller, buyer);
         require(index != -1, "not buyer");
 
         uint256 price = listings[id][seller].price;
         
         uint256 fee = price * 25 / 1000;
 
-        super.safeTransferFrom(seller, buyer, id, 0, ""); // transfer ebook to buyer
+        super._safeTransferFrom(seller, buyer, id, 1, ""); // transfer ebook to buyer
 
-        (bool success, ) = seller.call{ value: price }(""); // transfer ether to seller
-        require(success, "Buying failed");
+        seller.transfer(price); // transfer ether to seller
 
         //(bool suucess, ) = multiSigWallet.call{ value: fee}("");
         //require(success, "Buying failed");
@@ -435,11 +442,11 @@ contract The_Ohara_Protocol is ERC1155, AccessControl, Pausable, ERC1155Burnable
         listings[id][seller].buyerCounts --;
         listings[id][seller].buyers[uint256(index)] = address(0);
 
-        if (listings[id][seller].buyerCounts == 0) {
+        if (listings[id][seller].buyerCounts == 0) { // 當前已匹配的買家都已經完成交易
             _revokeApprovalFromContract(seller);
         }
 
-        if (listings[id][seller].listedBalance == 0) {
+        if (listings[id][seller].listedBalance == 0) { // 掛單全部買完
             delete listings[id][seller];
         }
 

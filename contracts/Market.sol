@@ -151,7 +151,7 @@ contract Market is ERC1155, ERC1155Supply, Pausable, AccessControl {
     }
 
     // Tim: 購買電子書，限定 buyers 內的買家呼叫
-    function purchaseEBook(uint256 id, address seller, int256 index) public virtual whenNotPaused isIdExisted(id) isAddressValid(seller) IsEBookAvailableOnOrder(id, seller) {
+    function purchaseEBook(uint256 id, address seller, int256 index) public payable virtual whenNotPaused isIdExisted(id) isAddressValid(seller) IsEBookAvailableOnOrder(id, seller) {
 
         address buyer = msg.sender;
         require(index != -1, "not buyer");
@@ -160,7 +160,7 @@ contract Market is ERC1155, ERC1155Supply, Pausable, AccessControl {
         
         uint256 fee = price * 25 / 1000;
 
-        super.safeTransferFrom(seller, buyer, id, 0, ""); // transfer ebook to buyer
+        super._safeTransferFrom(seller, buyer, id, 0, ""); // transfer ebook to buyer
 
         (bool success, ) = seller.call{ value: price }(""); // transfer ether to seller
         require(success, "Buying failed");
@@ -172,11 +172,11 @@ contract Market is ERC1155, ERC1155Supply, Pausable, AccessControl {
         listings[id][seller].buyerCounts --;
         listings[id][seller].buyers[uint256(index)] = address(0);
 
-        if (listings[id][seller].buyerCounts == 0) {
+        if (listings[id][seller].buyerCounts == 0) { // 當前已匹配的買家都已經完成交易
             _revokeApprovalFromContract(seller);
         }
 
-        if (listings[id][seller].listedBalance == 0) {
+        if (listings[id][seller].listedBalance == 0) { // 掛單全部買完
             delete listings[id][seller];
         }
 
@@ -199,10 +199,6 @@ contract Market is ERC1155, ERC1155Supply, Pausable, AccessControl {
         whenNotPaused
         override(ERC1155, ERC1155Supply)
     {
-        for (uint256 i = 0 ; i < ids.length ; ++i) { // 只能轉移未上架的數量
-            require(balanceOf(from, ids[i]) - listedBalanceOf(from, ids[i]) >= amounts[i], "Insufficient balance to transfer");
-        }
-
         super._beforeTokenTransfer(operator, from, to, ids, amounts, data);
     }
 }
