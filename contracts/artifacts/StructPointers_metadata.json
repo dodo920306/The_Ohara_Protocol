@@ -1,0 +1,62 @@
+{
+	"compiler": {
+		"version": "0.8.13+commit.abaa5c0e"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [],
+		"devdoc": {
+			"details": "This library provides a set of functions for converting structs to      pointers.",
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/ConsiderationStructs.sol": "StructPointers"
+		},
+		"evmVersion": "london",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/ConsiderationEnums.sol": {
+			"keccak256": "0x4527ebe4a0a549eb3883ec0a3a99e516d0da9d1a80ddd1b4da7fe7c72aa59b8d",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://57e120f86ae1ee72c8f1685348dac11060c7f6fe47ed5ac5fe54ba5e67ed8fdd",
+				"dweb:/ipfs/QmRKZHVh5Dt8Uye7CnhgSxXPgg6xAJW1uLsaJRCjVzLh3o"
+			]
+		},
+		"contracts/ConsiderationStructs.sol": {
+			"keccak256": "0xd44f7f09359fc4d607afdc3b7011929f1661081ab52f13d1bdfe0d252b3641db",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://84483002450965bf30583a74ac002cdcb3961206a9e140c5caceb704ca1ceae5",
+				"dweb:/ipfs/QmdMT5r6g1UZvnAyRdQ62EyTwFav8nvERrJK5YZtg4U6ti"
+			]
+		},
+		"contracts/PointerLibraries.sol": {
+			"keccak256": "0xfdd941aa24a7bc03c8356543749341e4a8e047875c9537bde4f6df2758a30ce1",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://023a6ce654d6a293c1f0e0b3534b2327569c55e5e1d2409673a45845fb45a9c5",
+				"dweb:/ipfs/QmQKxJvbkCeVRad1E3UXQ3KvXjaQpZFGPsYusUsUMRGjRr"
+			]
+		}
+	},
+	"version": 1
+}

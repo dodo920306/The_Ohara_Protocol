@@ -1,0 +1,3138 @@
+{
+	"compiler": {
+		"version": "0.8.18+commit.87f61d96"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "operator",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "bool",
+						"name": "approved",
+						"type": "bool"
+					}
+				],
+				"name": "ApprovalForAll",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "uint8",
+						"name": "version",
+						"type": "uint8"
+					}
+				],
+				"name": "Initialized",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "Paused",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "previousAdminRole",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "newAdminRole",
+						"type": "bytes32"
+					}
+				],
+				"name": "RoleAdminChanged",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "sender",
+						"type": "address"
+					}
+				],
+				"name": "RoleGranted",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "sender",
+						"type": "address"
+					}
+				],
+				"name": "RoleRevoked",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "operator",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "from",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "to",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256[]",
+						"name": "ids",
+						"type": "uint256[]"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256[]",
+						"name": "values",
+						"type": "uint256[]"
+					}
+				],
+				"name": "TransferBatch",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "operator",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "from",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "to",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "value",
+						"type": "uint256"
+					}
+				],
+				"name": "TransferSingle",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "string",
+						"name": "value",
+						"type": "string"
+					},
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
+					}
+				],
+				"name": "URI",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "Unpaused",
+				"type": "event"
+			},
+			{
+				"inputs": [],
+				"name": "DEFAULT_ADMIN_ROLE",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"components": [
+							{
+								"internalType": "address",
+								"name": "offerer",
+								"type": "address"
+							},
+							{
+								"internalType": "address",
+								"name": "zone",
+								"type": "address"
+							},
+							{
+								"components": [
+									{
+										"internalType": "enum ItemType",
+										"name": "itemType",
+										"type": "uint8"
+									},
+									{
+										"internalType": "address",
+										"name": "token",
+										"type": "address"
+									},
+									{
+										"internalType": "uint256",
+										"name": "identifierOrCriteria",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "startAmount",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "endAmount",
+										"type": "uint256"
+									}
+								],
+								"internalType": "struct OfferItem[]",
+								"name": "offer",
+								"type": "tuple[]"
+							},
+							{
+								"components": [
+									{
+										"internalType": "enum ItemType",
+										"name": "itemType",
+										"type": "uint8"
+									},
+									{
+										"internalType": "address",
+										"name": "token",
+										"type": "address"
+									},
+									{
+										"internalType": "uint256",
+										"name": "identifierOrCriteria",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "startAmount",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "endAmount",
+										"type": "uint256"
+									},
+									{
+										"internalType": "address payable",
+										"name": "recipient",
+										"type": "address"
+									}
+								],
+								"internalType": "struct ConsiderationItem[]",
+								"name": "consideration",
+								"type": "tuple[]"
+							},
+							{
+								"internalType": "enum OrderType",
+								"name": "orderType",
+								"type": "uint8"
+							},
+							{
+								"internalType": "uint256",
+								"name": "startTime",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "endTime",
+								"type": "uint256"
+							},
+							{
+								"internalType": "bytes32",
+								"name": "zoneHash",
+								"type": "bytes32"
+							},
+							{
+								"internalType": "uint256",
+								"name": "salt",
+								"type": "uint256"
+							},
+							{
+								"internalType": "bytes32",
+								"name": "conduitKey",
+								"type": "bytes32"
+							},
+							{
+								"internalType": "uint256",
+								"name": "counter",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct OrderComponents[]",
+						"name": "orders",
+						"type": "tuple[]"
+					}
+				],
+				"name": "allCancel",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "cancelled",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
+					}
+				],
+				"name": "balanceOf",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "balance",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address[]",
+						"name": "accounts",
+						"type": "address[]"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "ids",
+						"type": "uint256[]"
+					}
+				],
+				"name": "balanceOfBatch",
+				"outputs": [
+					{
+						"internalType": "uint256[]",
+						"name": "",
+						"type": "uint256[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "from",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "burn",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "ids",
+						"type": "uint256[]"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "amounts",
+						"type": "uint256[]"
+					}
+				],
+				"name": "burnBatch",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"components": [
+							{
+								"components": [
+									{
+										"internalType": "address",
+										"name": "offerer",
+										"type": "address"
+									},
+									{
+										"internalType": "address",
+										"name": "zone",
+										"type": "address"
+									},
+									{
+										"components": [
+											{
+												"internalType": "enum ItemType",
+												"name": "itemType",
+												"type": "uint8"
+											},
+											{
+												"internalType": "address",
+												"name": "token",
+												"type": "address"
+											},
+											{
+												"internalType": "uint256",
+												"name": "identifierOrCriteria",
+												"type": "uint256"
+											},
+											{
+												"internalType": "uint256",
+												"name": "startAmount",
+												"type": "uint256"
+											},
+											{
+												"internalType": "uint256",
+												"name": "endAmount",
+												"type": "uint256"
+											}
+										],
+										"internalType": "struct OfferItem[]",
+										"name": "offer",
+										"type": "tuple[]"
+									},
+									{
+										"components": [
+											{
+												"internalType": "enum ItemType",
+												"name": "itemType",
+												"type": "uint8"
+											},
+											{
+												"internalType": "address",
+												"name": "token",
+												"type": "address"
+											},
+											{
+												"internalType": "uint256",
+												"name": "identifierOrCriteria",
+												"type": "uint256"
+											},
+											{
+												"internalType": "uint256",
+												"name": "startAmount",
+												"type": "uint256"
+											},
+											{
+												"internalType": "uint256",
+												"name": "endAmount",
+												"type": "uint256"
+											},
+											{
+												"internalType": "address payable",
+												"name": "recipient",
+												"type": "address"
+											}
+										],
+										"internalType": "struct ConsiderationItem[]",
+										"name": "consideration",
+										"type": "tuple[]"
+									},
+									{
+										"internalType": "enum OrderType",
+										"name": "orderType",
+										"type": "uint8"
+									},
+									{
+										"internalType": "uint256",
+										"name": "startTime",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "endTime",
+										"type": "uint256"
+									},
+									{
+										"internalType": "bytes32",
+										"name": "zoneHash",
+										"type": "bytes32"
+									},
+									{
+										"internalType": "uint256",
+										"name": "salt",
+										"type": "uint256"
+									},
+									{
+										"internalType": "bytes32",
+										"name": "conduitKey",
+										"type": "bytes32"
+									},
+									{
+										"internalType": "uint256",
+										"name": "totalOriginalConsiderationItems",
+										"type": "uint256"
+									}
+								],
+								"internalType": "struct OrderParameters",
+								"name": "parameters",
+								"type": "tuple"
+							},
+							{
+								"internalType": "uint120",
+								"name": "numerator",
+								"type": "uint120"
+							},
+							{
+								"internalType": "uint120",
+								"name": "denominator",
+								"type": "uint120"
+							},
+							{
+								"internalType": "bytes",
+								"name": "signature",
+								"type": "bytes"
+							},
+							{
+								"internalType": "bytes",
+								"name": "extraData",
+								"type": "bytes"
+							}
+						],
+						"internalType": "struct AdvancedOrder",
+						"name": "advancedOrder",
+						"type": "tuple"
+					},
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "orderIndex",
+								"type": "uint256"
+							},
+							{
+								"internalType": "enum Side",
+								"name": "side",
+								"type": "uint8"
+							},
+							{
+								"internalType": "uint256",
+								"name": "index",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "identifier",
+								"type": "uint256"
+							},
+							{
+								"internalType": "bytes32[]",
+								"name": "criteriaProof",
+								"type": "bytes32[]"
+							}
+						],
+						"internalType": "struct CriteriaResolver[]",
+						"name": "criteriaResolvers",
+						"type": "tuple[]"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "fulfillerConduitKey",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "recipient",
+						"type": "address"
+					}
+				],
+				"name": "callFulfillAdvancedOrder",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "fulfilled",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"components": [
+							{
+								"components": [
+									{
+										"internalType": "address",
+										"name": "offerer",
+										"type": "address"
+									},
+									{
+										"internalType": "address",
+										"name": "zone",
+										"type": "address"
+									},
+									{
+										"components": [
+											{
+												"internalType": "enum ItemType",
+												"name": "itemType",
+												"type": "uint8"
+											},
+											{
+												"internalType": "address",
+												"name": "token",
+												"type": "address"
+											},
+											{
+												"internalType": "uint256",
+												"name": "identifierOrCriteria",
+												"type": "uint256"
+											},
+											{
+												"internalType": "uint256",
+												"name": "startAmount",
+												"type": "uint256"
+											},
+											{
+												"internalType": "uint256",
+												"name": "endAmount",
+												"type": "uint256"
+											}
+										],
+										"internalType": "struct OfferItem[]",
+										"name": "offer",
+										"type": "tuple[]"
+									},
+									{
+										"components": [
+											{
+												"internalType": "enum ItemType",
+												"name": "itemType",
+												"type": "uint8"
+											},
+											{
+												"internalType": "address",
+												"name": "token",
+												"type": "address"
+											},
+											{
+												"internalType": "uint256",
+												"name": "identifierOrCriteria",
+												"type": "uint256"
+											},
+											{
+												"internalType": "uint256",
+												"name": "startAmount",
+												"type": "uint256"
+											},
+											{
+												"internalType": "uint256",
+												"name": "endAmount",
+												"type": "uint256"
+											},
+											{
+												"internalType": "address payable",
+												"name": "recipient",
+												"type": "address"
+											}
+										],
+										"internalType": "struct ConsiderationItem[]",
+										"name": "consideration",
+										"type": "tuple[]"
+									},
+									{
+										"internalType": "enum OrderType",
+										"name": "orderType",
+										"type": "uint8"
+									},
+									{
+										"internalType": "uint256",
+										"name": "startTime",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "endTime",
+										"type": "uint256"
+									},
+									{
+										"internalType": "bytes32",
+										"name": "zoneHash",
+										"type": "bytes32"
+									},
+									{
+										"internalType": "uint256",
+										"name": "salt",
+										"type": "uint256"
+									},
+									{
+										"internalType": "bytes32",
+										"name": "conduitKey",
+										"type": "bytes32"
+									},
+									{
+										"internalType": "uint256",
+										"name": "totalOriginalConsiderationItems",
+										"type": "uint256"
+									}
+								],
+								"internalType": "struct OrderParameters",
+								"name": "parameters",
+								"type": "tuple"
+							},
+							{
+								"internalType": "uint120",
+								"name": "numerator",
+								"type": "uint120"
+							},
+							{
+								"internalType": "uint120",
+								"name": "denominator",
+								"type": "uint120"
+							},
+							{
+								"internalType": "bytes",
+								"name": "signature",
+								"type": "bytes"
+							},
+							{
+								"internalType": "bytes",
+								"name": "extraData",
+								"type": "bytes"
+							}
+						],
+						"internalType": "struct AdvancedOrder[]",
+						"name": "advancedOrders",
+						"type": "tuple[]"
+					},
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "orderIndex",
+								"type": "uint256"
+							},
+							{
+								"internalType": "enum Side",
+								"name": "side",
+								"type": "uint8"
+							},
+							{
+								"internalType": "uint256",
+								"name": "index",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "identifier",
+								"type": "uint256"
+							},
+							{
+								"internalType": "bytes32[]",
+								"name": "criteriaProof",
+								"type": "bytes32[]"
+							}
+						],
+						"internalType": "struct CriteriaResolver[]",
+						"name": "criteriaResolvers",
+						"type": "tuple[]"
+					},
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "orderIndex",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "itemIndex",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct FulfillmentComponent[][]",
+						"name": "offerFulfillments",
+						"type": "tuple[][]"
+					},
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "orderIndex",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "itemIndex",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct FulfillmentComponent[][]",
+						"name": "considerationFulfillments",
+						"type": "tuple[][]"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "fulfillerConduitKey",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "recipient",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "maximumFulfilled",
+						"type": "uint256"
+					}
+				],
+				"name": "callFulfillAvailableAdvancedOrders",
+				"outputs": [
+					{
+						"internalType": "bool[]",
+						"name": "availableOrders",
+						"type": "bool[]"
+					},
+					{
+						"components": [
+							{
+								"components": [
+									{
+										"internalType": "enum ItemType",
+										"name": "itemType",
+										"type": "uint8"
+									},
+									{
+										"internalType": "address",
+										"name": "token",
+										"type": "address"
+									},
+									{
+										"internalType": "uint256",
+										"name": "identifier",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "amount",
+										"type": "uint256"
+									},
+									{
+										"internalType": "address payable",
+										"name": "recipient",
+										"type": "address"
+									}
+								],
+								"internalType": "struct ReceivedItem",
+								"name": "item",
+								"type": "tuple"
+							},
+							{
+								"internalType": "address",
+								"name": "offerer",
+								"type": "address"
+							},
+							{
+								"internalType": "bytes32",
+								"name": "conduitKey",
+								"type": "bytes32"
+							}
+						],
+						"internalType": "struct Execution[]",
+						"name": "executions",
+						"type": "tuple[]"
+					}
+				],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"components": [
+							{
+								"components": [
+									{
+										"internalType": "address",
+										"name": "offerer",
+										"type": "address"
+									},
+									{
+										"internalType": "address",
+										"name": "zone",
+										"type": "address"
+									},
+									{
+										"components": [
+											{
+												"internalType": "enum ItemType",
+												"name": "itemType",
+												"type": "uint8"
+											},
+											{
+												"internalType": "address",
+												"name": "token",
+												"type": "address"
+											},
+											{
+												"internalType": "uint256",
+												"name": "identifierOrCriteria",
+												"type": "uint256"
+											},
+											{
+												"internalType": "uint256",
+												"name": "startAmount",
+												"type": "uint256"
+											},
+											{
+												"internalType": "uint256",
+												"name": "endAmount",
+												"type": "uint256"
+											}
+										],
+										"internalType": "struct OfferItem[]",
+										"name": "offer",
+										"type": "tuple[]"
+									},
+									{
+										"components": [
+											{
+												"internalType": "enum ItemType",
+												"name": "itemType",
+												"type": "uint8"
+											},
+											{
+												"internalType": "address",
+												"name": "token",
+												"type": "address"
+											},
+											{
+												"internalType": "uint256",
+												"name": "identifierOrCriteria",
+												"type": "uint256"
+											},
+											{
+												"internalType": "uint256",
+												"name": "startAmount",
+												"type": "uint256"
+											},
+											{
+												"internalType": "uint256",
+												"name": "endAmount",
+												"type": "uint256"
+											},
+											{
+												"internalType": "address payable",
+												"name": "recipient",
+												"type": "address"
+											}
+										],
+										"internalType": "struct ConsiderationItem[]",
+										"name": "consideration",
+										"type": "tuple[]"
+									},
+									{
+										"internalType": "enum OrderType",
+										"name": "orderType",
+										"type": "uint8"
+									},
+									{
+										"internalType": "uint256",
+										"name": "startTime",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "endTime",
+										"type": "uint256"
+									},
+									{
+										"internalType": "bytes32",
+										"name": "zoneHash",
+										"type": "bytes32"
+									},
+									{
+										"internalType": "uint256",
+										"name": "salt",
+										"type": "uint256"
+									},
+									{
+										"internalType": "bytes32",
+										"name": "conduitKey",
+										"type": "bytes32"
+									},
+									{
+										"internalType": "uint256",
+										"name": "totalOriginalConsiderationItems",
+										"type": "uint256"
+									}
+								],
+								"internalType": "struct OrderParameters",
+								"name": "parameters",
+								"type": "tuple"
+							},
+							{
+								"internalType": "bytes",
+								"name": "signature",
+								"type": "bytes"
+							}
+						],
+						"internalType": "struct Order[]",
+						"name": "orders",
+						"type": "tuple[]"
+					},
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "orderIndex",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "itemIndex",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct FulfillmentComponent[][]",
+						"name": "offerFulfillments",
+						"type": "tuple[][]"
+					},
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "orderIndex",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "itemIndex",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct FulfillmentComponent[][]",
+						"name": "considerationFulfillments",
+						"type": "tuple[][]"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "fulfillerConduitKey",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "uint256",
+						"name": "maximumFulfilled",
+						"type": "uint256"
+					}
+				],
+				"name": "callFulfillAvailableOrders",
+				"outputs": [
+					{
+						"internalType": "bool[]",
+						"name": "availableOrders",
+						"type": "bool[]"
+					},
+					{
+						"components": [
+							{
+								"components": [
+									{
+										"internalType": "enum ItemType",
+										"name": "itemType",
+										"type": "uint8"
+									},
+									{
+										"internalType": "address",
+										"name": "token",
+										"type": "address"
+									},
+									{
+										"internalType": "uint256",
+										"name": "identifier",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "amount",
+										"type": "uint256"
+									},
+									{
+										"internalType": "address payable",
+										"name": "recipient",
+										"type": "address"
+									}
+								],
+								"internalType": "struct ReceivedItem",
+								"name": "item",
+								"type": "tuple"
+							},
+							{
+								"internalType": "address",
+								"name": "offerer",
+								"type": "address"
+							},
+							{
+								"internalType": "bytes32",
+								"name": "conduitKey",
+								"type": "bytes32"
+							}
+						],
+						"internalType": "struct Execution[]",
+						"name": "executions",
+						"type": "tuple[]"
+					}
+				],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "offerer",
+						"type": "address"
+					}
+				],
+				"name": "callGetCounter",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "counter",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"components": [
+							{
+								"internalType": "address",
+								"name": "offerer",
+								"type": "address"
+							},
+							{
+								"internalType": "address",
+								"name": "zone",
+								"type": "address"
+							},
+							{
+								"components": [
+									{
+										"internalType": "enum ItemType",
+										"name": "itemType",
+										"type": "uint8"
+									},
+									{
+										"internalType": "address",
+										"name": "token",
+										"type": "address"
+									},
+									{
+										"internalType": "uint256",
+										"name": "identifierOrCriteria",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "startAmount",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "endAmount",
+										"type": "uint256"
+									}
+								],
+								"internalType": "struct OfferItem[]",
+								"name": "offer",
+								"type": "tuple[]"
+							},
+							{
+								"components": [
+									{
+										"internalType": "enum ItemType",
+										"name": "itemType",
+										"type": "uint8"
+									},
+									{
+										"internalType": "address",
+										"name": "token",
+										"type": "address"
+									},
+									{
+										"internalType": "uint256",
+										"name": "identifierOrCriteria",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "startAmount",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "endAmount",
+										"type": "uint256"
+									},
+									{
+										"internalType": "address payable",
+										"name": "recipient",
+										"type": "address"
+									}
+								],
+								"internalType": "struct ConsiderationItem[]",
+								"name": "consideration",
+								"type": "tuple[]"
+							},
+							{
+								"internalType": "enum OrderType",
+								"name": "orderType",
+								"type": "uint8"
+							},
+							{
+								"internalType": "uint256",
+								"name": "startTime",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "endTime",
+								"type": "uint256"
+							},
+							{
+								"internalType": "bytes32",
+								"name": "zoneHash",
+								"type": "bytes32"
+							},
+							{
+								"internalType": "uint256",
+								"name": "salt",
+								"type": "uint256"
+							},
+							{
+								"internalType": "bytes32",
+								"name": "conduitKey",
+								"type": "bytes32"
+							},
+							{
+								"internalType": "uint256",
+								"name": "counter",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct OrderComponents",
+						"name": "order",
+						"type": "tuple"
+					}
+				],
+				"name": "callGetOrderHash",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "orderHash",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "orderHash",
+						"type": "bytes32"
+					}
+				],
+				"name": "callGetOrderStatus",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "isValidated",
+						"type": "bool"
+					},
+					{
+						"internalType": "bool",
+						"name": "isCancelled",
+						"type": "bool"
+					},
+					{
+						"internalType": "uint256",
+						"name": "totalFilled",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "totalSize",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "callIncrementCounter",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "newCounter",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"components": [
+							{
+								"components": [
+									{
+										"internalType": "address",
+										"name": "offerer",
+										"type": "address"
+									},
+									{
+										"internalType": "address",
+										"name": "zone",
+										"type": "address"
+									},
+									{
+										"components": [
+											{
+												"internalType": "enum ItemType",
+												"name": "itemType",
+												"type": "uint8"
+											},
+											{
+												"internalType": "address",
+												"name": "token",
+												"type": "address"
+											},
+											{
+												"internalType": "uint256",
+												"name": "identifierOrCriteria",
+												"type": "uint256"
+											},
+											{
+												"internalType": "uint256",
+												"name": "startAmount",
+												"type": "uint256"
+											},
+											{
+												"internalType": "uint256",
+												"name": "endAmount",
+												"type": "uint256"
+											}
+										],
+										"internalType": "struct OfferItem[]",
+										"name": "offer",
+										"type": "tuple[]"
+									},
+									{
+										"components": [
+											{
+												"internalType": "enum ItemType",
+												"name": "itemType",
+												"type": "uint8"
+											},
+											{
+												"internalType": "address",
+												"name": "token",
+												"type": "address"
+											},
+											{
+												"internalType": "uint256",
+												"name": "identifierOrCriteria",
+												"type": "uint256"
+											},
+											{
+												"internalType": "uint256",
+												"name": "startAmount",
+												"type": "uint256"
+											},
+											{
+												"internalType": "uint256",
+												"name": "endAmount",
+												"type": "uint256"
+											},
+											{
+												"internalType": "address payable",
+												"name": "recipient",
+												"type": "address"
+											}
+										],
+										"internalType": "struct ConsiderationItem[]",
+										"name": "consideration",
+										"type": "tuple[]"
+									},
+									{
+										"internalType": "enum OrderType",
+										"name": "orderType",
+										"type": "uint8"
+									},
+									{
+										"internalType": "uint256",
+										"name": "startTime",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "endTime",
+										"type": "uint256"
+									},
+									{
+										"internalType": "bytes32",
+										"name": "zoneHash",
+										"type": "bytes32"
+									},
+									{
+										"internalType": "uint256",
+										"name": "salt",
+										"type": "uint256"
+									},
+									{
+										"internalType": "bytes32",
+										"name": "conduitKey",
+										"type": "bytes32"
+									},
+									{
+										"internalType": "uint256",
+										"name": "totalOriginalConsiderationItems",
+										"type": "uint256"
+									}
+								],
+								"internalType": "struct OrderParameters",
+								"name": "parameters",
+								"type": "tuple"
+							},
+							{
+								"internalType": "uint120",
+								"name": "numerator",
+								"type": "uint120"
+							},
+							{
+								"internalType": "uint120",
+								"name": "denominator",
+								"type": "uint120"
+							},
+							{
+								"internalType": "bytes",
+								"name": "signature",
+								"type": "bytes"
+							},
+							{
+								"internalType": "bytes",
+								"name": "extraData",
+								"type": "bytes"
+							}
+						],
+						"internalType": "struct AdvancedOrder[]",
+						"name": "orders",
+						"type": "tuple[]"
+					},
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "orderIndex",
+								"type": "uint256"
+							},
+							{
+								"internalType": "enum Side",
+								"name": "side",
+								"type": "uint8"
+							},
+							{
+								"internalType": "uint256",
+								"name": "index",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "identifier",
+								"type": "uint256"
+							},
+							{
+								"internalType": "bytes32[]",
+								"name": "criteriaProof",
+								"type": "bytes32[]"
+							}
+						],
+						"internalType": "struct CriteriaResolver[]",
+						"name": "criteriaResolvers",
+						"type": "tuple[]"
+					},
+					{
+						"components": [
+							{
+								"components": [
+									{
+										"internalType": "uint256",
+										"name": "orderIndex",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "itemIndex",
+										"type": "uint256"
+									}
+								],
+								"internalType": "struct FulfillmentComponent[]",
+								"name": "offerComponents",
+								"type": "tuple[]"
+							},
+							{
+								"components": [
+									{
+										"internalType": "uint256",
+										"name": "orderIndex",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "itemIndex",
+										"type": "uint256"
+									}
+								],
+								"internalType": "struct FulfillmentComponent[]",
+								"name": "considerationComponents",
+								"type": "tuple[]"
+							}
+						],
+						"internalType": "struct Fulfillment[]",
+						"name": "fulfillments",
+						"type": "tuple[]"
+					},
+					{
+						"internalType": "address",
+						"name": "recipient",
+						"type": "address"
+					}
+				],
+				"name": "callMatchAdvancedOrders",
+				"outputs": [
+					{
+						"components": [
+							{
+								"components": [
+									{
+										"internalType": "enum ItemType",
+										"name": "itemType",
+										"type": "uint8"
+									},
+									{
+										"internalType": "address",
+										"name": "token",
+										"type": "address"
+									},
+									{
+										"internalType": "uint256",
+										"name": "identifier",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "amount",
+										"type": "uint256"
+									},
+									{
+										"internalType": "address payable",
+										"name": "recipient",
+										"type": "address"
+									}
+								],
+								"internalType": "struct ReceivedItem",
+								"name": "item",
+								"type": "tuple"
+							},
+							{
+								"internalType": "address",
+								"name": "offerer",
+								"type": "address"
+							},
+							{
+								"internalType": "bytes32",
+								"name": "conduitKey",
+								"type": "bytes32"
+							}
+						],
+						"internalType": "struct Execution[]",
+						"name": "executions",
+						"type": "tuple[]"
+					}
+				],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"components": [
+							{
+								"components": [
+									{
+										"internalType": "address",
+										"name": "offerer",
+										"type": "address"
+									},
+									{
+										"internalType": "address",
+										"name": "zone",
+										"type": "address"
+									},
+									{
+										"components": [
+											{
+												"internalType": "enum ItemType",
+												"name": "itemType",
+												"type": "uint8"
+											},
+											{
+												"internalType": "address",
+												"name": "token",
+												"type": "address"
+											},
+											{
+												"internalType": "uint256",
+												"name": "identifierOrCriteria",
+												"type": "uint256"
+											},
+											{
+												"internalType": "uint256",
+												"name": "startAmount",
+												"type": "uint256"
+											},
+											{
+												"internalType": "uint256",
+												"name": "endAmount",
+												"type": "uint256"
+											}
+										],
+										"internalType": "struct OfferItem[]",
+										"name": "offer",
+										"type": "tuple[]"
+									},
+									{
+										"components": [
+											{
+												"internalType": "enum ItemType",
+												"name": "itemType",
+												"type": "uint8"
+											},
+											{
+												"internalType": "address",
+												"name": "token",
+												"type": "address"
+											},
+											{
+												"internalType": "uint256",
+												"name": "identifierOrCriteria",
+												"type": "uint256"
+											},
+											{
+												"internalType": "uint256",
+												"name": "startAmount",
+												"type": "uint256"
+											},
+											{
+												"internalType": "uint256",
+												"name": "endAmount",
+												"type": "uint256"
+											},
+											{
+												"internalType": "address payable",
+												"name": "recipient",
+												"type": "address"
+											}
+										],
+										"internalType": "struct ConsiderationItem[]",
+										"name": "consideration",
+										"type": "tuple[]"
+									},
+									{
+										"internalType": "enum OrderType",
+										"name": "orderType",
+										"type": "uint8"
+									},
+									{
+										"internalType": "uint256",
+										"name": "startTime",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "endTime",
+										"type": "uint256"
+									},
+									{
+										"internalType": "bytes32",
+										"name": "zoneHash",
+										"type": "bytes32"
+									},
+									{
+										"internalType": "uint256",
+										"name": "salt",
+										"type": "uint256"
+									},
+									{
+										"internalType": "bytes32",
+										"name": "conduitKey",
+										"type": "bytes32"
+									},
+									{
+										"internalType": "uint256",
+										"name": "totalOriginalConsiderationItems",
+										"type": "uint256"
+									}
+								],
+								"internalType": "struct OrderParameters",
+								"name": "parameters",
+								"type": "tuple"
+							},
+							{
+								"internalType": "bytes",
+								"name": "signature",
+								"type": "bytes"
+							}
+						],
+						"internalType": "struct Order[]",
+						"name": "orders",
+						"type": "tuple[]"
+					},
+					{
+						"components": [
+							{
+								"components": [
+									{
+										"internalType": "uint256",
+										"name": "orderIndex",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "itemIndex",
+										"type": "uint256"
+									}
+								],
+								"internalType": "struct FulfillmentComponent[]",
+								"name": "offerComponents",
+								"type": "tuple[]"
+							},
+							{
+								"components": [
+									{
+										"internalType": "uint256",
+										"name": "orderIndex",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "itemIndex",
+										"type": "uint256"
+									}
+								],
+								"internalType": "struct FulfillmentComponent[]",
+								"name": "considerationComponents",
+								"type": "tuple[]"
+							}
+						],
+						"internalType": "struct Fulfillment[]",
+						"name": "fulfillments",
+						"type": "tuple[]"
+					}
+				],
+				"name": "callMatchOrders",
+				"outputs": [
+					{
+						"components": [
+							{
+								"components": [
+									{
+										"internalType": "enum ItemType",
+										"name": "itemType",
+										"type": "uint8"
+									},
+									{
+										"internalType": "address",
+										"name": "token",
+										"type": "address"
+									},
+									{
+										"internalType": "uint256",
+										"name": "identifier",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "amount",
+										"type": "uint256"
+									},
+									{
+										"internalType": "address payable",
+										"name": "recipient",
+										"type": "address"
+									}
+								],
+								"internalType": "struct ReceivedItem",
+								"name": "item",
+								"type": "tuple"
+							},
+							{
+								"internalType": "address",
+								"name": "offerer",
+								"type": "address"
+							},
+							{
+								"internalType": "bytes32",
+								"name": "conduitKey",
+								"type": "bytes32"
+							}
+						],
+						"internalType": "struct Execution[]",
+						"name": "executions",
+						"type": "tuple[]"
+					}
+				],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"components": [
+							{
+								"components": [
+									{
+										"internalType": "address",
+										"name": "offerer",
+										"type": "address"
+									},
+									{
+										"internalType": "address",
+										"name": "zone",
+										"type": "address"
+									},
+									{
+										"components": [
+											{
+												"internalType": "enum ItemType",
+												"name": "itemType",
+												"type": "uint8"
+											},
+											{
+												"internalType": "address",
+												"name": "token",
+												"type": "address"
+											},
+											{
+												"internalType": "uint256",
+												"name": "identifierOrCriteria",
+												"type": "uint256"
+											},
+											{
+												"internalType": "uint256",
+												"name": "startAmount",
+												"type": "uint256"
+											},
+											{
+												"internalType": "uint256",
+												"name": "endAmount",
+												"type": "uint256"
+											}
+										],
+										"internalType": "struct OfferItem[]",
+										"name": "offer",
+										"type": "tuple[]"
+									},
+									{
+										"components": [
+											{
+												"internalType": "enum ItemType",
+												"name": "itemType",
+												"type": "uint8"
+											},
+											{
+												"internalType": "address",
+												"name": "token",
+												"type": "address"
+											},
+											{
+												"internalType": "uint256",
+												"name": "identifierOrCriteria",
+												"type": "uint256"
+											},
+											{
+												"internalType": "uint256",
+												"name": "startAmount",
+												"type": "uint256"
+											},
+											{
+												"internalType": "uint256",
+												"name": "endAmount",
+												"type": "uint256"
+											},
+											{
+												"internalType": "address payable",
+												"name": "recipient",
+												"type": "address"
+											}
+										],
+										"internalType": "struct ConsiderationItem[]",
+										"name": "consideration",
+										"type": "tuple[]"
+									},
+									{
+										"internalType": "enum OrderType",
+										"name": "orderType",
+										"type": "uint8"
+									},
+									{
+										"internalType": "uint256",
+										"name": "startTime",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "endTime",
+										"type": "uint256"
+									},
+									{
+										"internalType": "bytes32",
+										"name": "zoneHash",
+										"type": "bytes32"
+									},
+									{
+										"internalType": "uint256",
+										"name": "salt",
+										"type": "uint256"
+									},
+									{
+										"internalType": "bytes32",
+										"name": "conduitKey",
+										"type": "bytes32"
+									},
+									{
+										"internalType": "uint256",
+										"name": "totalOriginalConsiderationItems",
+										"type": "uint256"
+									}
+								],
+								"internalType": "struct OrderParameters",
+								"name": "parameters",
+								"type": "tuple"
+							},
+							{
+								"internalType": "bytes",
+								"name": "signature",
+								"type": "bytes"
+							}
+						],
+						"internalType": "struct Order[]",
+						"name": "orders",
+						"type": "tuple[]"
+					}
+				],
+				"name": "callValidate",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "validated",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
+					}
+				],
+				"name": "exists",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"components": [
+							{
+								"components": [
+									{
+										"internalType": "address",
+										"name": "offerer",
+										"type": "address"
+									},
+									{
+										"internalType": "address",
+										"name": "zone",
+										"type": "address"
+									},
+									{
+										"components": [
+											{
+												"internalType": "enum ItemType",
+												"name": "itemType",
+												"type": "uint8"
+											},
+											{
+												"internalType": "address",
+												"name": "token",
+												"type": "address"
+											},
+											{
+												"internalType": "uint256",
+												"name": "identifierOrCriteria",
+												"type": "uint256"
+											},
+											{
+												"internalType": "uint256",
+												"name": "startAmount",
+												"type": "uint256"
+											},
+											{
+												"internalType": "uint256",
+												"name": "endAmount",
+												"type": "uint256"
+											}
+										],
+										"internalType": "struct OfferItem[]",
+										"name": "offer",
+										"type": "tuple[]"
+									},
+									{
+										"components": [
+											{
+												"internalType": "enum ItemType",
+												"name": "itemType",
+												"type": "uint8"
+											},
+											{
+												"internalType": "address",
+												"name": "token",
+												"type": "address"
+											},
+											{
+												"internalType": "uint256",
+												"name": "identifierOrCriteria",
+												"type": "uint256"
+											},
+											{
+												"internalType": "uint256",
+												"name": "startAmount",
+												"type": "uint256"
+											},
+											{
+												"internalType": "uint256",
+												"name": "endAmount",
+												"type": "uint256"
+											},
+											{
+												"internalType": "address payable",
+												"name": "recipient",
+												"type": "address"
+											}
+										],
+										"internalType": "struct ConsiderationItem[]",
+										"name": "consideration",
+										"type": "tuple[]"
+									},
+									{
+										"internalType": "enum OrderType",
+										"name": "orderType",
+										"type": "uint8"
+									},
+									{
+										"internalType": "uint256",
+										"name": "startTime",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "endTime",
+										"type": "uint256"
+									},
+									{
+										"internalType": "bytes32",
+										"name": "zoneHash",
+										"type": "bytes32"
+									},
+									{
+										"internalType": "uint256",
+										"name": "salt",
+										"type": "uint256"
+									},
+									{
+										"internalType": "bytes32",
+										"name": "conduitKey",
+										"type": "bytes32"
+									},
+									{
+										"internalType": "uint256",
+										"name": "totalOriginalConsiderationItems",
+										"type": "uint256"
+									}
+								],
+								"internalType": "struct OrderParameters",
+								"name": "parameters",
+								"type": "tuple"
+							},
+							{
+								"internalType": "bytes",
+								"name": "signature",
+								"type": "bytes"
+							}
+						],
+						"internalType": "struct Order",
+						"name": "order",
+						"type": "tuple"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "fulfillerConduitKey",
+						"type": "bytes32"
+					}
+				],
+				"name": "fulfillOrder",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "fulfilled",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
+					}
+				],
+				"name": "getIdSupply",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					}
+				],
+				"name": "getRoleAdmin",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "role",
+						"type": "string"
+					}
+				],
+				"name": "getRoleAdmin",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
+					}
+				],
+				"name": "getURIOfId",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "publisher",
+						"type": "string"
+					},
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "grantPublisher",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "grantRole",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "role",
+						"type": "string"
+					},
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "hasRole",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "hasRole",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
+					}
+				],
+				"name": "idExists",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "seaportAddr",
+						"type": "address"
+					}
+				],
+				"name": "initialize",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "operator",
+						"type": "address"
+					}
+				],
+				"name": "isApprovedForAll",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bytes",
+						"name": "data",
+						"type": "bytes"
+					}
+				],
+				"name": "mint",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "to",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "ids",
+						"type": "uint256[]"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "amounts",
+						"type": "uint256[]"
+					},
+					{
+						"internalType": "bytes",
+						"name": "data",
+						"type": "bytes"
+					}
+				],
+				"name": "mintBatch",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "pause",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "paused",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "renounceRole",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "publisher",
+						"type": "string"
+					},
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "revokePublisher",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "revokeRole",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "from",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "to",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "ids",
+						"type": "uint256[]"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "amounts",
+						"type": "uint256[]"
+					},
+					{
+						"internalType": "bytes",
+						"name": "data",
+						"type": "bytes"
+					}
+				],
+				"name": "safeBatchTransferFrom",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "from",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "to",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bytes",
+						"name": "data",
+						"type": "bytes"
+					}
+				],
+				"name": "safeTransferFrom",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "operator",
+						"type": "address"
+					},
+					{
+						"internalType": "bool",
+						"name": "approved",
+						"type": "bool"
+					}
+				],
+				"name": "setApprovalForAll",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "publisher",
+						"type": "string"
+					}
+				],
+				"name": "setIdToPublisher",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "newuri",
+						"type": "string"
+					}
+				],
+				"name": "setURI",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes4",
+						"name": "interfaceId",
+						"type": "bytes4"
+					}
+				],
+				"name": "supportsInterface",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
+					}
+				],
+				"name": "totalSupply",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "from",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "to",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bytes",
+						"name": "data",
+						"type": "bytes"
+					}
+				],
+				"name": "transfer",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "from",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "to",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "ids",
+						"type": "uint256[]"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "amounts",
+						"type": "uint256[]"
+					},
+					{
+						"internalType": "bytes",
+						"name": "data",
+						"type": "bytes"
+					}
+				],
+				"name": "transferBatch",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "unpause",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "uri",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"custom:security-contact": "dodo920306@gmail.com",
+			"events": {
+				"ApprovalForAll(address,address,bool)": {
+					"details": "Emitted when `account` grants or revokes permission to `operator` to transfer their tokens, according to `approved`."
+				},
+				"Initialized(uint8)": {
+					"details": "Triggered when the contract has been initialized or reinitialized."
+				},
+				"Paused(address)": {
+					"details": "Emitted when the pause is triggered by `account`."
+				},
+				"RoleAdminChanged(bytes32,bytes32,bytes32)": {
+					"details": "Emitted when `newAdminRole` is set as ``role``'s admin role, replacing `previousAdminRole` `DEFAULT_ADMIN_ROLE` is the starting admin for all roles, despite {RoleAdminChanged} not being emitted signaling this. _Available since v3.1._"
+				},
+				"RoleGranted(bytes32,address,address)": {
+					"details": "Emitted when `account` is granted `role`. `sender` is the account that originated the contract call, an admin role bearer except when using {AccessControl-_setupRole}."
+				},
+				"RoleRevoked(bytes32,address,address)": {
+					"details": "Emitted when `account` is revoked `role`. `sender` is the account that originated the contract call:   - if using `revokeRole`, it is the admin role bearer   - if using `renounceRole`, it is the role bearer (i.e. `account`)"
+				},
+				"TransferBatch(address,address,address,uint256[],uint256[])": {
+					"details": "Equivalent to multiple {TransferSingle} events, where `operator`, `from` and `to` are the same for all transfers."
+				},
+				"TransferSingle(address,address,address,uint256,uint256)": {
+					"details": "Emitted when `value` tokens of token type `id` are transferred from `from` to `to` by `operator`."
+				},
+				"URI(string,uint256)": {
+					"details": "Emitted when the URI for token type `id` changes to `value`, if it is a non-programmatic URI. If an {URI} event was emitted for `id`, the standard https://eips.ethereum.org/EIPS/eip-1155#metadata-extensions[guarantees] that `value` will equal the value returned by {IERC1155MetadataURI-uri}."
+				},
+				"Unpaused(address)": {
+					"details": "Emitted when the pause is lifted by `account`."
+				}
+			},
+			"kind": "dev",
+			"methods": {
+				"balanceOf(address,uint256)": {
+					"details": "See {IERC1155-balanceOf}. Requirements: - `account` cannot be the zero address."
+				},
+				"balanceOfBatch(address[],uint256[])": {
+					"details": "See {IERC1155-balanceOfBatch}. Requirements: - `accounts` and `ids` must have the same length."
+				},
+				"constructor": {
+					"custom:oz-upgrades-unsafe-allow": "constructor"
+				},
+				"exists(uint256)": {
+					"details": "Indicates whether any token exist with a given id, or not."
+				},
+				"getRoleAdmin(bytes32)": {
+					"details": "Returns the admin role that controls `role`. See {grantRole} and {revokeRole}. To change a role's admin, use {_setRoleAdmin}."
+				},
+				"grantPublisher(string,address)": {
+					"details": "The publisher who wants to claim an account belongs to them must use this function with the magic string that represents themselves.  The function will uses keccak256 solidity function to hash this string, but before that, it must be represented as bytes32. The type conversion from \"string memory\" to \"bytes32\" isn't allowed, so we use abi.encode() here. See https://ethereum.stackexchange.com/questions/119583/when-to-use-abi-encode-abi-encodepacked-or-abi-encodewithsignature-in-solidity for the reason of this selection.  After that, we use grantRole() function from AccessControl, the reason we don't directly use _grantRole() here is because the onlyRole(getRoleAdmin(role)) should also be passed in this operation, and since grantRole() has that modifier originally, the current function doesn't require any modifier yet, and there's no need to be afraid that anyone hash others' magic string and directly call grantRole() because there's no way he/she can be the admin.  If it's the first member to be added in the publisher, the msg.sender must be DEFAULT_ADMIN_ROLE to pass onlyRole(getRoleAdmin(role)) for that there's no way to set admin to others. If so, then the function would call _setRoleAdmin() to release the admin power to the publisher itself, indicating that from this point on, only the publisher can manage which accounts can act on its behalf.  The only risk would be that a hacker steal one private key from DEFAULT_ADMIN_ROLE, in that case, the worse he/she can do is grant his/her accounts the publisher role that \"hasn't been registered yet\", for that the admins of the publishers already in the protocol can only be themselves. If so, then the publishers register in the future cannot use the same magic string as the hacker granted himself/herself even if they want. (Basically, it's the same idea as \"This username has already been used. Please try another.\", so the power of DEFAULT_ADMIN_ROLE is basically just register publishers and ids.)"
+				},
+				"grantRole(bytes32,address)": {
+					"details": "Grants `role` to `account`. If `account` had not been already granted `role`, emits a {RoleGranted} event. Requirements: - the caller must have ``role``'s admin role. May emit a {RoleGranted} event."
+				},
+				"hasRole(bytes32,address)": {
+					"details": "Returns `true` if `account` has been granted `role`."
+				},
+				"isApprovedForAll(address,address)": {
+					"details": "See {IERC1155-isApprovedForAll}."
+				},
+				"paused()": {
+					"details": "Returns true if the contract is paused, and false otherwise."
+				},
+				"renounceRole(bytes32,address)": {
+					"details": "Revokes `role` from the calling account. Roles are often managed via {grantRole} and {revokeRole}: this function's purpose is to provide a mechanism for accounts to lose their privileges if they are compromised (such as when a trusted device is misplaced). If the calling account had been revoked `role`, emits a {RoleRevoked} event. Requirements: - the caller must be `account`. May emit a {RoleRevoked} event."
+				},
+				"revokePublisher(string,address)": {
+					"details": "See the comment of grantPublisher() above for more info about the string publisher and the bytes32 role. The reason we don't directly call _revokeRole() and the this function is safe is the same reason grantPublisher() doesn't call _grantRole(). Use this function to kick someone including msg.sender himself/herself out of the publisher. The function also can only be called by the publisher itself."
+				},
+				"revokeRole(bytes32,address)": {
+					"details": "Revokes `role` from `account`. If `account` had been granted `role`, emits a {RoleRevoked} event. Requirements: - the caller must have ``role``'s admin role. May emit a {RoleRevoked} event."
+				},
+				"safeBatchTransferFrom(address,address,uint256[],uint256[],bytes)": {
+					"details": "See {IERC1155-safeBatchTransferFrom}."
+				},
+				"safeTransferFrom(address,address,uint256,uint256,bytes)": {
+					"details": "See {IERC1155-safeTransferFrom}."
+				},
+				"setApprovalForAll(address,bool)": {
+					"details": "See {IERC1155-setApprovalForAll}."
+				},
+				"setIdToPublisher(uint256,string)": {
+					"details": "See the comment of grantPublisher() above for more info about the string publisher and the bytes32 role. Only the old publisher could set the publisher of an id to a new one. Since the default publisher of the id is 0x00, the first publisher of the id must be set by the DEFAULT_ADMIN_ROLE."
+				},
+				"totalSupply(uint256)": {
+					"details": "Total amount of tokens in with a given id."
+				},
+				"uri(uint256)": {
+					"details": "See {IERC1155MetadataURI-uri}. This implementation returns the same URI for *all* token types. It relies on the token type ID substitution mechanism https://eips.ethereum.org/EIPS/eip-1155#metadata[defined in the EIP]. Clients calling this function must replace the `\\{id\\}` substring with the actual token type ID."
+				}
+			},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/The_Ohara_Protocol.sol": "The_Ohara_Protocol"
+		},
+		"evmVersion": "paris",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/ConsiderationEnums.sol": {
+			"keccak256": "0x94103d6a32582042c456726a9d1fc80a0cc9e73a475b56fb4d88c180dffd2e95",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://75961d045c945eb8660d0753df0e8f7017fcbce5cd6f3402d96cfaa99339489b",
+				"dweb:/ipfs/QmWiYRA9SuJ36hcdcrhKQw6jFmr35C5nTQftdxZ5cQnZcG"
+			]
+		},
+		"contracts/ConsiderationStructs.sol": {
+			"keccak256": "0xd44f7f09359fc4d607afdc3b7011929f1661081ab52f13d1bdfe0d252b3641db",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://84483002450965bf30583a74ac002cdcb3961206a9e140c5caceb704ca1ceae5",
+				"dweb:/ipfs/QmdMT5r6g1UZvnAyRdQ62EyTwFav8nvERrJK5YZtg4U6ti"
+			]
+		},
+		"contracts/PointerLibraries.sol": {
+			"keccak256": "0xeadcb55eeda2b3075925cb9488f610a7d80e325cc010aaf4b546742d3cc5df6c",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://efe6a2e2116a20f6f000b6c6bd24d895b8448a8acd3e5b0ea37188bc0418bf8b",
+				"dweb:/ipfs/QmSsRitfXNsah9ymvJHZ7Niw8htMJMdMREpUVCxfyv1GLS"
+			]
+		},
+		"contracts/SeaportInterface.sol": {
+			"keccak256": "0x58441acce8329ae998a883f1fd4e69d9013f0615a5d71de0477efbb22f58f410",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://379e931346b8bae88c56804f945e1bde165bf83afb448111e7065d358c99d1db",
+				"dweb:/ipfs/QmNiaCDKiLPdSHHBgHS9MbvuzpqP7yRWqcum189o957szC"
+			]
+		},
+		"contracts/The_Ohara_Protocol.sol": {
+			"keccak256": "0x4fc28fed38cad279d30d4dbe1f4f9858397a69488f30b887982a27c4494d60bd",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://a39f3bacfa72d85e7eefdc47b47817a9172e230cdf3a364482881a74728b1083",
+				"dweb:/ipfs/Qma8DCpaHpRCsp3kU16FWqjMQuiay4FtKG4ciefvDtVQQi"
+			]
+		},
+		"node_modules/@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol": {
+			"keccak256": "0xe8f27a3e3e25067334e76799f03d4de6d8f8535c3fc4806468228a9ebd5de51a",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://686aaf8725727d94b36c53baad3779e168b31e33eec8d39b41e282382617c626",
+				"dweb:/ipfs/QmWVRwPpZyweGCw7uRj1rXQTmcwaXB5Ctz3KvpNJPtxDP8"
+			]
+		},
+		"node_modules/@openzeppelin/contracts-upgradeable/access/IAccessControlUpgradeable.sol": {
+			"keccak256": "0xb8f5302f12138c5561362e88a78d061573e6298b7a1a5afe84a1e2c8d4d5aeaa",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://740cf4dc535e3082560cf5a031473029f322690fc8037fe9d5e3a8bef42e757c",
+				"dweb:/ipfs/QmTQxFdfxcaueQa23VX34wAPqzruZbkzyeN58tZK2yav2b"
+			]
+		},
+		"node_modules/@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol": {
+			"keccak256": "0x037c334add4b033ad3493038c25be1682d78c00992e1acb0e2795caff3925271",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://8a313cf42389440e2706837c91370323b85971c06afd6d056d21e2bc86459618",
+				"dweb:/ipfs/QmT8XUrUvQ9aZaPKrqgRU2JVGWnaxBcUYJA7Q7K5KcLBSZ"
+			]
+		},
+		"node_modules/@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol": {
+			"keccak256": "0x40c636b4572ff5f1dc50cf22097e93c0723ee14eff87e99ac2b02636eeca1250",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://9c7d1f5e15633ab912b74c2f57e24559e66b03232300d4b27ff0f25bc452ecad",
+				"dweb:/ipfs/QmYTJkc1cntYkKQ1Tu11nBcJLakiy93Tjytc4XHELo4GmR"
+			]
+		},
+		"node_modules/@openzeppelin/contracts-upgradeable/token/ERC1155/ERC1155Upgradeable.sol": {
+			"keccak256": "0x6de308cde403f95519bf4b25123cbfe9126f2e0212564bb2ad3c23ac99f1a9cb",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://c72a634af5063075850327e1cea10c540de9e029d9e41e89bb867d790c61a4ff",
+				"dweb:/ipfs/QmSVJwqfQD5anH6x2LYmXLBJEFFABnj4sY2TjszsvcdK23"
+			]
+		},
+		"node_modules/@openzeppelin/contracts-upgradeable/token/ERC1155/IERC1155ReceiverUpgradeable.sol": {
+			"keccak256": "0xffcb29612efb57efc8f0d4897deb5abaeac830022c59a3aa17446d698dbc856b",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://4a4da6e241d1d8c2ef214c311e02c749f45b5e0dd8168c667bc8ee6f67dcf4ce",
+				"dweb:/ipfs/QmdsKj5frsNS7ZCfJBm4XNfy6MueV9udBF2FiBxVXwxybG"
+			]
+		},
+		"node_modules/@openzeppelin/contracts-upgradeable/token/ERC1155/IERC1155Upgradeable.sol": {
+			"keccak256": "0x091a49ef99a2be002680781a10cc9dd74c0f348301ede5482c4ea625f79a8ffe",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://e037192cadfd20ad0f1b0c54a0c770a1ba551e7d0fcb6d3708e5ba352f88ded2",
+				"dweb:/ipfs/QmTXwY6odV1ToDZAYxbbLKThe9M5PUWTmWBjwT776hH4qm"
+			]
+		},
+		"node_modules/@openzeppelin/contracts-upgradeable/token/ERC1155/extensions/ERC1155BurnableUpgradeable.sol": {
+			"keccak256": "0x39aa04a680b648c7628f145de97e52f0c7b4609b38601220d5ee8fc2b7140988",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://cc6d96e8ac4a906a3c454c36449cead6475ec544e0c75e1064a96cff03959e1e",
+				"dweb:/ipfs/QmSi4jPDkbepHJEQb5kH348Yk8gnwnnwoRfgvYuZjvksob"
+			]
+		},
+		"node_modules/@openzeppelin/contracts-upgradeable/token/ERC1155/extensions/ERC1155SupplyUpgradeable.sol": {
+			"keccak256": "0xf7bdbcbb9fcf42997f280db8c02070e9c561406e6971ff680c6c43f92065ac9e",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://a158fa95bbb45b9c64930c811108c15ff6303a13e170fc13666c3bdd660ec2b8",
+				"dweb:/ipfs/Qmepwqn4jtoQCmvgSK9HVRiWmyvdHdEMg7eqGVwSVVsscc"
+			]
+		},
+		"node_modules/@openzeppelin/contracts-upgradeable/token/ERC1155/extensions/IERC1155MetadataURIUpgradeable.sol": {
+			"keccak256": "0xa350df12a8c10e821af05e0863f44e8317a0efa44df27bfd5dc1d63fdfa3c448",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://1870980d15f9003916faf2a9a0eac6dcd4f0e28e2af6f5a3cee0cd685d460ee9",
+				"dweb:/ipfs/QmY8K1YZQmuL2WDTPC8QwCm3ztrUD7JKmnvoZkMyGZceiM"
+			]
+		},
+		"node_modules/@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol": {
+			"keccak256": "0x2edcb41c121abc510932e8d83ff8b82cf9cdde35e7c297622f5c29ef0af25183",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://72460c66cd1c3b1c11b863e0d8df0a1c56f37743019e468dc312c754f43e3b06",
+				"dweb:/ipfs/QmPExYKiNb9PUsgktQBupPaM33kzDHxaYoVeJdLhv8s879"
+			]
+		},
+		"node_modules/@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol": {
+			"keccak256": "0x963ea7f0b48b032eef72fe3a7582edf78408d6f834115b9feadd673a4d5bd149",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://d6520943ea55fdf5f0bafb39ed909f64de17051bc954ff3e88c9e5621412c79c",
+				"dweb:/ipfs/QmWZ4rAKTQbNG2HxGs46AcTXShsVytKeLs7CUCdCSv5N7a"
+			]
+		},
+		"node_modules/@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol": {
+			"keccak256": "0x6b9a5d35b744b25529a2856a8093e7c03fb35a34b1c4fb5499e560f8ade140da",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://187b5c3a1c9e77678732a2cc5284237f9cfca6bc28ee8bc0a0f4f951d7b3a2f8",
+				"dweb:/ipfs/Qmb2KFr7WuQu7btdCiftQG64vTzrG4UyzVmo53EYHcnHYA"
+			]
+		},
+		"node_modules/@openzeppelin/contracts-upgradeable/utils/introspection/ERC165Upgradeable.sol": {
+			"keccak256": "0x9a3b990bd56d139df3e454a9edf1c64668530b5a77fc32eb063bc206f958274a",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://0895399d170daab2d69b4c43a0202e5a07f2e67a93b26e3354dcbedb062232f7",
+				"dweb:/ipfs/QmUM1VH3XDk559Dsgh4QPvupr3YVKjz87HrSyYzzVFZbxw"
+			]
+		},
+		"node_modules/@openzeppelin/contracts-upgradeable/utils/introspection/IERC165Upgradeable.sol": {
+			"keccak256": "0xc6cef87559d0aeffdf0a99803de655938a7779ec0a3cd5d4383483ad85565a09",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://92ad7e572cf44e6b4b37631b44b62f9eb9fb1cf14d9ce51c1504d5dc7ccaf758",
+				"dweb:/ipfs/QmcnbqX85tsWnUXPmtuPLE4SczME2sJaTfmqEFkuAJvWhy"
+			]
+		},
+		"node_modules/@openzeppelin/contracts-upgradeable/utils/math/MathUpgradeable.sol": {
+			"keccak256": "0xc1bd5b53319c68f84e3becd75694d941e8f4be94049903232cd8bc7c535aaa5a",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://056027a78e6f4b78a39be530983551651ee5a052e786ca2c1c6a3bb1222b03b4",
+				"dweb:/ipfs/QmXRUpywAqNwAfXS89vrtiE2THRM9dX9pQ4QxAkV1Wx9kt"
+			]
+		}
+	},
+	"version": 1
+}

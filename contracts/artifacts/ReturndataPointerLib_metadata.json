@@ -1,0 +1,45 @@
+{
+	"compiler": {
+		"version": "0.8.13+commit.abaa5c0e"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/PointerLibraries.sol": "ReturndataPointerLib"
+		},
+		"evmVersion": "london",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/PointerLibraries.sol": {
+			"keccak256": "0xfdd941aa24a7bc03c8356543749341e4a8e047875c9537bde4f6df2758a30ce1",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://023a6ce654d6a293c1f0e0b3534b2327569c55e5e1d2409673a45845fb45a9c5",
+				"dweb:/ipfs/QmQKxJvbkCeVRad1E3UXQ3KvXjaQpZFGPsYusUsUMRGjRr"
+			]
+		}
+	},
+	"version": 1
+}

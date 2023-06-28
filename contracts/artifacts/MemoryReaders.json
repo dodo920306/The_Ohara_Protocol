@@ -1,0 +1,162 @@
+{
+	"deploy": {
+		"VM:-": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"main:1": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"ropsten:3": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"rinkeby:4": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"kovan:42": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"goerli:5": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"Custom": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		}
+	},
+	"data": {
+		"bytecode": {
+			"functionDebugData": {},
+			"generatedSources": [],
+			"linkReferences": {},
+			"object": "60566050600b82828239805160001a6073146043577f4e487b7100000000000000000000000000000000000000000000000000000000600052600060045260246000fd5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea2646970667358221220b9a44b81d2d48be61ff2f0fa140184c83ec043969e21a4b8b311f38bbfcc7c6364736f6c634300080d0033",
+			"opcodes": "PUSH1 0x56 PUSH1 0x50 PUSH1 0xB DUP3 DUP3 DUP3 CODECOPY DUP1 MLOAD PUSH1 0x0 BYTE PUSH1 0x73 EQ PUSH1 0x43 JUMPI PUSH32 0x4E487B7100000000000000000000000000000000000000000000000000000000 PUSH1 0x0 MSTORE PUSH1 0x0 PUSH1 0x4 MSTORE PUSH1 0x24 PUSH1 0x0 REVERT JUMPDEST ADDRESS PUSH1 0x0 MSTORE PUSH1 0x73 DUP2 MSTORE8 DUP3 DUP2 RETURN INVALID PUSH20 0x0 ADDRESS EQ PUSH1 0x80 PUSH1 0x40 MSTORE PUSH1 0x0 DUP1 REVERT INVALID LOG2 PUSH5 0x6970667358 0x22 SLT KECCAK256 0xB9 LOG4 0x4B DUP2 0xD2 0xD4 DUP12 0xE6 0x1F CALLCODE CREATE STATICCALL EQ ADD DUP5 0xC8 RETURNDATACOPY 0xC0 NUMBER SWAP7 SWAP15 0x21 LOG4 0xB8 0xB3 GT RETURN DUP12 0xBF 0xCC PUSH29 0x6364736F6C634300080D00330000000000000000000000000000000000 ",
+			"sourceMap": "61243:22536:0:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;"
+		},
+		"deployedBytecode": {
+			"functionDebugData": {},
+			"generatedSources": [],
+			"immutableReferences": {},
+			"linkReferences": {},
+			"object": "73000000000000000000000000000000000000000030146080604052600080fdfea2646970667358221220b9a44b81d2d48be61ff2f0fa140184c83ec043969e21a4b8b311f38bbfcc7c6364736f6c634300080d0033",
+			"opcodes": "PUSH20 0x0 ADDRESS EQ PUSH1 0x80 PUSH1 0x40 MSTORE PUSH1 0x0 DUP1 REVERT INVALID LOG2 PUSH5 0x6970667358 0x22 SLT KECCAK256 0xB9 LOG4 0x4B DUP2 0xD2 0xD4 DUP12 0xE6 0x1F CALLCODE CREATE STATICCALL EQ ADD DUP5 0xC8 RETURNDATACOPY 0xC0 NUMBER SWAP7 SWAP15 0x21 LOG4 0xB8 0xB3 GT RETURN DUP12 0xBF 0xCC PUSH29 0x6364736F6C634300080D00330000000000000000000000000000000000 ",
+			"sourceMap": "61243:22536:0:-:0;;;;;;;;"
+		},
+		"gasEstimates": {
+			"creation": {
+				"codeDepositCost": "17200",
+				"executionCost": "97",
+				"totalCost": "17297"
+			},
+			"internal": {
+				"readAddress(MemoryPointer)": "infinite",
+				"readBool(MemoryPointer)": "infinite",
+				"readBytes1(MemoryPointer)": "infinite",
+				"readBytes10(MemoryPointer)": "infinite",
+				"readBytes11(MemoryPointer)": "infinite",
+				"readBytes12(MemoryPointer)": "infinite",
+				"readBytes13(MemoryPointer)": "infinite",
+				"readBytes14(MemoryPointer)": "infinite",
+				"readBytes15(MemoryPointer)": "infinite",
+				"readBytes16(MemoryPointer)": "infinite",
+				"readBytes17(MemoryPointer)": "infinite",
+				"readBytes18(MemoryPointer)": "infinite",
+				"readBytes19(MemoryPointer)": "infinite",
+				"readBytes2(MemoryPointer)": "infinite",
+				"readBytes20(MemoryPointer)": "infinite",
+				"readBytes21(MemoryPointer)": "infinite",
+				"readBytes22(MemoryPointer)": "infinite",
+				"readBytes23(MemoryPointer)": "infinite",
+				"readBytes24(MemoryPointer)": "infinite",
+				"readBytes25(MemoryPointer)": "infinite",
+				"readBytes26(MemoryPointer)": "infinite",
+				"readBytes27(MemoryPointer)": "infinite",
+				"readBytes28(MemoryPointer)": "infinite",
+				"readBytes29(MemoryPointer)": "infinite",
+				"readBytes3(MemoryPointer)": "infinite",
+				"readBytes30(MemoryPointer)": "infinite",
+				"readBytes31(MemoryPointer)": "infinite",
+				"readBytes32(MemoryPointer)": "infinite",
+				"readBytes4(MemoryPointer)": "infinite",
+				"readBytes5(MemoryPointer)": "infinite",
+				"readBytes6(MemoryPointer)": "infinite",
+				"readBytes7(MemoryPointer)": "infinite",
+				"readBytes8(MemoryPointer)": "infinite",
+				"readBytes9(MemoryPointer)": "infinite",
+				"readInt104(MemoryPointer)": "infinite",
+				"readInt112(MemoryPointer)": "infinite",
+				"readInt120(MemoryPointer)": "infinite",
+				"readInt128(MemoryPointer)": "infinite",
+				"readInt136(MemoryPointer)": "infinite",
+				"readInt144(MemoryPointer)": "infinite",
+				"readInt152(MemoryPointer)": "infinite",
+				"readInt16(MemoryPointer)": "infinite",
+				"readInt160(MemoryPointer)": "infinite",
+				"readInt168(MemoryPointer)": "infinite",
+				"readInt176(MemoryPointer)": "infinite",
+				"readInt184(MemoryPointer)": "infinite",
+				"readInt192(MemoryPointer)": "infinite",
+				"readInt200(MemoryPointer)": "infinite",
+				"readInt208(MemoryPointer)": "infinite",
+				"readInt216(MemoryPointer)": "infinite",
+				"readInt224(MemoryPointer)": "infinite",
+				"readInt232(MemoryPointer)": "infinite",
+				"readInt24(MemoryPointer)": "infinite",
+				"readInt240(MemoryPointer)": "infinite",
+				"readInt248(MemoryPointer)": "infinite",
+				"readInt256(MemoryPointer)": "infinite",
+				"readInt32(MemoryPointer)": "infinite",
+				"readInt40(MemoryPointer)": "infinite",
+				"readInt48(MemoryPointer)": "infinite",
+				"readInt56(MemoryPointer)": "infinite",
+				"readInt64(MemoryPointer)": "infinite",
+				"readInt72(MemoryPointer)": "infinite",
+				"readInt8(MemoryPointer)": "infinite",
+				"readInt80(MemoryPointer)": "infinite",
+				"readInt88(MemoryPointer)": "infinite",
+				"readInt96(MemoryPointer)": "infinite",
+				"readMaskedUint256(MemoryPointer)": "infinite",
+				"readMemoryPointer(MemoryPointer)": "infinite",
+				"readUint104(MemoryPointer)": "infinite",
+				"readUint112(MemoryPointer)": "infinite",
+				"readUint120(MemoryPointer)": "infinite",
+				"readUint128(MemoryPointer)": "infinite",
+				"readUint136(MemoryPointer)": "infinite",
+				"readUint144(MemoryPointer)": "infinite",
+				"readUint152(MemoryPointer)": "infinite",
+				"readUint16(MemoryPointer)": "infinite",
+				"readUint160(MemoryPointer)": "infinite",
+				"readUint168(MemoryPointer)": "infinite",
+				"readUint176(MemoryPointer)": "infinite",
+				"readUint184(MemoryPointer)": "infinite",
+				"readUint192(MemoryPointer)": "infinite",
+				"readUint200(MemoryPointer)": "infinite",
+				"readUint208(MemoryPointer)": "infinite",
+				"readUint216(MemoryPointer)": "infinite",
+				"readUint224(MemoryPointer)": "infinite",
+				"readUint232(MemoryPointer)": "infinite",
+				"readUint24(MemoryPointer)": "infinite",
+				"readUint240(MemoryPointer)": "infinite",
+				"readUint248(MemoryPointer)": "infinite",
+				"readUint256(MemoryPointer)": "infinite",
+				"readUint32(MemoryPointer)": "infinite",
+				"readUint40(MemoryPointer)": "infinite",
+				"readUint48(MemoryPointer)": "infinite",
+				"readUint56(MemoryPointer)": "infinite",
+				"readUint64(MemoryPointer)": "infinite",
+				"readUint72(MemoryPointer)": "infinite",
+				"readUint8(MemoryPointer)": "infinite",
+				"readUint80(MemoryPointer)": "infinite",
+				"readUint88(MemoryPointer)": "infinite",
+				"readUint96(MemoryPointer)": "infinite"
+			}
+		},
+		"methodIdentifiers": {}
+	},
+	"abi": []
+}
