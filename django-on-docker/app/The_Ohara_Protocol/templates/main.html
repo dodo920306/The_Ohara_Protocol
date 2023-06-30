@@ -2,12 +2,27 @@
   <title>Ohara Protocol</title>
 </head>
 
-<p>處理中，請稍後...</p>
+<h1>Ohara Protocol</h1>
+<button onclick="main()">connect</button>
+<div id="account"></div>
+<div id="bookshelf"></div>
+<div>Ohara Protocol 上現在已出版了 {{ value }} 本書。</div>
+<button id="publisher">我的出版</button>
+<br></br>
+<h2>查詢書籍資訊</h2>
+<form method="post">
+  {% csrf_token %}
+  <input name="id" id="id" type="number" min="0">
+  <input type="submit">
+</form>
+
 <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-  
   const main = async () => {
+    document.getElementById("publisher").onclick = () => {
+      window.location.href = "{% url 'publisher' %}";
+    }
     if (window.ethereum) {
       window.web3 = new Web3(window.ethereum);
       await window.ethereum.request({ method: 'eth_requestAccounts' });
@@ -18,7 +33,14 @@
     }
 
     const web3 = window.web3;
+    if (await web3.eth.net.getId() != 421613) {
+      window.alert("錯誤，請切換到正確的網路上。");
+      return;
+    }
     const accounts = await web3.eth.getAccounts();
+    $('#account').text(`
+        Welcome ${accounts}!
+    `);
     const protocol = new web3.eth.Contract([
     {
       "inputs": [],
@@ -854,21 +876,32 @@
       "type": "function"
     }
   ], '0xDaB5e5bB35B3705338Ad5082930D562aD864E239');
-    let id = "{{ id }}"
-    let publisher = "{{ publisher }}"
-    let gas = await protocol.methods.setIdToPublisher(id, publisher).estimateGas({ from: accounts[0] });
-    console.log("Estimate Gas: ", gas);
-    gas += 10000;
-    await protocol.methods.setIdToPublisher(id, publisher).send({ from: accounts[0] }).on('error', function(error){
-      const error_messenge = "錯誤，請聯繫開發人員以取得更進一步的資訊。\n錯誤訊息為：" + JSON.stringify(error)
-      window.alert(error_messenge);
-      window.location.href="{% url 'main' %}"
-    }).on("transactionHash", (hash) => {
-      const messenge = "交易成功！\n交易 hash 為：" + hash
-      window.alert(messenge);
-      window.location.href="{% url 'main' %}"
-    });
+    let bookshelf = "正在讀取您的書櫃...";
+    $('#bookshelf').text(`
+      ${bookshelf}
+    `);
+    const promises = [];
+    for (let i = 0; i < {{ value }}; i++) {
+      promises.push(protocol.methods.balanceOf(accounts[0], i).call({ from: accounts[0] }));
+    }
+    const balances = await Promise.all(promises);
+    for (let i = 0; i < balances.length; i++) {
+      const bal = balances[i];
+      if (bal > 0) {
+        if (bookshelf === "正在讀取您的書櫃...") {
+          bookshelf = "您目前持有 ";
+        }
+        bookshelf += "id " + parseInt(i) + " 的書 " + parseInt(bal) + " 本。 ";
+        $('#bookshelf').text(`
+          ${bookshelf}
+        `);
+      }
+    }
+    if (bookshelf == "正在讀取您的書櫃...")    bookshelf = "你的書櫃上無任何書籍。"
+    $('#bookshelf').text(`
+      ${bookshelf}
+    `);
   }
   
-  main()
+  main();
 </script>

@@ -9,22 +9,37 @@
  You can see more details on https://100.adi.gov.tw/ahvs1?id=62.
  
  This project is still under development, and we welcome any suggestions for improvement. You can help us identify issues by using the "Issues" tab above. Your feedback is valuable and we appreciate your contribution to the project's development.
+
+## Prerequisites
+You should have well functional truffle, docker, and docker-compose installed on your computer.
+
 ## Installation
  Please clone this repository and run
  ```bash
  $ npm install
  ```
  under the project root directory.
+
+ Then, put the MNEMONIC and INFURA_KEY into the `.env` file
+
+ ```
+ MNEMONIC = "..."
+ INFURA_KEY = "..."
+ ```
  
  Now, you can use truffle to develop and test this project.
 
- Use
+ You can choose the migration you want from migrationslib and copy it to the migrations file.
+
+ For example, you can copy migrationslib/1_deploy.js to the migrations file, and use
 
  ```bash
- $ truffle migrate --network goerli
+ $ npx truffle migrate --network goerli
  ```
  
  to upload the contract and proxy on chain.
+
+ Then, config django-on-docker/.env.dev, .env.prod, and .env.prod.db according to the samples and what your need.
 
  Finally, use
 
@@ -34,6 +49,4 @@
 
  to run the server.
 
- If you don't have docker & docker-compose, go get them.
-
- Then, you can use url like "http://localhost:8000/balanceOf/?account=YOUR_ACCOUNT&id=ID" to interact with the contract.
+ You should see the website on your port 80 now.

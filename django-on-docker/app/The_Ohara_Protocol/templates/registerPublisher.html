@@ -1,0 +1,54 @@
+<head>
+  <title>Ohara Protocol</title>
+</head>
+
+<h1>出版社註冊</h1>
+<div id="account"></div>
+<form onsubmit="grantPublisherByDefaultAdmin(event)">
+    <label for="name">請輸入你要註冊的出版社名稱:</label>
+    <input type="text" id="name" name="name" required><br><br>
+    <input type="submit" value="提交">
+</form>
+
+<script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  let accounts;
+  const main = async () => {
+    if (window.ethereum) {
+        window.web3 = new Web3(window.ethereum);
+        await window.ethereum.request({ method: 'eth_requestAccounts' });
+    } else if (window.web3) {
+        window.web3 = new Web3(window.web3.currentProvider);
+    } else {
+        window.alert("No ethereum browser detected! You can check out MetaMask.");
+    }
+
+    const web3 = window.web3;
+    accounts = await web3.eth.getAccounts();
+    $('#account').text(`
+        Welcome ${accounts}!
+    `);
+  }
+
+  const grantPublisherByDefaultAdmin = async (event) => {
+    event.preventDefault();
+    fetch("{% url 'grantPublisherByDefaultAdmin' %}?publisher=" + document.getElementById("name").value + '&account=' + accounts[0], {
+      method: 'GET',
+      headers: {
+          'Accept': 'application/json',
+      },
+    })
+    .then(response => response.json())
+    .then(response => {
+      if (response['status'] == 1) {
+        window.alert("註冊成功！");
+      }
+      else {
+        window.alert("錯誤，該出版社已被註冊。\n請聯繫該出版社名稱持有團隊以成為該出版社的一員。\n若您確定該出版社尚未被註冊，請聯繫開發人員以取得更進一步的資訊。");
+      }
+    })
+    .then(() => {window.location.href = "{% url 'publisher' %}";});
+  }
+  main();
+</script>

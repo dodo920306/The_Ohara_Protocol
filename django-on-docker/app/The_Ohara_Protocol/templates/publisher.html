@@ -2,23 +2,21 @@
   <title>Ohara Protocol</title>
 </head>
 
-<p>處理中，請稍後...</p>
+<h1>我的出版</h1>
+<div id="account"></div>
+<form onsubmit="hasRole(event)">
+    <label for="name">請輸入你的出版社名稱:</label>
+    <input type="text" id="name" name="name" required><br><br>
+    <input type="submit" value="提交">
+</form>
+<button id="registerPublisher">註冊出版社</button>
+
 <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-  
-  const main = async () => {
-    if (window.ethereum) {
-      window.web3 = new Web3(window.ethereum);
-      await window.ethereum.request({ method: 'eth_requestAccounts' });
-    } else if (window.web3) {
-      window.web3 = new Web3(window.web3.currentProvider);
-    } else {
-      window.alert("No ethereum browser detected! You can check out MetaMask.");
-    }
-
-    const web3 = window.web3;
-    const accounts = await web3.eth.getAccounts();
+  let accounts;
+  const hasRole = async (event) => {
+    event.preventDefault();
     const protocol = new web3.eth.Contract([
     {
       "inputs": [],
@@ -854,21 +852,40 @@
       "type": "function"
     }
   ], '0xDaB5e5bB35B3705338Ad5082930D562aD864E239');
-    let id = "{{ id }}"
-    let publisher = "{{ publisher }}"
-    let gas = await protocol.methods.setIdToPublisher(id, publisher).estimateGas({ from: accounts[0] });
-    console.log("Estimate Gas: ", gas);
-    gas += 10000;
-    await protocol.methods.setIdToPublisher(id, publisher).send({ from: accounts[0] }).on('error', function(error){
-      const error_messenge = "錯誤，請聯繫開發人員以取得更進一步的資訊。\n錯誤訊息為：" + JSON.stringify(error)
-      window.alert(error_messenge);
-      window.location.href="{% url 'main' %}"
-    }).on("transactionHash", (hash) => {
-      const messenge = "交易成功！\n交易 hash 為：" + hash
-      window.alert(messenge);
-      window.location.href="{% url 'main' %}"
-    });
+    const formData = new FormData(event.target);
+    const publishername = formData.get('name');
+    const hash = web3.utils.soliditySha3(web3.eth.abi.encodeParameter("string", publishername));
+    const verified = await protocol.methods.hasRole(hash, accounts[0]).call({ from: accounts[0] });
+    if (!verified) {
+        window.alert("你並不屬於該出版社，你可以嘗試註冊此出版社或是與該出版社的成員連絡已取得資格。");
+    }
+    else {
+        const publisher_name = document.getElementById("name").value;
+        const welcome_messenge = "歡迎，" + publisher_name + " 的管理者。";
+        window.alert(welcome_messenge);
+        window.location.href = "../afterPublisher/?name=" + publisher_name + "&hash=" + hash;
+    }
+  }
+
+  const main = async () => {
+    document.getElementById("registerPublisher").onclick = () => {
+      window.location.href = "{% url 'registerPublisher' %}";
+    }
+    if (window.ethereum) {
+      window.web3 = new Web3(window.ethereum);
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
+    } else if (window.web3) {
+      window.web3 = new Web3(window.web3.currentProvider);
+    } else {
+      window.alert("No ethereum browser detected! You can check out MetaMask.");
+    }
+
+    const web3 = window.web3;
+    accounts = await web3.eth.getAccounts();
+    $('#account').text(`
+        Welcome ${accounts}!
+    `);
   }
   
-  main()
+  main();
 </script>

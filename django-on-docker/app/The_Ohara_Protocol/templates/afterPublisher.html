@@ -2,12 +2,249 @@
   <title>Ohara Protocol</title>
 </head>
 
-<p>處理中，請稍後...</p>
+<h1>我的出版</h1>
+<div id="account">Welcome {{ name }}!</div>
+<div id="bookshelf"></div>
+<form onsubmit="require(event)">
+    <label for="mySelect">請選擇您想獲取的出版品 ID:</label><br>
+    <select id="mySelect" required></select>
+    <br><br>
+    <label for="name">請選擇您想獲取的數量:</label>
+    <input type="number" id="amount" min="0" required><br><br>
+    <input type="submit" value="獲取">
+</form>
+<div>新增成員</div>
+<form onsubmit="grant(event)">
+  <label for="address">請選擇您想新增的出版社成員:</label>
+  <input type="text" id="address" required><br><br>
+  <input type="submit" value="新增">
+</form>
+<button id="publish">出版</button>
+
+<h2>更改書籍資訊 (開發中)</h2>
+<form onsubmit="query(event)">
+  {% csrf_token %}
+  <select name="id" id="id" required></select>
+  <input type="submit">
+</form>
+
+<form id="result" method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+</form>
+
 <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-  
+  let accounts;
+
+  const query = async (event) => {
+    event.preventDefault();
+    const form = event.target;
+    const url = "http://" + window.location.host + "/";
+    const formData = new FormData(form)
+    let resultDiv = document.getElementById('result');
+    resultDiv.innerHTML = 
+    `<form id="result" method="post">
+      {% csrf_token %}
+    </form>`
+    fetch(url, {
+      method: "post",
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+      },
+      body: "id=" + formData.get('id')
+    }).then(function(response) {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error('請求失敗');
+      }
+    }).then(function(book) {
+      let newInput = document.createElement('p');
+      newInput.textContent = 'ID: ' + book.id.toString();
+      resultDiv.appendChild(newInput);
+      newInput = document.createElement('input');
+      newInput.type = "number";
+      newInput.name = "id";
+      newInput.value = book.id;
+      newInput.hidden = true;
+      resultDiv.appendChild(newInput);
+      newInput = document.createElement('p');
+      newInput.textContent = 'Name: ' + book.name;
+      resultDiv.appendChild(newInput);
+      newInput = document.createElement('p');
+      newInput.textContent = 'Author: ' + book.author;
+      resultDiv.appendChild(newInput);
+      newInput = document.createElement('p');
+      newInput.textContent = 'Publisher: ' + book.publisher;
+      resultDiv.appendChild(newInput);
+      newInput = document.createElement('label');
+      newInput.for = "category";
+      newInput.textContent = 'Category: ';
+      resultDiv.appendChild(newInput);
+      newInput = document.createElement('input');
+      newInput.type = "text";
+      newInput.id = "category";
+      newInput.name = "category";
+      newInput.value = book.category;
+      resultDiv.appendChild(newInput);
+      newInput = document.createElement('p');
+      newInput.textContent = 'Price: ' + book.price.toString();
+      resultDiv.appendChild(newInput);
+      newInput = document.createElement('p');
+      newInput.textContent = 'Amount: ' + book.amount.toString();
+      resultDiv.appendChild(newInput);
+      newInput = document.createElement('p');
+      newInput.textContent = 'Profit: ' + book.profit.toString();
+      resultDiv.appendChild(newInput);
+      newInput = document.createElement('p');
+      newInput.textContent = 'Url: ' + book.url;
+      resultDiv.appendChild(newInput);
+      newInput = document.createElement('label');
+      newInput.for = "intro";
+      newInput.textContent = 'Intro: ';
+      resultDiv.appendChild(newInput);
+      newInput = document.createElement('textarea');
+      newInput.id = "intro";
+      newInput.name = "intro";
+      newInput.rows = "4";
+      newInput.cols = "50";
+      newInput.value = book.intro;
+      resultDiv.appendChild(newInput);
+      newInput = document.createElement('br');
+      resultDiv.appendChild(newInput);
+      newInput = document.createElement('p');
+      newInput.textContent = 'Cover: ';
+      resultDiv.appendChild(newInput);
+      newInput = document.createElement('img');
+      newInput.style = "width: 250px; height: auto;"
+      newInput.setAttribute('src', book.cover);
+      resultDiv.appendChild(newInput);
+      newInput = document.createElement('br');
+      resultDiv.appendChild(newInput);
+
+      newInput = document.createElement('label');
+      newInput.for = "chosen1";
+      newInput.textContent = 'Chosen1: ';
+      resultDiv.appendChild(newInput);
+      if (book.chosen1) {
+        newInput = document.createElement('p');
+        newInput.textContent = 'Origin: ';
+        resultDiv.appendChild(newInput);
+        newInput = document.createElement('img');
+        newInput.style = "width: 250px; height: auto;"
+        newInput.src = book.chosen1;
+        resultDiv.appendChild(newInput);
+      }
+      newInput = document.createElement('input');
+      newInput.type = "file";
+      newInput.name = "chosen1";
+      resultDiv.appendChild(newInput);
+      newInput = document.createElement('br');
+      resultDiv.appendChild(newInput);
+
+      newInput = document.createElement('label');
+      newInput.for = "chosen2";
+      newInput.textContent = 'Chosen2: ';
+      resultDiv.appendChild(newInput);
+      if (book.chosen2) {
+        newInput = document.createElement('p');
+        newInput.textContent = 'Origin: ';
+        resultDiv.appendChild(newInput);
+        newInput = document.createElement('img');
+        newInput.style = "width: 250px; height: auto;"
+        newInput.src = book.chosen2;
+        resultDiv.appendChild(newInput);
+      }
+      newInput = document.createElement('input');
+      newInput.type = "file";
+      newInput.name = "chosen2";
+      resultDiv.appendChild(newInput);
+      newInput = document.createElement('br');
+      resultDiv.appendChild(newInput);
+
+      newInput = document.createElement('label');
+      newInput.for = "chosen3";
+      newInput.textContent = 'Chosen3: ';
+      resultDiv.appendChild(newInput);
+      if (book.chosen3) {
+        newInput = document.createElement('img');
+        newInput.style = "width: 250px; height: auto;"
+        newInput.src = book.chosen3;
+        resultDiv.appendChild(newInput);
+      }
+      newInput = document.createElement('input');
+      newInput.type = "file";
+      newInput.name = "chosen3";
+      resultDiv.appendChild(newInput);
+      newInput = document.createElement('br');
+      resultDiv.appendChild(newInput);
+
+      newInput = document.createElement('label');
+      newInput.for = "chosen4";
+      newInput.textContent = 'Chosen4: ';
+      resultDiv.appendChild(newInput);
+      if (book.chosen4) {
+        newInput = document.createElement('img');
+        newInput.style = "width: 250px; height: auto;"
+        newInput.src = book.chosen4;
+        resultDiv.appendChild(newInput);
+      }
+      newInput = document.createElement('input');
+      newInput.type = "file";
+      newInput.name = "chosen4";
+      resultDiv.appendChild(newInput);
+      newInput = document.createElement('br');
+      resultDiv.appendChild(newInput);
+
+      newInput = document.createElement('label');
+      newInput.textContent = 'Book_file: ';
+      resultDiv.appendChild(newInput);
+      newInput = document.createElement('a');
+      newInput.href = book.book_file;
+      newInput.textContent = '點我';
+      resultDiv.appendChild(newInput);
+      newInput = document.createElement('br');
+      resultDiv.appendChild(newInput);
+
+      newInput = document.createElement('label');
+      newInput.textContent = 'Arweave: ';
+      resultDiv.appendChild(newInput);
+
+      newInput = document.createElement('a');
+      newInput.href = book.Arweave;
+      newInput.textContent = '點我';
+      resultDiv.appendChild(newInput);
+      newInput = document.createElement('br');
+      resultDiv.appendChild(newInput);
+
+      newInput = document.createElement('input');
+      newInput.type = "submit";
+      newInput.value = "確認更改";
+      resultDiv.appendChild(newInput);
+    }).catch(function(error) {
+      console.error(error);
+    });
+    
+  }
+
+  const grant = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    window.location.href = "{% url 'grantPublisher' %}?publisher=" + "{{ name }}" + "&account=" + formData.get("address");
+  }
+
+  const require = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    window.location.href = "{% url 'mint' %}?account=" + accounts[0] + "&id=" + formData.get("mySelect") + '&amount=' + formData.get("amount");
+  }
+
   const main = async () => {
+    document.getElementById("publish").onclick= () => {
+      window.location.href="{% url 'publish' %}?name={{ name }}";
+    }
     if (window.ethereum) {
       window.web3 = new Web3(window.ethereum);
       await window.ethereum.request({ method: 'eth_requestAccounts' });
@@ -16,9 +253,8 @@
     } else {
       window.alert("No ethereum browser detected! You can check out MetaMask.");
     }
-
     const web3 = window.web3;
-    const accounts = await web3.eth.getAccounts();
+    accounts = await web3.eth.getAccounts();
     const protocol = new web3.eth.Contract([
     {
       "inputs": [],
@@ -854,21 +1090,39 @@
       "type": "function"
     }
   ], '0xDaB5e5bB35B3705338Ad5082930D562aD864E239');
-    let id = "{{ id }}"
-    let publisher = "{{ publisher }}"
-    let gas = await protocol.methods.setIdToPublisher(id, publisher).estimateGas({ from: accounts[0] });
-    console.log("Estimate Gas: ", gas);
-    gas += 10000;
-    await protocol.methods.setIdToPublisher(id, publisher).send({ from: accounts[0] }).on('error', function(error){
-      const error_messenge = "錯誤，請聯繫開發人員以取得更進一步的資訊。\n錯誤訊息為：" + JSON.stringify(error)
-      window.alert(error_messenge);
-      window.location.href="{% url 'main' %}"
-    }).on("transactionHash", (hash) => {
-      const messenge = "交易成功！\n交易 hash 為：" + hash
-      window.alert(messenge);
-      window.location.href="{% url 'main' %}"
-    });
+    let bookshelf = "正在讀取您的出版物...";
+    $('#bookshelf').text(`
+      ${bookshelf}
+    `);
+    const promises = [];
+    let select1 = document.getElementById("mySelect");
+    let select2 = document.getElementById("id")
+    for (let i = 0; i < {{ value }}; i++) {
+      promises.push(protocol.methods.idToPublisher(i).call({ from: accounts[0] }));
+    }
+    const publishers = await Promise.all(promises);
+    for (let i = 0; i < publishers.length; i++) {
+      const publisher = publishers[i];
+      if (publisher == {{ hash }}) {
+        if (bookshelf == "正在讀取您的出版物...")    bookshelf = "您的出版社目前出版了 "
+        bookshelf += "id " + parseInt(i) + " 的書 " + await protocol.methods.totalSupply(i).call({ from: accounts[0] }) +" 本。";
+        $('#bookshelf').text(`
+          ${bookshelf}
+        `);
+        let option1 = document.createElement("option");
+        option1.value = i;
+        option1.text = i;
+        select1.add(option1);
+        let option2 = document.createElement("option");
+        option2.value = i;
+        option2.text = i;
+        select2.add(option2);
+      }
+    }
+    if (bookshelf == "正在讀取您的出版物...")    bookshelf = "您的出版社尚未出版任何書籍。"
+    $('#bookshelf').text(`
+      ${bookshelf}
+    `);
   }
-  
-  main()
+  main();
 </script>

@@ -1,5 +1,9 @@
 node_modules
+django-on-docker/.env.dev
 django-on-docker/.env.prod
 django-on-docker/.env.prod.db
+django-on-docker/app/arweave.json
 django-on-docker/app/env
 .env
+.openzeppelin
+build

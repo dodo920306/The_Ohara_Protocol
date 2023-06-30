@@ -10,8 +10,9 @@ import "../node_modules/@openzeppelin/contracts-upgradeable/proxy/utils/Initiali
 
 /// @custom:security-contact dodo920306@gmail.com
 contract The_Ohara_Protocol is Initializable, ERC1155Upgradeable, AccessControlUpgradeable, PausableUpgradeable, ERC1155BurnableUpgradeable, ERC1155SupplyUpgradeable {
-    mapping (uint256 => bytes32) idToPublisher; // Anyone can check which publisher an id belongs to.
-    mapping (string => bool) publisherHasMember;
+    mapping (uint256 => bytes32) public idToPublisher; // Anyone can check which publisher an id belongs to.
+    mapping (string => bool) public publisherHasMember;
+    uint256 public currentId;
 
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
@@ -85,7 +86,9 @@ contract The_Ohara_Protocol is Initializable, ERC1155Upgradeable, AccessControlU
         public
         onlyRole(idToPublisher[id])
     {
+        require(id <= currentId, "Request id greater than current id.");
         bytes32 role = keccak256(abi.encode(publisher));
+        if(id == currentId) currentId++;
         idToPublisher[id] = role;
     }
 
@@ -114,6 +117,7 @@ contract The_Ohara_Protocol is Initializable, ERC1155Upgradeable, AccessControlU
         public
         onlyRole(idToPublisher[id])
     {
+        require(id < currentId, "Requested id doesn't exist.");
         _mint(account, id, amount, data);
     }
 

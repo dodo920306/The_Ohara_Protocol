@@ -15,15 +15,27 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 
-from The_Ohara_Protocol.views import grantPublisher, setIdToPublisher, grantPublisherByDefaultAdmin, setIdToPublisherByDefaultAdmin, mint, balanceOf
+
+from The_Ohara_Protocol.views import grantPublisher, setIdToPublisher, grantPublisherByDefaultAdmin, setIdToPublisherByDefaultAdmin, mint, balanceOf, mainPage, publisherPage, afterPublisherPage, registerPublisherPage, publishPage, metadata
 
 urlpatterns = [
-    path("grantPublisherByDefaultAdmin/", grantPublisherByDefaultAdmin),
-    path("setIdToPublisherByDefaultAdmin/", setIdToPublisherByDefaultAdmin),
-    path("grantPublisher/", grantPublisher),
+    path("grantPublisherByDefaultAdmin/", grantPublisherByDefaultAdmin, name='grantPublisherByDefaultAdmin'),
+    path("setIdToPublisherByDefaultAdmin/", setIdToPublisherByDefaultAdmin, name='setIdToPublisherByDefaultAdmin'),
+    path("grantPublisher/", grantPublisher, name='grantPublisher'),
     path("setIdToPublisher/", setIdToPublisher),
-    path("mint/", mint),
-    path("balanceOf/", balanceOf, name="balanceOf"),
+    path("mint/", mint, name='mint'),
+    path("balanceOf/", balanceOf),
     path("admin/", admin.site.urls),
+    path("", mainPage, name='main'),
+    path("myPublisher/", publisherPage, name="publisher"),
+    path("afterPublisher/", afterPublisherPage),
+    path("registerPublisher/", registerPublisherPage, name="registerPublisher"),
+    path("publish/", publishPage, name="publish"),
+    path('metadata/<str:hex_string>.json', metadata, name='metadata')
 ]
+
+if bool(settings.DEBUG):
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
