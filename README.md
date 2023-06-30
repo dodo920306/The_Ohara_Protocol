@@ -1,4 +1,4 @@
-# The_Ohara_Protocol
+# Ohara Protocol
 ![image](https://user-images.githubusercontent.com/74814435/233918652-b6a1d795-b995-4742-8fb5-4e343dccbafa.png)
 
 ## Overview
