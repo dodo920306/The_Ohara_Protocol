@@ -15,8 +15,9 @@ from .forms import BookForm
 f = open("/home/app/web/ohara.json")
 data = json.load(f)
 abi = data["abi"]
+address = data["networks"]["421613"]["address"]
 w3 = Web3(Web3.HTTPProvider("https://arbitrum-goerli.infura.io/v3/" + os.environ.get("INFURA_KEY")))
-contract = w3.eth.contract(address='0xDaB5e5bB35B3705338Ad5082930D562aD864E239', abi=abi)
+contract = w3.eth.contract(address=address, abi=abi)
 f.close()
 
 
@@ -79,6 +80,8 @@ def grantPublisher(request):
     return render(request, "grantPublisher.html", {
         "publisher": publisher,
         "account": account,
+        'abi': json.dumps(abi),
+        "address": address,
     })
 
 
@@ -88,6 +91,8 @@ def setIdToPublisher(request):
     return render(request, "setIdToPublisher.html", {
         "id": id,
         "publisher": publisher,
+        'abi': json.dumps(abi),
+        'address': address,
     })
 
 
@@ -99,6 +104,8 @@ def mint(request):
         "account": account,
         "id": id,
         "amount": amount,
+        'abi': json.dumps(abi),
+        "address": address
     })
 
 
@@ -108,6 +115,8 @@ def balanceOf(request):
     return render(request, "balanceOf.html", {
         "account": account,
         "id": id,
+        'abi': json.dumps(abi),
+        "address": address,
     })
 
 
@@ -139,11 +148,11 @@ def mainPage(request):
         except Book.DoesNotExist:
             return JsonResponse({"detail": "The book doesn't exist."})
     else:
-        return render(request, "main.html", {'value': callTx("currentId")})
+        return render(request, "main.html", {'value': callTx("currentId"), 'abi': json.dumps(abi), 'address': address})
 
 
 def publisherPage(request):
-    return render(request, "publisher.html")
+    return render(request, "publisher.html", {'abi': json.dumps(abi), 'address': address})
 
 
 def afterPublisherPage(request):
@@ -189,7 +198,9 @@ def afterPublisherPage(request):
             return render(request, "afterPublisher.html", {
                 "name": name,
                 "hash": hash,
-                'value': callTx("currentId")
+                'value': callTx("currentId"),
+                'abi': json.dumps(abi),
+                'address': address,
             })
     return HttpResponseRedirect("/myPublisher/")
 
@@ -253,7 +264,9 @@ def publishPage(request):
             form = BookForm()
             return render(request, "publish.html", {
                 "name": name,
-                'form': form
+                'form': form,
+                'abi': json.dumps(abi),
+                "address": address,
             })
     return HttpResponseRedirect("/myPublisher/")
 

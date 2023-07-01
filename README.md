@@ -37,7 +37,7 @@ You should have well functional truffle, docker, and docker-compose installed on
  $ npx truffle migrate --network goerli
  ```
  
- to upload the contract and proxy on chain.
+ to deploy the contract and proxy on Arbitrum goerli.
 
  Then, config django-on-docker/.env.dev, .env.prod, and .env.prod.db according to the samples and what your need.
 
