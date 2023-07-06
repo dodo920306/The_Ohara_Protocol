@@ -1,7 +1,9 @@
-<head>
-  <title>Ohara Protocol</title>
-</head>
+{% extends "base.html" %}
+{% load i18n %}
 
+{% block head_title %}Ohara Protocol{% endblock %}
+
+{% block content %}
 <h1>我的出版</h1>
 <div id="account">Welcome {{ name }}!</div>
 <div id="bookshelf"></div>
@@ -13,7 +15,7 @@
     <input type="number" id="amount" name="amount" min="0" required><br><br>
     <input type="submit" value="獲取">
 </form>
-<div>新增成員</div>
+<h2>新增成員</h2>
 <form onsubmit="grant(event)">
   <label for="address">請選擇您想新增的出版社成員:</label>
   <input type="text" id="address" name="address" required><br><br>
@@ -21,7 +23,7 @@
 </form>
 <button id="publish">出版</button>
 
-<h2>更改書籍資訊 (開發中)</h2>
+<h2>更改書籍資訊</h2>
 <form onsubmit="query(event)">
   {% csrf_token %}
   <select name="id" id="id" required></select>
@@ -292,3 +294,5 @@
   }
   main();
 </script>
+
+{% endblock %}

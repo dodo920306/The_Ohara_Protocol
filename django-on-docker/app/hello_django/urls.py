@@ -14,27 +14,30 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
 
-from The_Ohara_Protocol.views import grantPublisher, setIdToPublisher, grantPublisherByDefaultAdmin, setIdToPublisherByDefaultAdmin, mint, balanceOf, mainPage, publisherPage, afterPublisherPage, registerPublisherPage, publishPage, metadata
+from The_Ohara_Protocol import views
 
 urlpatterns = [
-    path("grantPublisherByDefaultAdmin/", grantPublisherByDefaultAdmin, name='grantPublisherByDefaultAdmin'),
-    path("setIdToPublisherByDefaultAdmin/", setIdToPublisherByDefaultAdmin, name='setIdToPublisherByDefaultAdmin'),
-    path("grantPublisher/", grantPublisher, name='grantPublisher'),
-    path("setIdToPublisher/", setIdToPublisher),
-    path("mint/", mint, name='mint'),
-    path("balanceOf/", balanceOf),
+    path("grantPublisherByDefaultAdmin/", views.grantPublisherByDefaultAdmin, name='grantPublisherByDefaultAdmin'),
+    path("setIdToPublisherByDefaultAdmin/", views.setIdToPublisherByDefaultAdmin, name='setIdToPublisherByDefaultAdmin'),
+    path("grantPublisher/", views.grantPublisher, name='grantPublisher'),
+    path("setIdToPublisher/", views.setIdToPublisher),
+    path("mint/", views.mint, name='mint'),
+    path("balanceOf/", views.balanceOf),
     path("admin/", admin.site.urls),
-    path("", mainPage, name='main'),
-    path("myPublisher/", publisherPage, name="publisher"),
-    path("afterPublisher/", afterPublisherPage),
-    path("registerPublisher/", registerPublisherPage, name="registerPublisher"),
-    path("publish/", publishPage, name="publish"),
-    path('metadata/<str:hex_string>.json', metadata, name='metadata')
+    path("", views.mainPage, name='main'),
+    path("myPublisher/", views.publisherPage, name="publisher"),
+    path("afterPublisher/", views.afterPublisherPage),
+    path("registerPublisher/", views.registerPublisherPage, name="registerPublisher"),
+    path("publish/", views.publishPage, name="publish"),
+    path('metadata/<str:hex_string>.json', views.metadata, name='metadata'),
+    path('read/', views.readBook, name='readBook'),
+    path('accounts/', include('allauth.urls')),
+    path('accounts/register/', views.register, name='register'),
 ]
 
 if bool(settings.DEBUG):

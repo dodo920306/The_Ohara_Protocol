@@ -1,6 +1,9 @@
-<head>
-  <title>Ohara Protocol</title>
-</head>
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block head_title %}Ohara Protocol{% endblock %}
+
+{% block content %}
 
 <h1>Ohara Protocol</h1>
 <button onclick="main()">connect</button>
@@ -13,6 +16,12 @@
 <form method="post">
   {% csrf_token %}
   <input name="id" id="id" type="number" min="0">
+  <input type="submit">
+</form>
+<h2>閱讀書籍</h2>
+<form method="post" action="{% url 'readBook' %}">
+  {% csrf_token %}
+  <select name="id" id="select" required></select>
   <input type="submit">
 </form>
 
@@ -51,6 +60,7 @@
       promises.push(protocol.methods.balanceOf(accounts[0], i).call({ from: accounts[0] }));
     }
     const balances = await Promise.all(promises);
+    let select = document.getElementById("select");
     for (let i = 0; i < balances.length; i++) {
       const bal = balances[i];
       if (bal > 0) {
@@ -61,6 +71,10 @@
         $('#bookshelf').text(`
           ${bookshelf}
         `);
+        let option = document.createElement("option");
+        option.value = i;
+        option.text = i;
+        select.add(option);
       }
     }
     if (bookshelf == "正在讀取您的書櫃...")    bookshelf = "你的書櫃上無任何書籍。"
@@ -71,3 +85,5 @@
   
   main();
 </script>
+
+{% endblock %}

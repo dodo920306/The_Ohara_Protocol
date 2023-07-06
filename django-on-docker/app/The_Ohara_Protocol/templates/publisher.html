@@ -1,6 +1,9 @@
-<head>
-  <title>Ohara Protocol</title>
-</head>
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block head_title %}Ohara Protocol{% endblock %}
+
+{% block content %}
 
 <h1>我的出版</h1>
 <div id="account"></div>
@@ -55,3 +58,5 @@
   
   main();
 </script>
+
+{% endblock %}

@@ -1,8 +1,11 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block head_title %}Ohara Protocol{% endblock %}
+
 {% block content %}
 
-  <div id="res"></div>
-
-{% endblock %}
+<div id="res"></div>
 
 <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -30,3 +33,5 @@
   
   main()
 </script>
+
+{% endblock %}

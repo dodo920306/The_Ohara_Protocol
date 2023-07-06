@@ -1,6 +1,9 @@
-<head>
-  <title>Ohara Protocol</title>
-</head>
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block head_title %}Ohara Protocol{% endblock %}
+
+{% block content %}
 
 <p>處理中，請稍後...</p>
 
@@ -27,15 +30,17 @@
     console.log("Estimate Gas: ", gas);
     gas += 10000;
     await protocol.methods.mint(account, id, amount, "0x00").send({ from: accounts[0], gas: gas }).on('error', function(error){
-      const error_messenge = "錯誤，請聯繫開發人員以取得更進一步的資訊。\n錯誤訊息為：" + JSON.stringify(error)
+      const error_messenge = "錯誤，請聯繫開發人員以取得更進一步的資訊。\n錯誤訊息為：" + JSON.stringify(error);
       window.alert(error_messenge);
-      window.location.href="{% url 'main' %}"
+      window.location.href="{% url 'main' %}";
     }).on("transactionHash", (hash) => {
-      const messenge = "交易成功！\n交易 hash 為：" + hash
+      const messenge = "交易成功！\n交易 hash 為：" + hash;
       window.alert(messenge);
-      window.location.href="{% url 'main' %}"
+      window.location.href="{% url 'main' %}";
     });
   }
   
   main();
 </script>
+
+{% endblock %}

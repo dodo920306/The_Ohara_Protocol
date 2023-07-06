@@ -5,6 +5,8 @@
  This repository contains the source code of the Ohara Protocol, an E-Book trading system based on the ERC-1155 standard running on the Arbitrum blockchain.
 
  It allows publishers to mint their E-Books as NFTs and sell them to buyers. The system utilizes the Arbitrum chain for its high throughput and low transaction fees, providing a seamless and efficient E-Book trading experience for all parties involved.
+
+ Every E-Books' metadata will be uploaded to Arweave, and every E-Books' content will also be uploaded to Arweave but only after being encrypted by AES. The key will be saved by the server so that whenever E-Book owners want to read the book, they can read it after the server decrypts it. This way, every book data is saved forever and no one but its owners can read it.
  
  You can see more details on https://100.adi.gov.tw/ahvs1?id=62.
  

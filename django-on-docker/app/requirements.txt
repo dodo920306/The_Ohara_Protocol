@@ -4,3 +4,5 @@ psycopg2-binary
 web3
 Pillow
 arweave-python-client
+pycryptodome
+django-allauth
