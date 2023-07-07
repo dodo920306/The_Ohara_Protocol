@@ -34,10 +34,13 @@ contract The_Ohara_Protocol is ERC1155, AccessControl, Pausable, ERC1155Burnable
         address publisher; // 負責收取收益，為呼叫 mint 的出版商帳號
     }
     
-    mapping (uint256 => mapping (address => Listing)) listings; // id => seller => Listing
-    mapping (uint256 => RevenueFeeInfo) publisherRevenueFeeRates; // id => revenue percentage
+    mapping (uint256 => mapping (address => Listing)) public listings; // id => seller => Listing
+    mapping (uint256 => RevenueFeeInfo) public publisherRevenueFeeRates; // id => revenue percentage
 
     uint16 marketFeeRate = 25;
+
+    mapping (uint256 => string) public idToMetadataUrl;
+    mapping (address => mapping (uint256 => string)) public userToBookKeySecret;
 
     event EBookListed(uint256 indexed id, uint256 indexed amount, uint256 indexed price, address seller);
     event PriceModified(uint256 indexed id, uint256 indexed originalPrice, uint256 indexed currentPrice, address seller, address priceModifier);
@@ -287,6 +290,15 @@ contract The_Ohara_Protocol is ERC1155, AccessControl, Pausable, ERC1155Burnable
         return super.totalSupply(id);
     }
 
+    function changeMetadataUrl(uint256 id, string calldata newMetadataUrl) public onlyRole(DEFAULT_ADMIN_ROLE) {
+        idToMetadataUrl[id] = newMetadataUrl;
+    }
+
+    function changeBookKeySecret(address user, uint256 id, string calldata key) public onlyRole(DEFAULT_ADMIN_ROLE) {
+        userToBookKeySecret[user][id] = key;
+    }
+
+    // ----------------------- below are market functions -----------------------
     function changeMarketFee(uint16 newMarketFee) public onlyRole(DEFAULT_ADMIN_ROLE) {
         marketFeeRate = newMarketFee;
     }

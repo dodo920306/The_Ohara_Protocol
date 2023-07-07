@@ -29289,52 +29289,52 @@
     "absolutePath": "project:/contracts/Market.sol",
     "exportedSymbols": {
       "AccessControl": [
-        2708
+        2756
       ],
       "Address": [
-        4846
+        4894
       ],
       "Context": [
-        4868
+        4916
       ],
       "ERC1155": [
-        4112
+        4160
       ],
       "ERC1155Supply": [
-        4501
+        4549
       ],
       "ERC165": [
-        5121
+        5169
       ],
       "IAccessControl": [
-        2781
+        2829
       ],
       "IERC1155": [
-        4234
+        4282
       ],
       "IERC1155MetadataURI": [
-        4516
+        4564
       ],
       "IERC1155Receiver": [
-        4275
+        4323
       ],
       "IERC165": [
-        5133
+        5181
       ],
       "Market": [
         792
       ],
       "Math": [
-        5999
+        6047
       ],
       "Pausable": [
-        2889
+        2937
       ],
       "SignedMath": [
-        6104
+        6152
       ],
       "Strings": [
-        5097
+        5145
       ]
     },
     "id": 793,
@@ -29359,7 +29359,7 @@
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
         "scope": 793,
-        "sourceUnit": 4113,
+        "sourceUnit": 4161,
         "src": "476:75:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -29371,7 +29371,7 @@
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
         "scope": 793,
-        "sourceUnit": 4502,
+        "sourceUnit": 4550,
         "src": "553:92:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -29383,7 +29383,7 @@
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
         "scope": 793,
-        "sourceUnit": 2890,
+        "sourceUnit": 2938,
         "src": "647:71:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -29395,7 +29395,7 @@
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
         "scope": 793,
-        "sourceUnit": 2709,
+        "sourceUnit": 2757,
         "src": "720:74:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -29411,7 +29411,7 @@
                 "817:7:0"
               ],
               "nodeType": "IdentifierPath",
-              "referencedDeclaration": 4112,
+              "referencedDeclaration": 4160,
               "src": "817:7:0"
             },
             "id": 7,
@@ -29426,7 +29426,7 @@
                 "826:13:0"
               ],
               "nodeType": "IdentifierPath",
-              "referencedDeclaration": 4501,
+              "referencedDeclaration": 4549,
               "src": "826:13:0"
             },
             "id": 9,
@@ -29441,7 +29441,7 @@
                 "841:8:0"
               ],
               "nodeType": "IdentifierPath",
-              "referencedDeclaration": 2889,
+              "referencedDeclaration": 2937,
               "src": "841:8:0"
             },
             "id": 11,
@@ -29456,7 +29456,7 @@
                 "851:13:0"
               ],
               "nodeType": "IdentifierPath",
-              "referencedDeclaration": 2708,
+              "referencedDeclaration": 2756,
               "src": "851:13:0"
             },
             "id": 13,
@@ -29471,16 +29471,16 @@
         "id": 792,
         "linearizedBaseContracts": [
           792,
-          2708,
-          2889,
-          4501,
-          4112,
-          4516,
-          4234,
-          5121,
-          5133,
-          2781,
-          4868
+          2756,
+          2937,
+          4549,
+          4160,
+          4564,
+          4282,
+          5169,
+          5181,
+          2829,
+          4916
         ],
         "name": "Market",
         "nameLocation": "807:6:0",
@@ -30487,7 +30487,7 @@
                     "1990:7:0"
                   ],
                   "nodeType": "IdentifierPath",
-                  "referencedDeclaration": 4112,
+                  "referencedDeclaration": 4160,
                   "src": "1990:7:0"
                 },
                 "nodeType": "ModifierInvocation",
@@ -30566,7 +30566,7 @@
                           "memberLocation": "2111:6:0",
                           "memberName": "exists",
                           "nodeType": "MemberAccess",
-                          "referencedDeclaration": 4383,
+                          "referencedDeclaration": 4431,
                           "src": "2105:12:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_function_internal_view$_t_uint256_$returns$_t_bool_$",
@@ -30948,7 +30948,7 @@
                           "memberLocation": "2367:16:0",
                           "memberName": "isApprovedForAll",
                           "nodeType": "MemberAccess",
-                          "referencedDeclaration": 3104,
+                          "referencedDeclaration": 3152,
                           "src": "2361:22:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_function_internal_view$_t_address_$_t_address_$returns$_t_bool_$",
@@ -31685,7 +31685,7 @@
                       "memberLocation": "3158:18:0",
                       "memberName": "_setApprovalForAll",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 3917,
+                      "referencedDeclaration": 3965,
                       "src": "3152:24:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_address_$_t_address_$_t_bool_$returns$__$",
@@ -31898,7 +31898,7 @@
                       "memberLocation": "3390:18:0",
                       "memberName": "_setApprovalForAll",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 3917,
+                      "referencedDeclaration": 3965,
                       "src": "3384:24:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_address_$_t_address_$_t_bool_$returns$__$",
@@ -32972,7 +32972,7 @@
                               "name": "balanceOf",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 3005,
+                              "referencedDeclaration": 3053,
                               "src": "4358:9:0",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_function_internal_view$_t_address_$_t_uint256_$returns$_t_uint256_$",
@@ -33624,7 +33624,7 @@
                     "4210:13:0"
                   ],
                   "nodeType": "IdentifierPath",
-                  "referencedDeclaration": 2816,
+                  "referencedDeclaration": 2864,
                   "src": "4210:13:0"
                 },
                 "nodeType": "ModifierInvocation",
@@ -34469,7 +34469,7 @@
                     "4889:13:0"
                   ],
                   "nodeType": "IdentifierPath",
-                  "referencedDeclaration": 2816,
+                  "referencedDeclaration": 2864,
                   "src": "4889:13:0"
                 },
                 "nodeType": "ModifierInvocation",
@@ -35473,7 +35473,7 @@
                     "5509:13:0"
                   ],
                   "nodeType": "IdentifierPath",
-                  "referencedDeclaration": 2816,
+                  "referencedDeclaration": 2864,
                   "src": "5509:13:0"
                 },
                 "nodeType": "ModifierInvocation",
@@ -36505,7 +36505,7 @@
                     "6245:13:0"
                   ],
                   "nodeType": "IdentifierPath",
-                  "referencedDeclaration": 2816,
+                  "referencedDeclaration": 2864,
                   "src": "6245:13:0"
                 },
                 "nodeType": "ModifierInvocation",
@@ -36518,7 +36518,7 @@
                     "name": "DEFAULT_ADMIN_ROLE",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 2420,
+                    "referencedDeclaration": 2468,
                     "src": "6268:18:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bytes32",
@@ -36535,7 +36535,7 @@
                     "6259:8:0"
                   ],
                   "nodeType": "IdentifierPath",
-                  "referencedDeclaration": 2431,
+                  "referencedDeclaration": 2479,
                   "src": "6259:8:0"
                 },
                 "nodeType": "ModifierInvocation",
@@ -37281,7 +37281,7 @@
                       "memberLocation": "7290:17:0",
                       "memberName": "_safeTransferFrom",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 3299,
+                      "referencedDeclaration": 3347,
                       "src": "7284:23:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_address_$_t_address_$_t_uint256_$_t_uint256_$_t_bytes_memory_ptr_$returns$__$",
@@ -38439,7 +38439,7 @@
                     "6992:13:0"
                   ],
                   "nodeType": "IdentifierPath",
-                  "referencedDeclaration": 2816,
+                  "referencedDeclaration": 2864,
                   "src": "6992:13:0"
                 },
                 "nodeType": "ModifierInvocation",
@@ -38654,8 +38654,8 @@
           },
           {
             "baseFunctions": [
-              2453,
-              2965
+              2501,
+              3013
             ],
             "body": {
               "id": 756,
@@ -38705,7 +38705,7 @@
                       "memberLocation": "8347:17:0",
                       "memberName": "supportsInterface",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 2453,
+                      "referencedDeclaration": 2501,
                       "src": "8341:23:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_view$_t_bytes4_$returns$_t_bool_$",
@@ -38754,7 +38754,7 @@
                     "8270:7:0"
                   ],
                   "nodeType": "IdentifierPath",
-                  "referencedDeclaration": 4112,
+                  "referencedDeclaration": 4160,
                   "src": "8270:7:0"
                 },
                 {
@@ -38764,7 +38764,7 @@
                     "8279:13:0"
                   ],
                   "nodeType": "IdentifierPath",
-                  "referencedDeclaration": 2708,
+                  "referencedDeclaration": 2756,
                   "src": "8279:13:0"
                 }
               ],
@@ -38846,8 +38846,8 @@
           },
           {
             "baseFunctions": [
-              3936,
-              4500
+              3984,
+              4548
             ],
             "body": {
               "id": 790,
@@ -38977,7 +38977,7 @@
                       "memberLocation": "8639:20:0",
                       "memberName": "_beforeTokenTransfer",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 4500,
+                      "referencedDeclaration": 4548,
                       "src": "8633:26:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_address_$_t_address_$_t_address_$_t_array$_t_uint256_$dyn_memory_ptr_$_t_array$_t_uint256_$dyn_memory_ptr_$_t_bytes_memory_ptr_$returns$__$",
@@ -39020,7 +39020,7 @@
                     "8561:13:0"
                   ],
                   "nodeType": "IdentifierPath",
-                  "referencedDeclaration": 2816,
+                  "referencedDeclaration": 2864,
                   "src": "8561:13:0"
                 },
                 "nodeType": "ModifierInvocation",
@@ -39041,7 +39041,7 @@
                     "8593:7:0"
                   ],
                   "nodeType": "IdentifierPath",
-                  "referencedDeclaration": 4112,
+                  "referencedDeclaration": 4160,
                   "src": "8593:7:0"
                 },
                 {
@@ -39051,7 +39051,7 @@
                     "8602:13:0"
                   ],
                   "nodeType": "IdentifierPath",
-                  "referencedDeclaration": 4501,
+                  "referencedDeclaration": 4549,
                   "src": "8602:13:0"
                 }
               ],
@@ -39280,7 +39280,7 @@
     }
   },
   "schemaVersion": "3.4.13",
-  "updatedAt": "2023-07-07T05:41:20.698Z",
+  "updatedAt": "2023-07-07T07:31:24.392Z",
   "devdoc": {
     "events": {
       "ApprovalForAll(address,address,bool)": {
