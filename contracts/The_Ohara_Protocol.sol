@@ -29,13 +29,13 @@ contract The_Ohara_Protocol is ERC1155, AccessControl, Pausable, ERC1155Burnable
         address[] buyers; // 已匹配的買家
     }
 
-    struct RevenueInfo {
+    struct RevenueFeeInfo {
         uint256 revenueFeeRate; // 出版商收益比率
         address publisher; // 負責收取收益，為呼叫 mint 的出版商帳號
     }
     
     mapping (uint256 => mapping (address => Listing)) listings; // id => seller => Listing
-    mapping (uint256 => RevenueInfo) publisherRevenueFeeRates; // id => revenue percentage
+    mapping (uint256 => RevenueFeeInfo) publisherRevenueFeeRates; // id => revenue percentage
 
     uint16 marketFeeRate = 25;
 
@@ -200,14 +200,14 @@ contract The_Ohara_Protocol is ERC1155, AccessControl, Pausable, ERC1155Burnable
         _mint(to, id, amount, data);
     }
 
-    function mintBatch(address to, uint256[] memory ids, uint256[] memory amounts, bytes memory data, uint256[] memory revenues)
+    function mintBatch(address to, uint256[] memory ids, uint256[] memory amounts, bytes memory data, uint256[] memory revenueFeeRates)
         public
         whenNotPaused
         onlyPublisherBatch(ids)
     {
-        require(revenues.length == ids.length && revenues.length == amounts.length, "ERC1155: revenues and ids/amounts length mismatch");
+        require(revenueFeeRates.length == ids.length && revenueFeeRates.length == amounts.length, "ERC1155: revenues and ids/amounts length mismatch");
         for (uint256 i = 0 ; i < ids.length ; ++i) {
-            publisherRevenueFeeRates[ids[i]].revenueFeeRate = revenues[i];
+            publisherRevenueFeeRates[ids[i]].revenueFeeRate = revenueFeeRates[i];
             publisherRevenueFeeRates[ids[i]].publisher = msg.sender;
         }
         _mintBatch(to, ids, amounts, data);
@@ -444,7 +444,7 @@ contract The_Ohara_Protocol is ERC1155, AccessControl, Pausable, ERC1155Burnable
         // 處理價格細項
         uint256 price = listings[id][seller].price; // 電子書價格
 
-        uint256 publisherRevenueFee = price * publisherRevenueFeeRates[id].revenueFeeRate / 1000; // 出版商收益 = 電子書價格 * 賣家收益 / 1000
+        uint256 publisherRevenueFee = price * publisherRevenueFeeRates[id].revenueFeeRate / 1000; // 出版商收益 = 電子書價格 * 出版商收益費率 / 1000
         uint256 marketFee = price * marketFeeRate / 1000; // 手續費 = 電子書價格 * 手續費費率 / 1000
 
         uint256 total = price + publisherRevenueFee + marketFee; // 應付價格 = 電子書價格 + 出版商收益 + 手續費
