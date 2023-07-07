@@ -28,10 +28,16 @@ contract The_Ohara_Protocol is ERC1155, AccessControl, Pausable, ERC1155Burnable
         uint256 buyerCounts; // 當前已匹配，且還未購買的買家
         address[] buyers; // 已匹配的買家
     }
+
+    struct RevenueInfo {
+        uint256 revenueFeeRate; // 出版商收益比率
+        address publisher; // 負責收取收益，為呼叫 mint 的出版商帳號
+    }
     
     mapping (uint256 => mapping (address => Listing)) listings; // id => seller => Listing
+    mapping (uint256 => RevenueInfo) publisherRevenueFeeRates; // id => revenue percentage
 
-    address market;
+    uint16 marketFeeRate = 25;
 
     event EBookListed(uint256 indexed id, uint256 indexed amount, uint256 indexed price, address seller);
     event PriceModified(uint256 indexed id, uint256 indexed originalPrice, uint256 indexed currentPrice, address seller, address priceModifier);
@@ -64,19 +70,18 @@ contract The_Ohara_Protocol is ERC1155, AccessControl, Pausable, ERC1155Burnable
         _;
     }
 
-    /// @custom:oz-upgrades-unsafe-allow constructor
-    constructor(address addr) ERC1155("") {
-        market = addr;
-        _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
-        //_disableInitializers();
-    }
-
     // There's no onlyPublisherSingle, for that it basically equals to onlyRole modifier from AccessControl. 
     modifier onlyPublisherBatch(uint256[] memory ids) {
         for (uint256 i = 0; i < ids.length; ++i) {
             _checkRole(idToPublisher[ids[i]]);
         }
         _;
+    }
+
+    /// @custom:oz-upgrades-unsafe-allow constructor
+    constructor() ERC1155("") {
+        _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
+        //_disableInitializers();
     }
 
     /*function initialize(address addr) initializer public {
@@ -185,19 +190,26 @@ contract The_Ohara_Protocol is ERC1155, AccessControl, Pausable, ERC1155Burnable
     }
 
     // The publisher of the id would have power to mint the id to whoever they want.
-    function mint(address to, uint256 id, uint256 amount, bytes memory data)
+    function mint(address to, uint256 id, uint256 amount, bytes memory data, uint256 revenueRate)
         public
         whenNotPaused
         onlyRole(idToPublisher[id])
     {
+        publisherRevenueFeeRates[id].revenueFeeRate = revenueRate;
+        publisherRevenueFeeRates[id].publisher = msg.sender;
         _mint(to, id, amount, data);
     }
 
-    function mintBatch(address to, uint256[] memory ids, uint256[] memory amounts, bytes memory data)
+    function mintBatch(address to, uint256[] memory ids, uint256[] memory amounts, bytes memory data, uint256[] memory revenues)
         public
         whenNotPaused
         onlyPublisherBatch(ids)
     {
+        require(revenues.length == ids.length && revenues.length == amounts.length, "ERC1155: revenues and ids/amounts length mismatch");
+        for (uint256 i = 0 ; i < ids.length ; ++i) {
+            publisherRevenueFeeRates[ids[i]].revenueFeeRate = revenues[i];
+            publisherRevenueFeeRates[ids[i]].publisher = msg.sender;
+        }
         _mintBatch(to, ids, amounts, data);
     }
 
@@ -275,8 +287,8 @@ contract The_Ohara_Protocol is ERC1155, AccessControl, Pausable, ERC1155Burnable
         return super.totalSupply(id);
     }
 
-    function changeMarketAddr(address newAddr) public onlyRole(DEFAULT_ADMIN_ROLE) {
-        market = newAddr;
+    function changeMarketFee(uint16 newMarketFee) public onlyRole(DEFAULT_ADMIN_ROLE) {
+        marketFeeRate = newMarketFee;
     }
 /*
     function checkIsBuyer(uint256 id, address seller, address buyer) public returns (int256) {
@@ -424,30 +436,36 @@ contract The_Ohara_Protocol is ERC1155, AccessControl, Pausable, ERC1155Burnable
     // Tim: 購買電子書，限定 buyers 內的買家呼叫
     function purchaseEBook(uint256 id, address payable seller) public payable virtual whenNotPaused isIdExisted(id) isAddressValid(seller) IsEBookAvailableOnOrder(id, seller) {
         
+        // 確認呼叫者是否為買家
         address payable buyer = payable(msg.sender);
         int256 index = checkIsBuyer(id, seller, buyer);
         require(index != -1, "not buyer");
 
-        uint256 price = listings[id][seller].price;
-        uint256 total = price * 1025 / 1000;
+        // 處理價格細項
+        uint256 price = listings[id][seller].price; // 電子書價格
+
+        uint256 publisherRevenueFee = price * publisherRevenueFeeRates[id].revenueFeeRate / 1000; // 出版商收益 = 電子書價格 * 賣家收益 / 1000
+        uint256 marketFee = price * marketFeeRate / 1000; // 手續費 = 電子書價格 * 手續費費率 / 1000
+
+        uint256 total = price + publisherRevenueFee + marketFee; // 應付價格 = 電子書價格 + 出版商收益 + 手續費
         require(msg.value >= total, "Insufficient Ether");
 
-        // uint256 fee = total - price;
+        // 執行轉帳
+        super._safeTransferFrom(seller, buyer, id, 1, ""); // 轉移電子書給買家
+        
+        seller.transfer(price); // 轉移售價給賣家
 
-        super._safeTransferFrom(seller, buyer, id, 1, ""); // transfer ebook to buyer
+        address payable publisher = payable(publisherRevenueFeeRates[id].publisher);
+        publisher.transfer(publisherRevenueFee); // 轉移出版商收益給出版商
 
-        seller.transfer(price); // transfer ether to seller
+        if (msg.value - total > 0) { // 將剩餘 ETH 轉回給買家
+            buyer.transfer(msg.value - total);
+        }
 
-        //(bool suucess, ) = multiSigWallet.call{ value: fee}("");
-        //require(success, "Buying failed");
-
+        // 處理電子書掛單資訊
         listings[id][seller].listedBalance --;
         listings[id][seller].buyerCounts --;
         listings[id][seller].buyers[uint256(index)] = address(0);
-
-        if (msg.value - total > 0) {
-            buyer.transfer(msg.value - total);
-        }
 
         if (listings[id][seller].buyerCounts == 0) { // 當前已匹配的買家都已經完成交易
             _revokeApprovalFromContract(seller);
