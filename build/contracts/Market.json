@@ -39280,7 +39280,7 @@
     }
   },
   "schemaVersion": "3.4.13",
-  "updatedAt": "2023-07-07T07:31:24.392Z",
+  "updatedAt": "2023-07-07T09:11:46.104Z",
   "devdoc": {
     "events": {
       "ApprovalForAll(address,address,bool)": {

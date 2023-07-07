@@ -19,8 +19,8 @@ import "./Market.sol";
 /// @custom:security-contact dodo920306@gmail.com
 contract The_Ohara_Protocol is ERC1155, AccessControl, Pausable, ERC1155Burnable, ERC1155Supply {
     
-    mapping (uint256 => bytes32) idToPublisher; // Anyone can check which publisher an id belongs to.
-    mapping (string => bool) publisherHasMember;
+    mapping (uint256 => bytes32) public idToPublisher; // Anyone can check which publisher an id belongs to.
+    mapping (string => bool) public publisherHasMember;
 
     struct Listing {
         uint256 price; // 賣價掛單價格
