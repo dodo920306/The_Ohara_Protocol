@@ -12,6 +12,7 @@
     <input type="text" id="name" name="name" required><br><br>
     <input type="submit" value="提交">
 </form>
+<br>
 <button id="registerPublisher">註冊出版社</button>
 
 <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
@@ -32,7 +33,7 @@
         const publisher_name = document.getElementById("name").value;
         const welcome_messenge = "歡迎，" + publisher_name + " 的管理者。";
         window.alert(welcome_messenge);
-        window.location.href = "../afterPublisher/?name=" + publisher_name + "&hash=" + hash;
+        window.location.href = "{% url 'afterPublisher' %}?name=" + publisher_name + "&hash=" + hash;
     }
   }
 

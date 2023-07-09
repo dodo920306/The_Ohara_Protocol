@@ -17,10 +17,17 @@
 </form>
 <h2>新增成員</h2>
 <form onsubmit="grant(event)">
-  <label for="address">請選擇您想新增的出版社成員:</label>
+  <label for="address">請輸入您想新增的出版社成員:</label>
   <input type="text" id="address" name="address" required><br><br>
   <input type="submit" value="新增">
 </form>
+<h2>刪除成員</h2>
+<form onsubmit="revoke(event)">
+  <label for="address">請輸入您想刪除的出版社成員:</label>
+  <input type="text" id="address" name="address" required><br><br>
+  <input type="submit" value="刪除">
+</form>
+<br>
 <button id="publish">出版</button>
 
 <h2>更改書籍資訊</h2>
@@ -37,7 +44,8 @@
 <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-  let accounts;
+  let accounts, protocol;
+  const publisher = "{{ name }}";
 
   const query = async (event) => {
     event.preventDefault();
@@ -56,13 +64,15 @@
         'X-CSRFToken': formData.get('csrfmiddlewaretoken')
       },
       body: "id=" + formData.get('id')
-    }).then(function(response) {
-      if (response.ok) {
-        return response.json();
-      } else {
-        throw new Error('請求失敗');
+    }).then((response) => {
+      return response.json();
+    }).then((book) => {
+      if (book.detail){
+        let newInput = document.createElement('p');
+        newInput.textContent = 'detail: ' + book.detail;
+        resultDiv.appendChild(newInput);
+        return;
       }
-    }).then(function(book) {
       let newInput = document.createElement('p');
       newInput.textContent = 'ID: ' + book.id.toString();
       resultDiv.appendChild(newInput);
@@ -225,22 +235,76 @@
       newInput.type = "submit";
       newInput.value = "確認更改";
       resultDiv.appendChild(newInput);
-    }).catch(function(error) {
+    }).catch((error) => {
       console.error(error);
     });
     
   }
 
+  const revoke = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const account = formData.get("address");
+    let messenge = "";
+    try {
+      await protocol.methods.revokePublisher(publisher, account).send({
+        from: accounts[0],
+        gas: await protocol.methods.revokePublisher(publisher, account).estimateGas({ from: accounts[0] }) + 10000,
+        maxFeePerGas: 2 * await (web3.eth.getBlock("pending")).baseFeePerGas + 100000000
+      }).on('error', (error) => {
+        messenge = "錯誤，請聯繫開發人員以取得更進一步的資訊。\n錯誤訊息為：" + JSON.stringify(error)
+      }).on("transactionHash", (hash) => {
+        messenge = "交易成功！\n交易 hash 為：" + hash
+      });
+    } catch (e) {
+      messenge = "錯誤，請聯繫開發人員以取得更進一步的資訊。\n錯誤訊息為：" + e;
+    }
+    window.alert(messenge);
+    window.location.reload();
+  }
+
   const grant = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
-    window.location.href = "{% url 'grantPublisher' %}?publisher=" + "{{ name }}" + "&account=" + formData.get("address");
+    const account = formData.get("address");
+    let messenge = "";
+    try {
+      await protocol.methods.grantPublisher(publisher, account).send({
+        from: accounts[0],
+        gas: await protocol.methods.grantPublisher(publisher, account).estimateGas({ from: accounts[0] }) + 10000,
+        maxFeePerGas: 2 * await (web3.eth.getBlock("pending")).baseFeePerGas + 100000000
+      }).on('error', (error) => {
+        messenge = "錯誤，請聯繫開發人員以取得更進一步的資訊。\n錯誤訊息為：" + JSON.stringify(error)
+      }).on("transactionHash", (hash) => {
+        messenge = "交易成功！\n交易 hash 為：" + hash;
+      });
+    } catch (e) {
+      messenge = "錯誤，請聯繫開發人員以取得更進一步的資訊。\n錯誤訊息為：" + e;
+    }
+    window.alert(messenge);
+    window.location.reload();
   }
 
   const require = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
-    window.location.href = "{% url 'mint' %}?account=" + accounts[0] + "&id=" + formData.get("mySelect") + '&amount=' + formData.get("amount");
+    const id = formData.get("mySelect"), amount = formData.get("amount");
+    let messenge = "";
+    try {
+      await protocol.methods.mint(accounts[0], id, amount, "0x00").send({
+        from: accounts[0],
+        gas: await protocol.methods.mint(accounts[0], id, amount, "0x00").estimateGas({ from: accounts[0] }) + 10000,
+        maxFeePerGas: 2 * await (web3.eth.getBlock("pending")).baseFeePerGas + 100000000
+      }).on('error', (error) => {
+        messenge = "錯誤，請聯繫開發人員以取得更進一步的資訊。\n錯誤訊息為：" + JSON.stringify(error)
+      }).on("transactionHash", (hash) => {
+        messenge = "交易成功！\n交易 hash 為：" + hash;
+      });
+    } catch (e) {
+      messenge = "錯誤，請聯繫開發人員以取得更進一步的資訊。\n錯誤訊息為：" + e;
+    }
+    window.alert(messenge);
+    window.location.reload();
   }
 
   const main = async () => {
@@ -257,7 +321,11 @@
     }
     const web3 = window.web3;
     accounts = await web3.eth.getAccounts();
-    const protocol = new web3.eth.Contract(JSON.parse('{{ abi|safe }}'), "{{ address }}");
+    protocol = new web3.eth.Contract(JSON.parse('{{ abi|safe }}'), "{{ address }}");
+    const hash = "{{ hash }}";
+    if (await protocol.methods.hasRole(hash, accounts[0]).call({ from: accounts[0] }) === false) {
+      window.location.href = "{% url 'publisher' %}"
+    }
     let bookshelf = "正在讀取您的出版物...";
     $('#bookshelf').text(`
       ${bookshelf}
@@ -266,12 +334,12 @@
     let select1 = document.getElementById("mySelect");
     let select2 = document.getElementById("id")
     for (let i = 0; i < {{ value }}; i++) {
-      promises.push(protocol.methods.idToPublisher(i).call({ from: accounts[0] }));
+      promises.push(protocol.methods.idToDetail(i).call({ from: accounts[0] }));
     }
     const publishers = await Promise.all(promises);
     for (let i = 0; i < publishers.length; i++) {
-      const publisher = publishers[i];
-      if (publisher == {{ hash }}) {
+      const publisherIterator = publishers[i].publisher;
+      if (publisherIterator == hash) {
         if (bookshelf == "正在讀取您的出版物...")    bookshelf = "您的出版社目前出版了 "
         bookshelf += "id " + parseInt(i) + " 的書 " + await protocol.methods.totalSupply(i).call({ from: accounts[0] }) +" 本。";
         $('#bookshelf').text(`

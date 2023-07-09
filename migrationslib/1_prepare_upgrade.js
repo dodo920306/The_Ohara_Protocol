@@ -1,6 +1,6 @@
-const The_Ohara_Protocol = artifacts.require('The_Ohara_Protocol');
+const Ohara_Protocol = artifacts.require('Ohara_Protocol');
 const { prepareUpgrade } = require('@openzeppelin/truffle-upgrades');
  
 module.exports = async function (deployer) {
-  await prepareUpgrade('0x8467632F13fAB0feAC7C715836b4cf415a9A7Ba3', The_Ohara_Protocol, { deployer });
+  await prepareUpgrade('0x002932D67Fdd2327430Cd7688e602F70932Cb1e0', Ohara_Protocol, ['0xf465e4422BeC3FA5F29A55Aa76497Dda016b4131', 100], { deployer });
 };

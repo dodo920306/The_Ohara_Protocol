@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block head_title %}Ohara Protocol{% endblock %}
+
+{% block content %}
+<h1>我的商品</h1>
+<button onclick="main()">connect</button>
+<div id="account"></div>
+<table>
+    {% for sale in sales %}
+    <tr>
+      <form method="post" onsubmit="sale(event)">
+        {% csrf_token %}
+        <td>id: <input value="{{ sale.book_id }}" name="id" readonly></td>
+        <td>價格: <input value="{{ sale.price }}" name="price" required></td>
+        <td>數量: <input value="{{ sale.amount }}" name="amount" required></td>
+        <td><input type="submit" value="修改"></td>
+      </form>
+    </tr>
+    {% endfor %}
+</table>
+<br>
+<h2>上架書籍</h2>
+<form method="post" onsubmit="list(event)">
+  {% csrf_token %}
+  <input name="id" placeholder="書籍 id" type="number" min="0" required>
+  <input name="seller" id="seller" hidden>
+  <input name="price" placeholder="上架價格" required>
+  <input name="amount" placeholder="上架數量" type="number" min="1" required>
+  <input type="submit" value="上架">
+</form>
+
+<script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  let accounts, protocol, web3;
+
+
+  const list = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const listing = await protocol.methods.idToListings(formData.get("id"), accounts[0]).call({ from: accounts[0] });
+    if (listing[1] != 0)  window.alert("商品已存在。");
+    else {
+      try {
+        const price = web3.utils.toWei(formData.get("price"), 'ether');
+        await protocol.methods.listEBook(formData.get("id"), price, formData.get("amount")).send({
+          from: accounts[0],
+          gas: await protocol.methods.listEBook(formData.get("id"), price, formData.get("amount")).estimateGas({ from: accounts[0] }) + 10000,
+          maxFeePerGas: 2 * await (web3.eth.getBlock("pending")).baseFeePerGas + 10000
+        }).on('error', (error) => {
+          messenge = "錯誤，請聯繫開發人員以取得更進一步的資訊。\n錯誤訊息為：" + JSON.stringify(error)
+        }).on("transactionHash", (hash) => {
+          messenge = "交易成功！\n交易 hash 為：" + hash;
+          window.alert(messenge);
+          document.getElementById("seller").value = accounts[0];
+          event.target.submit();
+          return;
+        });
+      } catch (e) {
+        messenge = "錯誤，請聯繫開發人員以取得更進一步的資訊。\n錯誤訊息為：" + e;
+      }
+      window.alert(messenge);
+    }
+    window.location.reload();
+  }
+
+
+  const sale = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const price = web3.utils.toWei(formData.get("price"), 'ether');
+    const listing = await protocol.methods.idToListings(formData.get("id"), accounts[0] ).call({ from: accounts[0] });
+    if (price != listing['price']) {
+      try {
+        await protocol.methods.modifyPrice(formData.get("id"), price).send({
+          from: accounts[0],
+          gas: await protocol.methods.modifyPrice(formData.get("id"), price).estimateGas({ from: accounts[0] }) + 10000,
+          maxFeePerGas: 2 * await (web3.eth.getBlock("pending")).baseFeePerGas + 100000000
+        }).on('error', (error) => {
+          messenge = "錯誤，請聯繫開發人員以取得更進一步的資訊。\n錯誤訊息為：" + JSON.stringify(error)
+        }).on("transactionHash", (hash) => {
+          messenge = "交易成功！\n交易 hash 為：" + hash;
+        });
+      } catch (e) {
+        messenge = "錯誤，請聯繫開發人員以取得更進一步的資訊。\n錯誤訊息為：" + e;
+      }
+      window.alert(messenge);
+    }
+    if (formData.get("amount") != listing['listedBalance']){
+      if (formData.get("amount") > listing['listedBalance']) {
+        try {
+          await protocol.methods.listEBook(formData.get("id"), price, formData.get("amount") - listing['listedBalance']).send({
+            from: accounts[0],
+            gas: await protocol.methods.listEBook(formData.get("id"), price, formData.get("amount") - listing['listedBalance']).estimateGas({ from: accounts[0] }) + 10000,
+            maxFeePerGas: 2 * await (web3.eth.getBlock("pending")).baseFeePerGas + 1000000000
+          }).on('error', (error) => {
+            messenge = "錯誤，請聯繫開發人員以取得更進一步的資訊。\n錯誤訊息為：" + JSON.stringify(error)
+          }).on("transactionHash", (hash) => {
+            messenge = "交易成功！\n交易 hash 為：" + hash;
+          });
+        } catch (e) {
+          messenge = "錯誤，請聯繫開發人員以取得更進一步的資訊。\n錯誤訊息為：" + e;
+        }
+      }
+      else {
+        try {
+          await protocol.methods.cancelListing(formData.get("id"), listing['listedBalance'] - formData.get("amount")).send({
+            from: accounts[0],
+            gas: await protocol.methods.cancelListing(formData.get("id"), listing['listedBalance'] - formData.get("amount")).estimateGas({ from: accounts[0] }) + 10000,
+            maxFeePerGas: 2 * await (web3.eth.getBlock("pending")).baseFeePerGas + 1000000000
+          }).on('error', (error) => {
+            messenge = "錯誤，請聯繫開發人員以取得更進一步的資訊。\n錯誤訊息為：" + JSON.stringify(error)
+          }).on("transactionHash", (hash) => {
+            messenge = "交易成功！\n交易 hash 為：" + hash;
+          });
+        } catch (e) {
+          messenge = "錯誤，請聯繫開發人員以取得更進一步的資訊。\n錯誤訊息為：" + e;
+        }
+      }
+      window.alert(messenge);
+    }
+    window.location.reload();
+  }
+
+
+  const main = async () => {
+    if (window.ethereum) {
+      window.web3 = new Web3(window.ethereum);
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
+    } else if (window.web3) {
+      window.web3 = new Web3(window.web3.currentProvider);
+    } else {
+      window.alert("No ethereum browser detected! You can check out MetaMask.");
+    }
+
+    web3 = window.web3;
+    if (await web3.eth.net.getId() != 421613) {
+      window.alert("錯誤，請切換到正確的網路上。");
+      return;
+    }
+    accounts = await web3.eth.getAccounts();
+    protocol = new web3.eth.Contract(JSON.parse('{{ abi|safe }}'), "{{ address }}");
+    $('#account').text(`
+        Welcome ${accounts[0]}!
+    `);
+  }
+  
+  main();
+</script>
+{% endblock %}

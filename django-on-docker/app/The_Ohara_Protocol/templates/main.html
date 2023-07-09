@@ -11,6 +11,8 @@
 <div id="bookshelf"></div>
 <div>Ohara Protocol 上現在已出版了 {{ value }} 本書。</div>
 <button id="publisher">我的出版</button>
+<br>
+<button id="shop">商城</button>
 <br></br>
 <h2>查詢書籍資訊</h2>
 <form method="post">
@@ -25,12 +27,16 @@
   <input type="submit">
 </form>
 
+
 <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
   const main = async () => {
     document.getElementById("publisher").onclick = () => {
       window.location.href = "{% url 'publisher' %}";
+    }
+    document.getElementById("shop").onclick = () => {
+      window.location.href = "{% url 'shop' %}";
     }
     if (window.ethereum) {
       window.web3 = new Web3(window.ethereum);
@@ -48,7 +54,7 @@
     }
     const accounts = await web3.eth.getAccounts();
     $('#account').text(`
-        Welcome ${accounts}!
+        Welcome ${accounts[0]}!
     `);
     const protocol = new web3.eth.Contract(JSON.parse('{{ abi|safe }}'), "{{ address }}");
     let bookshelf = "正在讀取您的書櫃...";

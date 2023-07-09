@@ -23,21 +23,18 @@ from The_Ohara_Protocol import views
 
 urlpatterns = [
     path("grantPublisherByDefaultAdmin/", views.grantPublisherByDefaultAdmin, name='grantPublisherByDefaultAdmin'),
-    path("setIdToPublisherByDefaultAdmin/", views.setIdToPublisherByDefaultAdmin, name='setIdToPublisherByDefaultAdmin'),
-    path("grantPublisher/", views.grantPublisher, name='grantPublisher'),
-    path("setIdToPublisher/", views.setIdToPublisher),
-    path("mint/", views.mint, name='mint'),
-    path("balanceOf/", views.balanceOf),
+    path("setIdToDetailByDefaultAdmin/", views.setIdToDetailByDefaultAdmin, name='setIdToDetailByDefaultAdmin'),
     path("admin/", admin.site.urls),
     path("", views.mainPage, name='main'),
     path("myPublisher/", views.publisherPage, name="publisher"),
-    path("afterPublisher/", views.afterPublisherPage),
+    path("afterPublisher/", views.afterPublisherPage, name="afterPublisher"),
     path("registerPublisher/", views.registerPublisherPage, name="registerPublisher"),
     path("publish/", views.publishPage, name="publish"),
     path('metadata/<str:hex_string>.json', views.metadata, name='metadata'),
     path('read/', views.readBook, name='readBook'),
     path('accounts/', include('allauth.urls')),
-    path('accounts/register/', views.register, name='register'),
+    path('shop/', views.shop, name='shop'),
+    path('sale/', views.sale, name='sale'),
 ]
 
 if bool(settings.DEBUG):

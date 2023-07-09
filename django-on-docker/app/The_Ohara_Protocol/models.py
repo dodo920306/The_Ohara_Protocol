@@ -11,6 +11,7 @@ class Book(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     amount = models.IntegerField()
     profit = models.DecimalField(max_digits=5, decimal_places=2)
+    profitReceiver = models.CharField(max_length=42)
     url = models.URLField(blank=True)
     intro = models.TextField(blank=True, null=True)
     cover = models.ImageField(upload_to='')
@@ -30,3 +31,8 @@ class Key(models.Model):
 
     def __str__(self):
         return self.id
+
+
+class Sale(models.Model):
+    book_id = models.PositiveIntegerField(blank=False)
+    seller = models.CharField(max_length=42, blank=False)

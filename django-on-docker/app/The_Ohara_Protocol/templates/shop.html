@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block head_title %}Ohara Protocol{% endblock %}
+
+{% block content %}
+<h1>商品列表</h1>
+<button onclick="main()">connect</button>
+<div id="account"></div>
+<table>
+  {% for sale in sales %}
+  <tr>
+    <form method="post" onsubmit="buy(event)">
+      {% csrf_token %}
+      <td>id: <input value="{{ sale.book_id }}" name="id" readonly></td>
+      <td>賣家: <input value="{{ sale.seller }}" name="seller" readonly></td>
+      <td>價格: <input value="{{ sale.price }}" name="price" readonly></td>
+      <td>數量: <input value="{{ sale.amount }}" name="amount" required></td>
+      <td><input type="submit" value="購買"></td>
+    </form>
+  </tr>
+  {% endfor %}
+</table>
+<br>
+<button id="sale">我的上架</button>
+
+<script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  let accounts, protocol, web3;
+
+
+  const buy = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    try {
+      let price = web3.utils.toWei(formData.get("price"), 'ether') * formData.get("amount");
+      const detail = await protocol.methods.idToDetail(formData.get("id")).call({ from: accounts[0] })
+      const revenueFee = price * detail[1] / 10000;
+      console.log(revenueFee);
+      const marketFee = price * await protocol.methods.marketFeeRate().call({ from: accounts[0] }) / 10000;
+      console.log(marketFee);
+      price += revenueFee + marketFee
+      console.log(price);
+      await protocol.methods.purchaseEBook(formData.get("id"), formData.get("seller"), formData.get("amount")).send({
+        from: accounts[0], value: price,
+        gas: await protocol.methods.purchaseEBook(formData.get("id"), formData.get("seller"), formData.get("amount")).estimateGas({ from: accounts[0], value: price }) + 10000,
+        maxFeePerGas: 2 * await (web3.eth.getBlock("pending")).baseFeePerGas + 1000000000
+      }).on('error', (error) => {
+        messenge = "錯誤，請聯繫開發人員以取得更進一步的資訊。\n錯誤訊息為：" + JSON.stringify(error)
+      }).on("transactionHash", (hash) => {
+        messenge = "交易成功！\n交易 hash 為：" + hash;
+      });
+    } catch (e) {
+      messenge = "錯誤，請聯繫開發人員以取得更進一步的資訊。\n錯誤訊息為：" + e;
+    }
+    window.alert(messenge);
+    window.location.reload();
+  }
+
+
+  const main = async () => {
+    if (window.ethereum) {
+      window.web3 = new Web3(window.ethereum);
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
+    } else if (window.web3) {
+      window.web3 = new Web3(window.web3.currentProvider);
+    } else {
+      window.alert("No ethereum browser detected! You can check out MetaMask.");
+    }
+
+    web3 = window.web3;
+    if (await web3.eth.net.getId() != 421613) {
+      window.alert("錯誤，請切換到正確的網路上。");
+      return;
+    }
+    accounts = await web3.eth.getAccounts();
+    protocol = new web3.eth.Contract(JSON.parse('{{ abi|safe }}'), "{{ address }}");
+    $('#account').text(`
+        Welcome ${accounts[0]}!
+    `);
+    document.getElementById("sale").onclick = () => {
+      window.location.href = "{% url 'sale' %}?seller=" + accounts[0];
+    }
+  }
+  
+  main();
+</script>
+{% endblock %}

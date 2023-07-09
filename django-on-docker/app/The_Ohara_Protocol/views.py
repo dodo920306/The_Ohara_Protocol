@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponseRedirect, FileResponse, HttpResponse
 from web3 import Web3
+from web3.exceptions import ContractLogicError
 import os
-from .models import Book, Key
+from .models import Book, Key, Sale
 from uuid import uuid4
 from django.core import serializers
 from django.conf import settings
@@ -49,84 +50,42 @@ def callTx(function_name, *args):
 def grantPublisherByDefaultAdmin(request):
     publisher = request.GET.get('publisher')
     account = request.GET.get('account')
-    dict_attr = dict(sendTx("grantPublisher", publisher, account))
-    dict_attr['blockHash'] = dict_attr['blockHash'].hex()
-    dict_attr['transactionHash'] = dict_attr['transactionHash'].hex()
-    dict_attr['logsBloom'] = dict_attr['logsBloom'].hex()
-    dict_attr['logs'] = [dict(topic) for topic in dict_attr['logs']]
-    for item in dict_attr['logs']:
-        item['topics'] = [topic.hex() for topic in item['topics']]
-        item['data'] = item['data'].hex()
-        item['transactionHash'] = item['transactionHash'].hex()
-        item['blockHash'] = item['blockHash'].hex()
-
+    dict_attr = {}
+    try:
+        dict_attr = dict(sendTx("grantPublisher", publisher, account))
+        dict_attr['blockHash'] = dict_attr['blockHash'].hex()
+        dict_attr['transactionHash'] = dict_attr['transactionHash'].hex()
+        dict_attr['logsBloom'] = dict_attr['logsBloom'].hex()
+        dict_attr['logs'] = [dict(topic) for topic in dict_attr['logs']]
+        for item in dict_attr['logs']:
+            item['topics'] = [topic.hex() for topic in item['topics']]
+            item['data'] = item['data'].hex()
+            item['transactionHash'] = item['transactionHash'].hex()
+            item['blockHash'] = item['blockHash'].hex()
+    except ContractLogicError:
+        dict_attr['status'] = 0
     return JsonResponse(dict_attr)
 
 
-def setIdToPublisherByDefaultAdmin(request):
-    id = request.GET.get('id')
+def setIdToDetailByDefaultAdmin(request):
     publisher = request.GET.get('publisher')
-    dict_attr = dict(sendTx("setIdToPublisher", int(id), publisher))
-    dict_attr['blockHash'] = dict_attr['blockHash'].hex()
-    dict_attr['transactionHash'] = dict_attr['transactionHash'].hex()
-    dict_attr['logsBloom'] = dict_attr['logsBloom'].hex()
-    dict_attr['logs'] = [dict(topic) for topic in dict_attr['logs']]
-    for item in dict_attr['logs']:
-        item['topics'] = [topic.hex() for topic in item['topics']]
-        item['data'] = item['data'].hex()
-        item['transactionHash'] = item['transactionHash'].hex()
-        item['blockHash'] = item['blockHash'].hex()
-    return JsonResponse(dict_attr)
-
-
-@login_required
-def grantPublisher(request):
-    publisher = request.GET.get('publisher')
-    account = request.GET.get('account')
-    return render(request, "grantPublisher.html", {
-        "publisher": publisher,
-        "account": account,
-        'abi': json.dumps(abi),
-        "address": address,
-    })
-
-
-@login_required
-def setIdToPublisher(request):
-    id = request.GET.get('id')
-    publisher = request.GET.get('publisher')
-    return render(request, "setIdToPublisher.html", {
-        "id": id,
-        "publisher": publisher,
-        'abi': json.dumps(abi),
-        'address': address,
-    })
-
-
-@login_required
-def mint(request):
-    account = request.GET.get('account')
-    id = request.GET.get('id')
+    revenueRate = request.GET.get('revenueRate')
+    revenueReceiver = request.GET.get('revenueReceiver')
     amount = request.GET.get('amount')
-    return render(request, "mint.html", {
-        "account": account,
-        "id": id,
-        "amount": amount,
-        'abi': json.dumps(abi),
-        "address": address
-    })
-
-
-@login_required
-def balanceOf(request):
-    account = request.GET.get('account')
-    id = request.GET.get('id')
-    return render(request, "balanceOf.html", {
-        "account": account,
-        "id": id,
-        'abi': json.dumps(abi),
-        "address": address,
-    })
+    try:
+        dict_attr = dict(sendTx("setIdToDetail", publisher, int(float(revenueRate) * 100), revenueReceiver, int(amount)))
+        dict_attr['blockHash'] = dict_attr['blockHash'].hex()
+        dict_attr['transactionHash'] = dict_attr['transactionHash'].hex()
+        dict_attr['logsBloom'] = dict_attr['logsBloom'].hex()
+        dict_attr['logs'] = [dict(topic) for topic in dict_attr['logs']]
+        for item in dict_attr['logs']:
+            item['topics'] = [topic.hex() for topic in item['topics']]
+            item['data'] = item['data'].hex()
+            item['transactionHash'] = item['transactionHash'].hex()
+            item['blockHash'] = item['blockHash'].hex()
+    except ContractLogicError:
+        dict_attr['status'] = 0
+    return JsonResponse(dict_attr)
 
 
 @login_required
@@ -144,6 +103,7 @@ def mainPage(request):
                 "price": str(book.price),
                 "amount": book.amount,
                 "profit": str(book.profit),
+                "profitReceiver": book.profitReceiver,
                 "url": book.url,
                 "intro": book.intro,
                 "cover": book.cover.url,
@@ -321,6 +281,10 @@ def publishPage(request):
                 book.save()
                 # </Local Metadata>
 
+                # <Onchain Metadata Url>
+                sendTx("changeMetadataUrl", book.id, book.Arweave)
+                # </Onchain Metadata Url>
+
                 return JsonResponse({"detail": "success"})
             else:
                 return JsonResponse({"detail": "fail"})
@@ -339,51 +303,97 @@ def publishPage(request):
 @login_required
 def metadata(request, hex_string):
     id = int(hex_string, 16)
-    try:
-        book = Book.objects.get(id=id)
-        return HttpResponseRedirect(book.Arweave)
-    except Book.DoesNotExist:
-        return JsonResponse({"detail": "Not found"})
+    currentId = callTx("currentId")
+    if (id < currentId):
+        return HttpResponseRedirect(callTx("idToMetadataUrl", id))
+    else:
+        return JsonResponse({"detail": "The book doesn't exist."})
 
 
 @login_required
 def readBook(request):
     id = request.POST.get("id")
-    book = Book.objects.get(id=id).book_file
-    key = Key.objects.get(id=id).key
-    chunksize = 64 * 1024
-    with book.open(mode='r') as mypdf:
-        encrypted_data = bytes.fromhex(mypdf.read())
-        iv = encrypted_data[8:24]
-        decryptor = AES.new(key, AES.MODE_CBC, iv)
-        decrypted_data = bytearray()
-        index = 24  # 從索引 24 開始，跳過文件大小和 IV
-        while index < len(encrypted_data):
-            chunk = encrypted_data[index:index + chunksize]
-            decrypted_chunk = decryptor.decrypt(chunk)
-            decrypted_data.extend(decrypted_chunk)
-            index += chunksize
+    try:
+        book = Book.objects.get(id=id).book_file
+        key = Key.objects.get(id=id).key
+        chunksize = 64 * 1024
+        with book.open(mode='r') as mypdf:
+            encrypted_data = bytes.fromhex(mypdf.read())
+            iv = encrypted_data[8:24]
+            decryptor = AES.new(key, AES.MODE_CBC, iv)
+            decrypted_data = bytearray()
+            index = 24  # 從索引 24 開始，跳過文件大小和 IV
+            while index < len(encrypted_data):
+                chunk = encrypted_data[index:index + chunksize]
+                decrypted_chunk = decryptor.decrypt(chunk)
+                decrypted_data.extend(decrypted_chunk)
+                index += chunksize
 
-        padding_byte = b' '
-        last_non_padding_index = decrypted_data.rfind(padding_byte) + 1  # 找到最後一個非填充字節的索引
-        decrypted_data = decrypted_data[:last_non_padding_index]
+            padding_byte = b' '
+            last_non_padding_index = decrypted_data.rfind(padding_byte) + 1  # 找到最後一個非填充字節的索引
+            decrypted_data = decrypted_data[:last_non_padding_index]
 
-    temp_file = TemporaryFile()
-    temp_file.write(decrypted_data)
-    temp_file.seek(0)
-    response = FileResponse(temp_file, content_type='application/octet-stream')
-    response['Content-Disposition'] = f"attachment; filename={book.name}"
-    return response
+        temp_file = TemporaryFile()
+        temp_file.write(decrypted_data)
+        temp_file.seek(0)
+        response = FileResponse(temp_file, content_type='application/octet-stream')
+        response['Content-Disposition'] = f"attachment; filename={book.name}"
+        return response
+    except Book.DoesNotExist:
+        return JsonResponse({"detail": "The book doesn't exist."})
 
 
-def register(request):
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save(commit=False)
-            user.is_active = True
-            user.save()
-            return HttpResponse(f'註冊成功！你現在可以登入了！<br /><a href=http://{request.get_host()}>現在就登入！</a>')
+@login_required
+def shop(request):
+    sales = list(Sale.objects.all().values())
+    if sales:
+        for sale in sales:
+            listing = callTx("idToListings", sale['book_id'], sale['seller'])
+            if (listing[1] == 0):
+                Sale.objects.get(book_id=sale['book_id'], seller=sale['seller']).delete()
+                sales.remove(sale)
+                logging.info(f"Sale deleted. id: {sale['book_id']}, seller: {sale['seller']}")
+            else:
+                sale['price'] = Web3.from_wei(listing[0], 'ether')
+                sale['amount'] = listing[1]
     else:
-        form = UserCreationForm()
-    return render(request, 'registration/register.html', {'form': form})
+        sales = []
+    return render(request, "shop.html", {
+        "sales": sales,
+        'abi': json.dumps(abi),
+        "address": address,
+    })
+
+
+@login_required
+def sale(request):
+    if request.method == "POST":
+        id = request.POST.get("id")
+        seller = request.POST.get("seller")
+        try:
+            sale = Sale.objects.get(book_id=id, seller=seller)
+        except Sale.DoesNotExist:
+            sale = Sale.objects.create(book_id=id, seller=seller)
+            logging.info(f"Sale created. id: {id}, seller: {seller}")
+            sale.save()
+        return JsonResponse({"detail": "success."})
+    elif request.method == "GET":
+        seller = request.GET.get("seller")
+        try:
+            sales = list(Sale.objects.filter(seller=seller).values())
+            for sale in sales:
+                listing = callTx("idToListings", sale['book_id'], sale['seller'])
+                if (listing[1] == 0):
+                    Sale.objects.get(book_id=sale['book_id'], seller=sale['seller']).delete()
+                    sales.remove(sale)
+                    logging.info(f"Sale deleted. id: {sale['book_id']}, seller: {sale['seller']}")
+                else:
+                    sale['price'] = Web3.from_wei(listing[0], 'ether')
+                    sale['amount'] = listing[1]
+        except Sale.DoesNotExist:
+            sales = []
+        return render(request, "sale.html", {
+            "sales": sales,
+            'abi': json.dumps(abi),
+            "address": address,
+        })

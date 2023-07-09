@@ -32,7 +32,7 @@
     const accounts = await web3.eth.getAccounts();
     const protocol = new web3.eth.Contract(JSON.parse('{{ abi|safe }}'), "{{ address }}");
     const id = await protocol.methods.currentId().call({ from: accounts[0] });
-    fetch("{% url 'setIdToPublisherByDefaultAdmin' %}?id=" + id.toString() + "&publisher={{ name }}", {
+    fetch("{% url 'setIdToDetailByDefaultAdmin' %}?publisher={{ name }}&revenueRate=" + parseInt(formData.get('profit')) + "&revenueReceiver=" + formData.get('profitReceiver') + "&amount=" + parseInt(formData.get('amount')), {
       method: 'GET',
       headers: {
           'Accept': 'application/json',
